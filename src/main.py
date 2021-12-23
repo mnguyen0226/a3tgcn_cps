@@ -14,7 +14,7 @@ import os # fix OMP error
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 DATA_PATHS = {
-    "shenzhen": {"feat": "data/processed_scada_dataset_1.csv", "adj": "data/processed_scada_adj.csv"},
+    "shenzhen": {"feat": "data/processed/processed_clean_scada_dataset.csv", "adj": "data/processed/processed_scada_adj_matrix.csv"},
 }
 
 
@@ -35,7 +35,7 @@ def get_model(args, dm):
 
 
 def get_task(args, model, dm):
-    task = getattr(utils, args.settings.capitalize() + "ForecastTask")( #SupervisedForecastTask
+    task = getattr(tasks, args.settings.capitalize() + "ForecastTask")( #SupervisedForecastTask
         model=model, feat_max_val=dm.feat_max_val, **vars(args)
     )
     return task
