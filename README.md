@@ -3,8 +3,8 @@
 Explainable TGCN for Water Distribution Systems
 
 ## Overall Pipeline
-![alt-text]()
+![alt-text](https://github.com/mnguyen0226/xtgcn_wds_cps/blob/main/docs/imgs/pipeline.png)
 
 ## Developing Pipeline
-![alt-text]()
+![alt-text](https://github.com/mnguyen0226/xtgcn_wds_cps/blob/main/docs/imgs/tgcn_train_pipeline.png)
 
