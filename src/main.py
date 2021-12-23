@@ -3,11 +3,11 @@ import traceback
 import pytorch_lightning as pl
 from pytorch_lightning.utilities import rank_zero_info
 import models
-import utils
+import tasks
 
 import utils.callbacks
 import utils.data
-import utils.email
+# import utils.email
 import utils.logging
 
 import os # fix OMP error
@@ -102,9 +102,9 @@ if __name__ == "__main__":
     parser.add_argument(
         "--log_path", type=str, default=None, help="Path to the output console log file"
     )
-    parser.add_argument(
-        "--send_email", "--email", action="store_true", help="Send email when finished"
-    )
+    # parser.add_argument(
+    #     "--send_email", "--email", action="store_true", help="Send email when finished"
+    # )
 
     temp_args, _ = parser.parse_known_args()
 
@@ -121,20 +121,22 @@ if __name__ == "__main__":
     if args.log_path is not None:
         utils.logging.output_logger_to_file(pl._logger, args.log_path)
 
-    try:
-        results = main(args)
-    except:  # noqa: E722
-        traceback.print_exc()
-        if args.send_email:
-            tb = traceback.format_exc()
-            subject = "[Email Bot][❌] " + "-".join(
-                [args.settings, args.model_name, args.data]
-            )
-            utils.email.send_email(tb, subject)
-        exit(-1)
+    results = main(args)
 
-    if args.send_email:
-        subject = "[Email Bot][✅] " + "-".join(
-            [args.settings, args.model_name, args.data]
-        )
-        utils.email.send_experiment_results_email(args, results, subject=subject)
+    # try:
+    #     results = main(args)
+    # except:  # noqa: E722
+    #     traceback.print_exc()
+    #     if args.send_email:
+    #         tb = traceback.format_exc()
+    #         subject = "[Email Bot][❌] " + "-".join(
+    #             [args.settings, args.model_name, args.data]
+    #         )
+    #         utils.email.send_email(tb, subject)
+    #     exit(-1)
+
+    # if args.send_email:
+    #     subject = "[Email Bot][✅] " + "-".join(
+    #         [args.settings, args.model_name, args.data]
+    #     )
+    #     utils.email.send_experiment_results_email(args, results, subject=subject)
