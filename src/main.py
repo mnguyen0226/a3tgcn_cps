@@ -21,11 +21,13 @@ DATA_PATHS = {
 
 
 def get_model(dm):
+    """Return TGCN model"""
     model = models.TGCN(adj=dm.adj, hidden_dim=args.hidden_dim)
     return model
 
 
 def get_task(model, dm):
+    """Set Supervised Learning"""
     task = getattr(tasks, "SupervisedForecastTask")(
         model=model, feat_max_val=dm.feat_max_val
     )
@@ -45,6 +47,7 @@ def get_callbacks():
 
 
 def main_supervised(args):
+    """Main training setup for supervised learning with the parsed arguments"""
     dm = utils.data.SpatioTemporalCSVDataModule(  # data path
         feat_path=DATA_PATHS["scada"]["feat"],
         adj_path=DATA_PATHS["scada"]["adj"],
@@ -59,6 +62,7 @@ def main_supervised(args):
 
 
 def main(args):
+    """User Interface"""
     rank_zero_info(vars(args))
     results = main_supervised(args)
     return results
@@ -105,7 +109,5 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     utils.logging.format_logger(pl._logger)
-    # if args.log_path is not None:
-    #     utils.logging.output_logger_to_file(pl._logger, args.log_path)
 
     results = main(args)

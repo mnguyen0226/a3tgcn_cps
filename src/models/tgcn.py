@@ -174,7 +174,7 @@ class TGCNCell(nn.Module):
         return {"input_dim": self._input_dim, "hidden_dim": self._hidden_dim}
 
 
-###############################################################################
+# A Complete TGCN Model ##############################################################################
 class TGCN(nn.Module):
     def __init__(self, adj, hidden_dim: int, **kwargs):
         """Constructor of TGCN class for 1 TGCN module which take in adj matrix, 1 row time-step, pass them through TGCN cell then output the prediction.
