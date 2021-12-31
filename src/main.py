@@ -11,23 +11,13 @@ import utils.logging
 import os # fix OMP error
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
-
 DATA_PATHS = {
     "scada": {"feat": "data/processed/processed_clean_scada_dataset.csv", "adj": "data/processed/processed_scada_adj_matrix.csv"},
 }
 
-MODEL_NAME = "TGCN"
-MAX_EPOCH = 1
-LEARNING_RATE = 0.001 
-WEIGHT_DECAY = 0
-BATCH_SIZE = 32
-HIDDEN_DIM = 64
-LOSS = "mse_with_regularizer"
-SETTINGS = "supervised"
-
 
 def get_model(dm):
-    model = models.TGCN (adj=dm.adj, hidden_dim=HIDDEN_DIM)
+    model = models.TGCN (adj=dm.adj, hidden_dim=args.hidden_dim)
     return model
 
 def get_task(model, dm):

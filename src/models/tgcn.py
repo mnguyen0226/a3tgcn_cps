@@ -3,6 +3,8 @@ import torch
 import torch.nn as nn
 from utils.graph_conv import calculate_laplacian_with_self_loop
 
+# Reference: https://github.com/lehaifeng/T-GCN/tree/master/T-GCN/T-GCN-PyTorch
+
 # Graph Convolutional Neural Network Module ###############################################################################
 class TGCNGraphConvolution(nn.Module):
     def __init__(self, adj, num_gru_units: int, output_dim: int, bias: float = 0.0):

@@ -5,6 +5,7 @@ import pytorch_lightning as pl
 from torch.utils.data.dataloader import DataLoader
 import utils.data.functions
 
+# Reference: https://github.com/lehaifeng/T-GCN/tree/master/T-GCN/T-GCN-PyTorch
 
 class SpatioTemporalCSVDataModule(pl.LightningDataModule):
     def __init__(

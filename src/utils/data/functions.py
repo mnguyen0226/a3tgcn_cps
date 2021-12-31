@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import torch
 
+# Reference: https://github.com/lehaifeng/T-GCN/tree/master/T-GCN/T-GCN-PyTorch
 
 def load_features(feat_path, dtype=np.float32):
     feat_df = pd.read_csv(feat_path)
