@@ -7,6 +7,7 @@ from utils.callbacks.base import BestEpochCallback
 
 class PlotValidationPredictionsCallback(BestEpochCallback):
     def __init__(self, monitor="", mode="min"):
+        """Constructor"""
         super(PlotValidationPredictionsCallback, self).__init__(
             monitor=monitor, mode=mode
         )
@@ -14,6 +15,7 @@ class PlotValidationPredictionsCallback(BestEpochCallback):
         self.predictions = []
 
     def on_fit_start(self, trainer, pl_module):
+        """Clear previous/saved trained results"""
         self.ground_truths.clear()
         self.predictions.clear()
 
