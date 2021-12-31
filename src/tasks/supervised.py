@@ -10,6 +10,7 @@ import utils.losses
 
 # Reference: https://github.com/lehaifeng/T-GCN/tree/master/T-GCN/T-GCN-PyTorch
 
+
 class SupervisedForecastTask(pl.LightningModule):
     def __init__(
         self,

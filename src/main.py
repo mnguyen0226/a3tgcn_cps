@@ -8,23 +8,29 @@ import utils.callbacks
 import utils.data
 import utils.logging
 
-import os # fix OMP error
-os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
+import os  # fix OMP error
+
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 DATA_PATHS = {
-    "scada": {"feat": "data/processed/processed_clean_scada_dataset.csv", "adj": "data/processed/processed_scada_adj_matrix.csv"},
+    "scada": {
+        "feat": "data/processed/processed_clean_scada_dataset.csv",
+        "adj": "data/processed/processed_scada_adj_matrix.csv",
+    },
 }
 
 
 def get_model(dm):
-    model = models.TGCN (adj=dm.adj, hidden_dim=args.hidden_dim)
+    model = models.TGCN(adj=dm.adj, hidden_dim=args.hidden_dim)
     return model
+
 
 def get_task(model, dm):
     task = getattr(tasks, "SupervisedForecastTask")(
-        model=model, feat_max_val=dm.feat_max_val 
+        model=model, feat_max_val=dm.feat_max_val
     )
     return task
+
 
 def get_callbacks():
     checkpoint_callback = pl.callbacks.ModelCheckpoint(monitor="train_loss")
@@ -37,17 +43,18 @@ def get_callbacks():
     ]
     return callbacks
 
+
 def main_supervised(args):
-    dm = utils.data.SpatioTemporalCSVDataModule( # data path
+    dm = utils.data.SpatioTemporalCSVDataModule(  # data path
         feat_path=DATA_PATHS["scada"]["feat"],
         adj_path=DATA_PATHS["scada"]["adj"],
     )
-    model = get_model(dm) # get model
-    task = get_task(model, dm) # supervised
-    callbacks = get_callbacks() # get callbacks
+    model = get_model(dm)  # get model
+    task = get_task(model, dm)  # supervised
+    callbacks = get_callbacks()  # get callbacks
     trainer = pl.Trainer.from_argparse_args(args, callbacks=callbacks)
-    trainer.fit(task, dm) # train model
-    results = trainer.validate(datamodule=dm) # validate model
+    trainer.fit(task, dm)  # train model
+    results = trainer.validate(datamodule=dm)  # validate model
     return results
 
 
@@ -86,12 +93,12 @@ if __name__ == "__main__":
         "--log_path", type=str, default=None, help="Path to the output console log file"
     )
 
-    temp_args, _ = parser.parse_known_args() # get variable
+    temp_args, _ = parser.parse_known_args()  # get variable
 
     parser = getattr(
         utils.data, temp_args.settings.capitalize() + "DataModule"
     ).add_data_specific_arguments(parser)
-    parser = getattr(models, temp_args.model_name ).add_model_specific_arguments(parser)
+    parser = getattr(models, temp_args.model_name).add_model_specific_arguments(parser)
     parser = getattr(
         tasks, temp_args.settings.capitalize() + "ForecastTask"
     ).add_task_specific_arguments(parser)
@@ -102,4 +109,3 @@ if __name__ == "__main__":
     #     utils.logging.output_logger_to_file(pl._logger, args.log_path)
 
     results = main(args)
-

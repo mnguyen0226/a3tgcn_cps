@@ -190,7 +190,7 @@ class TGCN(nn.Module):
         self.tgcn_cell = TGCNCell(self.adj, self._input_dim, self._hidden_dim)
 
     def forward(self, inputs):
-        """Executes forward pass of the 1 TGCN Module 
+        """Executes forward pass of the 1 TGCN Module
 
         Args:
             inputs ([type]): input features

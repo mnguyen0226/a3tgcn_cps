@@ -1,4 +1,3 @@
-
 from utils.data.spatiotemporal_csv_data import SpatioTemporalCSVDataModule
 
 

@@ -4,6 +4,7 @@ from utils.callbacks.base import BestEpochCallback
 
 # Reference: https://github.com/lehaifeng/T-GCN/tree/master/T-GCN/T-GCN-PyTorch
 
+
 class PlotValidationPredictionsCallback(BestEpochCallback):
     def __init__(self, monitor="", mode="min"):
         super(PlotValidationPredictionsCallback, self).__init__(

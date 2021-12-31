@@ -4,25 +4,26 @@ import torch
 
 # Reference: https://github.com/lehaifeng/T-GCN/tree/master/T-GCN/T-GCN-PyTorch
 
+
 def load_features(feat_path, dtype=np.float32):
     feat_df = pd.read_csv(feat_path)
     feat = np.array(feat_df, dtype=dtype)
-    
+
     # DEBUGGING
     # print(f"\n\nFeat Shape:\n {feat.shape}")
     # print(f"Feat:\n {feat}")
-    
+
     return feat
 
 
 def load_adjacency_matrix(adj_path, dtype=np.float32):
     adj_df = pd.read_csv(adj_path, header=None)
     adj = np.array(adj_df, dtype=dtype)
-    
+
     # DEBUGGING
     # print(f"\n\Adjacency Shape:\n {adj.shape}")
     # print(f"Adjacency:\n {adj}")
-    
+
     return adj
 
 
@@ -44,7 +45,7 @@ def generate_dataset(
     for i in range(len(test_data) - seq_len - pre_len):
         test_X.append(np.array(test_data[i : i + seq_len]))
         test_Y.append(np.array(test_data[i + seq_len : i + seq_len + pre_len]))
-        
+
     # DEBUGGING
     # print(np.array(train_X).shape)
     # print(train_X[0])
@@ -54,7 +55,7 @@ def generate_dataset(
     # print(train_X[1])
     # print(np.array(train_Y[1]).shape)
     # print(train_Y[1])
-        
+
     return np.array(train_X), np.array(train_Y), np.array(test_X), np.array(test_Y)
 
 
