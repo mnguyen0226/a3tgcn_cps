@@ -5,6 +5,7 @@ from torch.nn.functional import normalize
 
 # Reference: https://github.com/lehaifeng/T-GCN/tree/master/T-GCN/T-GCN-PyTorch
 
+
 def calculate_laplacian_with_self_loop(matrix):
     """Calculates the normalized laplacian with input matrix
 
