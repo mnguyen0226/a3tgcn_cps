@@ -19,7 +19,8 @@ class SpatioTemporalCSVDataModule(pl.LightningDataModule):
         split_ratio: float = 0.8,
         normalize: bool = True,
         **kwargs
-    ):
+    ):  
+        """Constructor"""
         super(SpatioTemporalCSVDataModule, self).__init__()
         self._feat_path = feat_path
         self._adj_path = adj_path
@@ -55,15 +56,19 @@ class SpatioTemporalCSVDataModule(pl.LightningDataModule):
         )
 
     def train_dataloader(self):
+        """Loads training dataset and divided by batch size"""
         return DataLoader(self.train_dataset, batch_size=self.batch_size)
 
     def val_dataloader(self):
+        """Loads validating dataset and divided by batch size"""
         return DataLoader(self.val_dataset, batch_size=len(self.val_dataset))
 
     @property
     def feat_max_val(self):
+        """Returns the features max value"""
         return self._feat_max_val
 
     @property
     def adj(self):
+        """Returns the adjacency matrix"""
         return self._adj
