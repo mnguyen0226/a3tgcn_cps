@@ -147,10 +147,10 @@ class SupervisedForecastTask(pl.LightningModule):
         r2 = utils.metrics.r2(predictions, y)
         explained_variance = utils.metrics.explained_variance(predictions, y)
         metrics = {
-            "val_loss": loss,
+            "Val_loss": loss,
             "RMSE": rmse,
             "MAE": mae,
-            "accuracy": accuracy,
+            "Accuracy": accuracy,
             "R2": r2,
             "ExplainedVar": explained_variance,
         }
@@ -164,7 +164,25 @@ class SupervisedForecastTask(pl.LightningModule):
             batch ([type]): batch size
             batch_idx ([type]): batch index
         """
-        pass
+        predictions, y = self.shared_step(batch, batch_idx)
+        predictions = predictions * self.feat_max_val
+        y = y * self.feat_max_val
+        loss = self.loss(predictions, y)
+        rmse = torch.sqrt(torchmetrics.functional.mean_squared_error(predictions, y))
+        mae = torchmetrics.functional.mean_absolute_error(predictions, y)
+        accuracy = utils.metrics.accuracy(predictions, y)
+        r2 = utils.metrics.r2(predictions, y)
+        explained_variance = utils.metrics.explained_variance(predictions, y)
+        metrics = {
+            "Test Val_loss": loss,
+            "Test RMSE": rmse,
+            "Test MAE": mae,
+            "Test Accuracy": accuracy,
+            "Test R2": r2,
+            "Test ExplainedVar": explained_variance,
+        }
+        self.log_dict(metrics)
+        return predictions.reshape(batch[1].size()), y.reshape(batch[1].size())
 
     def configure_optimizers(self):
         """Configures Adam optimizer for training

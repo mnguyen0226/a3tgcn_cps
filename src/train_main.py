@@ -4,6 +4,7 @@ from pytorch_lightning.utilities import rank_zero_info
 import models
 import tasks
 import time
+import torch
 import datetime
 import utils.callbacks
 import utils.data
@@ -79,23 +80,21 @@ def main_supervised(args):
         + str(x.year)
     )
     trainer.save_checkpoint("saved_models/" + localtime + "_model.ckpt")
+    
+    weight_path = "saved_models/" + localtime + "_model_weight.pt"
+    model_path = "saved_models/" + localtime + "_model.pt"
+
+    torch.save(model.state_dict(), weight_path) # save weigth
+    torch.save(model, model_path) # save model
 
     return training_results
 
-# def test_model(): # might put on another file
-#     """Test trained model"""
-#     dm = utils.data.SpatioTemporalCSVDataModule(  # get data
-#         feat_path=DATA_PATHS["scada"]["train_clean_feat"],
-#         adj_path=DATA_PATHS["scada"]["adj_matrix"],
-#     )
-#     tgcn_model = get_model(dm)  # get model with input data
-#     trained_model = tgcn_model.load
 
 def main(args):
     """User Interface"""
     rank_zero_info(vars(args))
-    results = main_supervised(args)
-    return results
+    training_results = main_supervised(args)
+    return training_results
 
 
 if __name__ == "__main__":
@@ -140,4 +139,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
     utils.logging.format_logger(pl._logger)
 
-    results = main(args)
+    training_results = main(args)
