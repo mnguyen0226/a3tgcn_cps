@@ -18,7 +18,7 @@ DATA_PATHS = {
     "scada": {
         "train_clean_feat": "data/processed/processed_clean_scada_dataset.csv",
         "adj_matrix": "data/processed/processed_scada_adj_matrix.csv",
-        "train_poison_feat": "data/processed/",
+        "train_poison_feat": "data/processed/processed_clean_poisoned_dataset.csv",
         "test_feat": "data/processed",
     },
 }
@@ -54,24 +54,20 @@ def test_model(args):  # might put on another file
     # python test_main.py --model_name TGCN --max_epochs 1 --batch_size 32 --loss mse_with_regularizer --settings supervised
     """Test trained model"""
     dm_test = utils.data.SpatioTemporalCSVDataModule(  # get data
-        feat_path=DATA_PATHS["scada"]["train_clean_feat"],
+        feat_path=DATA_PATHS["scada"]["train_poison_feat"],
         adj_path=DATA_PATHS["scada"]["adj_matrix"],
     )
-    tgcn_model = get_model(dm_test)  # get model with input data
+    path = (
+        "saved_models/time_22_41_3_date_12_30_2021_model.pt"  # load the trained weight
+    )
+    tgcn_model = get_model(dm_test).load_state_dict(torch.load(path)['model_staste_dict']) # load trained model
     task = get_task(tgcn_model, dm_test)  # supervised learning
     callbacks = get_callbacks()  # get callbacks, trained weights
-    path = (
-        "saved_models/time_21_41_24_date_12_30_2021_model.pt"  # load the trained weight
-    )
-    tgcn_model.load_state_dict(torch.load(path))
-
-    # tgcn_model.eval()
+    tgcn_model.eval()
     tester = pl.Trainer.from_argparse_args(args, callbacks=callbacks)
     tester.fit(task, dm_test)  # train model
-    check_points = "lightning_logs/version_5/checkpoints/epoch=0-step=109.ckpt"
-
     testing_result = tester.test(
-        ckpt_path=check_points, datamodule=dm_test
+        datamodule=dm_test
     )  # validate model
 
     return testing_result
