@@ -51,21 +51,19 @@ def get_callbacks():
 
 def main_supervised(args):
     """Main training setup for supervised learning with the parsed arguments"""
-    dm = utils.data.SpatioTemporalCSVDataModule(  # get data
+    dm_train = utils.data.SpatioTemporalCSVDataModule(  # get data
         feat_path=DATA_PATHS["scada"]["train_clean_feat"],
         adj_path=DATA_PATHS["scada"]["adj_matrix"],
     )
-    model = get_model(dm)  # get model
-    task = get_task(model, dm)  # supervised learning
+    model = get_model(dm_train)  # get model with input data
+    task = get_task(model, dm_train)  # supervised learning
     callbacks = get_callbacks()  # get callbacks, trained weights
     trainer = pl.Trainer.from_argparse_args(args, callbacks=callbacks)
-    trainer.fit(task, dm)  # train model
-    results = trainer.validate(datamodule=dm)  # validate model
+    trainer.fit(task, dm_train)  # train model
+    training_results = trainer.validate(datamodule=dm_train)  # validate model
 
     # save model
-    # log training date
     x = datetime.datetime.now()
-    x
     localtime = (
         "time_"
         + str(x.hour)
@@ -80,11 +78,18 @@ def main_supervised(args):
         + "_"
         + str(x.year)
     )
-
     trainer.save_checkpoint("saved_models/" + localtime + "_model.ckpt")
 
-    return results
+    return training_results
 
+# def test_model(): # might put on another file
+#     """Test trained model"""
+#     dm = utils.data.SpatioTemporalCSVDataModule(  # get data
+#         feat_path=DATA_PATHS["scada"]["train_clean_feat"],
+#         adj_path=DATA_PATHS["scada"]["adj_matrix"],
+#     )
+#     tgcn_model = get_model(dm)  # get model with input data
+#     trained_model = tgcn_model.load
 
 def main(args):
     """User Interface"""
