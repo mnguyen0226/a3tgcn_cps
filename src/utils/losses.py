@@ -4,6 +4,7 @@ import torch
 
 
 def mse_with_regularizer_loss(inputs, targets, models, lamda=1.5e-3):
+    """Calculate the mean square error with regularized loss"""
     reg_loss = 0.0
     for param in models.parameters():
         reg_loss += torch.sum(param ** 2) / 2
