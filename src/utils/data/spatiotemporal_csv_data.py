@@ -19,7 +19,7 @@ class SpatioTemporalCSVDataModule(pl.LightningDataModule):
         split_ratio: float = 0.8,
         normalize: bool = True,
         **kwargs
-    ):  
+    ):
         """Constructor"""
         super(SpatioTemporalCSVDataModule, self).__init__()
         self._feat_path = feat_path

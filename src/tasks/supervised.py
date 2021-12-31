@@ -129,7 +129,7 @@ class SupervisedForecastTask(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         """Generates validating step returning the mse/mse with regularizer loss, RMSE, MAE, accuracy, R2, Explained Variance values
            Note: this function can also be used as test_step
-        
+
         Args:
             batch ([type]): batch size
             batch_idx ([type]): batch index

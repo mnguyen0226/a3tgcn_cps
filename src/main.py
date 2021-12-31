@@ -3,7 +3,8 @@ import pytorch_lightning as pl
 from pytorch_lightning.utilities import rank_zero_info
 import models
 import tasks
-
+import time
+import datetime
 import utils.callbacks
 import utils.data
 import utils.logging
@@ -14,8 +15,10 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 DATA_PATHS = {
     "scada": {
-        "feat": "data/processed/processed_clean_scada_dataset.csv",
-        "adj": "data/processed/processed_scada_adj_matrix.csv",
+        "train_clean_feat": "data/processed/processed_clean_scada_dataset.csv",
+        "adj_matrix": "data/processed/processed_scada_adj_matrix.csv",
+        "train_poison_feat": "data/processed/",
+        "test_feat": "data/processed",
     },
 }
 
@@ -48,16 +51,38 @@ def get_callbacks():
 
 def main_supervised(args):
     """Main training setup for supervised learning with the parsed arguments"""
-    dm = utils.data.SpatioTemporalCSVDataModule(  # data path
-        feat_path=DATA_PATHS["scada"]["feat"],
-        adj_path=DATA_PATHS["scada"]["adj"],
+    dm = utils.data.SpatioTemporalCSVDataModule(  # get data
+        feat_path=DATA_PATHS["scada"]["train_clean_feat"],
+        adj_path=DATA_PATHS["scada"]["adj_matrix"],
     )
     model = get_model(dm)  # get model
-    task = get_task(model, dm)  # supervised
-    callbacks = get_callbacks()  # get callbacks
+    task = get_task(model, dm)  # supervised learning
+    callbacks = get_callbacks()  # get callbacks, trained weights
     trainer = pl.Trainer.from_argparse_args(args, callbacks=callbacks)
     trainer.fit(task, dm)  # train model
     results = trainer.validate(datamodule=dm)  # validate model
+
+    # save model
+    # log training date
+    x = datetime.datetime.now()
+    x
+    localtime = (
+        "time_"
+        + str(x.hour)
+        + "_"
+        + str(x.minute)
+        + "_"
+        + str(x.second)
+        + "_date_"
+        + str(x.month)
+        + "_"
+        + str(x.day)
+        + "_"
+        + str(x.year)
+    )
+
+    trainer.save_checkpoint("saved_models/" + localtime + "_model.ckpt")
+
     return results
 
 
