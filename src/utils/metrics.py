@@ -4,39 +4,15 @@ import torch
 
 
 def accuracy(pred, y):
-    """Calculates the accuracy rates between the prediction and the ground-truth labels
-
-    Args:
-        pred: prediction
-        y: ground-truth labels
-
-    Returns:
-        accuracy rate
-    """
+    """Calculates the accuracy rates between the prediction and the ground-truth labels"""
     return 1 - torch.linalg.norm(y - pred, "fro") / torch.linalg.norm(y, "fro")
 
 
 def r2(pred, y):
-    """Calculates the R2 regression rate between prediction and the ground-truth labels
-
-    Args:
-        pred: prediction
-        y: ground-truth labels
-
-    Returns:
-        R2 rate
-    """
+    """Calculates the R2 regression rate between prediction and the ground-truth labels"""
     return 1 - torch.sum((y - pred) ** 2) / torch.sum((y - torch.mean(pred)) ** 2)
 
 
 def explained_variance(pred, y):
-    """Calculate the explained variance rate between prediction and the ground-truth labels
-
-    Args:
-        pred: prediction
-        y: ground-truth labels
-
-    Returns:
-        variance rate
-    """
+    """Calculate the explained variance rate between prediction and the ground-truth labels"""
     return 1 - torch.var(y - pred) / torch.var(y)
