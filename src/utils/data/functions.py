@@ -6,6 +6,7 @@ import torch
 
 
 def load_features(feat_path, dtype=np.float32):
+    """Loads features matrix"""
     feat_df = pd.read_csv(feat_path)
     feat = np.array(feat_df, dtype=dtype)
 
@@ -17,6 +18,7 @@ def load_features(feat_path, dtype=np.float32):
 
 
 def load_adjacency_matrix(adj_path, dtype=np.float32):
+    """Loads adjacency matrix"""
     adj_df = pd.read_csv(adj_path, header=None)
     adj = np.array(adj_df, dtype=dtype)
 
@@ -30,6 +32,7 @@ def load_adjacency_matrix(adj_path, dtype=np.float32):
 def generate_dataset(
     data, seq_len, pre_len, time_len=None, split_ratio=0.8, normalize=True
 ):
+    """Generates train_X, train_Y, test_X, test_Y"""
     if time_len is None:
         time_len = data.shape[0]
     if normalize:
@@ -62,6 +65,7 @@ def generate_dataset(
 def generate_torch_datasets(
     data, seq_len, pre_len, time_len=None, split_ratio=0.8, normalize=True
 ):
+    """Transforms datasets to Tensor datatype and returns train/test datasets"""
     train_X, train_Y, test_X, test_Y = generate_dataset(
         data,
         seq_len,
