@@ -38,3 +38,8 @@ Run tensorboard `--logdir lightning_logs/version_0` to monitor the training prog
 ## References:
 
 - [TGCN: A Temporal Graph Convolutional Network for Traffic Prediction](Reference: https://github.com/lehaifeng/T-GCN/tree/master/T-GCN/T-GCN-PyTorch)
+
+## Progress:
+- Need to saved and loaded train model
+- Experience with Mahalanobis Outlier
+- Experience with Attribution
