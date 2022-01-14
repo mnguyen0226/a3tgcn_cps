@@ -1,4 +1,4 @@
-# Cyber-Physical Attack Detection, Localization, & Attribution Evaluation with Temporal Graph Neural Netorks for Water Distribution Systems
+# Cyber-Physical Attack Detection, Localization, & Attribution Evaluation with Temporal Graph Neural Networks for Water Distribution Systems
 
 Explainable TGCN for Water Distribution Systems
 
