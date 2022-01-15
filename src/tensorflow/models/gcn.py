@@ -96,4 +96,6 @@ class GCN(object):
             )
             self.output = tf.transpose(self.output, perm=[1, 2, 0])
             self.output = tf.reshape(self.output, shape=[-1, self._num_nodes])
+
+
 #            print(self.output)
