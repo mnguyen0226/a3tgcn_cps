@@ -1,0 +1,2 @@
+from utils.utils import weight_variable_glorot
+from utils.utils import calculate_laplacian
