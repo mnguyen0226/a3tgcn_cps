@@ -5,7 +5,7 @@ from tensorflow.contrib.rnn import RNNCell
 from utils import calculate_laplacian
 
 
-class tgcnCell(RNNCell):
+class TGCNCell(RNNCell):
     """Temporal Graph Convolutional Network """
 
     def call(self, inputs, **kwargs):
@@ -15,7 +15,7 @@ class tgcnCell(RNNCell):
         self, num_units, adj, num_nodes, input_size=None, act=tf.nn.tanh, reuse=None
     ):
 
-        super(tgcnCell, self).__init__(_reuse=reuse)
+        super(TGCNCell, self).__init__(_reuse=reuse)
         self._act = act
         self._nodes = num_nodes
         self._units = num_units
