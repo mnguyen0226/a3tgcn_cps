@@ -7,15 +7,17 @@ from __future__ import print_function
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.platform import tf_logging as logging
-from utils import weight_variable_glorot
-from utils import calculate_laplacian
+from utils import weight_variable_glorot, calculate_laplacian
+
+flags = tf.app.flags
+FLAGS = flags.FLAGS
 
 
 class GCN(object):
     def __init__(
         self,
         num_units,
-        adj_matrix,
+        adj,
         inputs,
         output_dim,
         activation=tf.nn.tanh,
@@ -33,8 +35,8 @@ class GCN(object):
         self._num_nodes = inputs.get_shape()[2].value
         self._input_dim = inputs.get_shape()[1].value  # seq_len
         self._batch_size = tf.shape(inputs)[0]
-        self._adj_matrix = []
-        self._adj_matrix.append(calculate_laplacian(adj_matrix))
+        self._adj = []
+        self._adj.append(calculate_laplacian(adj))
         self._activation = activation
         self._gconv()
 
@@ -65,12 +67,13 @@ class GCN(object):
         # [batch, num_nodes, seq]
         inputs = self._inputs
         inputs = tf.transpose(inputs, perm=[2, 0, 1])
+        #        print('0',inputs.get_shape())
         x0 = tf.reshape(
             inputs, shape=[self._num_nodes, self._batch_size * self._input_dim]
         )
         scope = tf.get_variable_scope()
         with tf.variable_scope(scope):
-
+            
             # hidden1
             for adj in self._adj:
                 x1 = tf.sparse_tensor_dense_matmul(adj, x0)

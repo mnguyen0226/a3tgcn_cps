@@ -216,8 +216,8 @@ var = pd.DataFrame(test_result)
 var.to_csv(path + "/test_result.csv", index=False, header=False)
 
 # plot results
-plot_result(test_result,test_label1,path)
-plot_error(train_rmse,train_loss,test_rmse,test_acc,test_mae,path)
+plot_result(test_result, test_label1, path)
+plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path)
 
 print(
     "min_rmse:%r" % (np.min(test_rmse)),
