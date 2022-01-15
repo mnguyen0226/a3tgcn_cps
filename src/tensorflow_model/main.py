@@ -1,21 +1,16 @@
 # Reference: https://github.com/lehaifeng/T-GCN/blob/master/T-GCN/T-GCN-TensorFlow/main.py
 
-from enum import Flag
 import pickle as plk
-from pickletools import optimize
 import tensorflow as tf
 import pandas as pd
 import numpy as np
 import math
 import os
-import numpy.linalg as la
 from utils import preprocess_data
 from utils import load_clean_scada_data
 from models import TGCNCell
 from utils import plot_error
 from utils import plot_result
-from sklearn.metrics import mean_absolute_error
-from sklearn.metrics import mean_squared_error
 from utils import evaluation
 import time
 
@@ -146,7 +141,7 @@ def train_and_eval():
     if not os.path.exists(path):
         os.makedirs(path)
 
-    x_axe, batch_loss, batch_rmse, batch_pred = [], [], [], []
+    batch_loss, batch_rmse = [], []
     test_loss, test_rmse, test_mae, test_acc, test_r2, test_var, test_pred = (
         [],
         [],
@@ -217,15 +212,12 @@ def train_and_eval():
     var = pd.DataFrame(test_result)
     var.to_csv(path + "/test_result.csv", index=False, header=False)
 
-
-
-    print(
-        "min_rmse:%r" % (np.min(test_rmse)),
-        "min_mae:%r" % (test_mae[index]),
-        "max_acc:%r" % (test_acc[index]),
-        "r2:%r" % (test_r2[index]),
-        "var:%r" % test_var[index],
-    )
+    print("Training and Evaluating Results: \n")
+    print("min_rmse:%r" % (np.min(test_rmse)))
+    print("min_mae:%r" % (test_mae[index]))
+    print("max_acc:%r" % (test_acc[index]))
+    print("r2:%r" % (test_r2[index]))
+    print("var:%r" % test_var[index])
 
 
 if __name__ == "__main__":
