@@ -11,11 +11,11 @@ def load_clean_scada_data():
     Returns:
         loaded clean-time-series dataset and adjacency matrix
     """
-    # adj = pd.read_csv(r"data/processed/scada_adj_matrix.csv", header=None)
-    adj = pd.read_csv(r"data/processed/sz_adj.csv", header=None)
+    adj = pd.read_csv(r"data/processed/processed_scada_adj_matrix.csv", header=None)
+    # adj = pd.read_csv(r"data/processed/sz_adj.csv", header=None)
     adj_matrix = np.mat(adj)
-    # clean_data = pd.read_csv(r"data/processed/processed_clean_scada_dataset.csv")
-    clean_data = pd.read_csv(r"data/processed/sz_speed.csv")
+    clean_data = pd.read_csv(r"data/processed/processed_clean_scada_dataset.csv")
+    # clean_data = pd.read_csv(r"data/processed/sz_speed.csv")
     return clean_data, adj_matrix
 
 
