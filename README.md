@@ -24,6 +24,10 @@ Explainable TGCN for Water Distribution Systems
 * math
 * sklearn
 
+### Model Training
+nguye@DESKTOP-OBHI23I MINGW64 ~/OneDrive/Desktop/Senior/ECE 4994 A3 Research/xtgcn_wds_cps/src/tensorflow_model (main)
+$ python ./main.py
+
 ## 4.Pytorch
 
 ### Requirements

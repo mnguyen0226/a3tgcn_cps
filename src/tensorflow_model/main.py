@@ -16,7 +16,7 @@ import time
 
 ### Global variables for Optimization (Ashita)
 OP_LR = 0.001
-OP_EPOCH = 1
+OP_EPOCH = 10
 OP_BATCH_SIZE = 32
 
 ### Parse settings from command line
@@ -212,7 +212,7 @@ def train_and_eval():
     var = pd.DataFrame(test_result)
     var.to_csv(path + "/test_result.csv", index=False, header=False)
 
-    print("Training and Evaluating Results: \n")
+    print("-----------------------------------------\nTraining and Evaluating Results:")
     print("min_rmse:%r" % (np.min(test_rmse)))
     print("min_mae:%r" % (test_mae[index]))
     print("max_acc:%r" % (test_acc[index]))
