@@ -41,7 +41,7 @@ SEQ_LEN = FLAGS.seq_len
 OUTPUT_DIM = PRE_LEN = FLAGS.pre_len
 BATCH_SIZE = FLAGS.batch_size
 LR = FLAGS.learning_rate
-TRAINING_EPOCH = FLAGS.learning_rate
+TRAINING_EPOCH = FLAGS.training_epoch
 GRU_UNITS = FLAGS.gru_units
 MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
@@ -96,7 +96,7 @@ def TGCN(_X, _weights, _biases):
 
 ### Place holders
 inputs = tf.placeholder(tf.float32, shape=[None, SEQ_LEN, num_nodes])
-labels = tf.placeholder(tf.flaot32, shape=[None, PRE_LEN, num_nodes])
+labels = tf.placeholder(tf.float32, shape=[None, PRE_LEN, num_nodes])
 
 ### Graph weights
 weights = {
@@ -110,11 +110,11 @@ y_pred, ttts, ttto = TGCN(inputs, weights, biases)
 
 ### Optimizer
 lambda_loss = 0.0015
-L_reg = lambda_loss * sum(tf.nn.L2_loss(tf_var) for tf_var in tf.trainable_variables())
+L_reg = lambda_loss * sum(tf.nn.l2_loss(tf_var) for tf_var in tf.trainable_variables())
 label = tf.reshape(labels, [-1, num_nodes])
 
 ### Losses
-loss = tf.reduce_mean(tf.nn.L2_loss(y_pred - label) + L_reg)
+loss = tf.reduce_mean(tf.nn.l2_loss(y_pred - label) + L_reg)
 error = tf.sqrt(tf.reduce_mean(tf.square(y_pred - label)))
 optimizer = tf.train.AdamOptimizer(LR).minimize(loss)
 
@@ -125,13 +125,13 @@ def train_and_eval():
 
     ### Initializes session
     variables = tf.global_variables()
-    saver = tf.train.Saver(tf.global_norm())
+    saver = tf.train.Saver(tf.global_variables())
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
     sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
     sess.run(tf.global_variables_initializer())
 
     out = "out/%s" % (MODEL_NAME)
-    path1 = "results/%s_%s_lr%r_batch%r_unit%r_seq%r_pre%r_epoch%r" % (
+    path1 = "%s_%s_lr%r_batch%r_unit%r_seq%r_pre%r_epoch%r" % (
         MODEL_NAME,
         DATA_NAME,
         LR,
@@ -216,8 +216,8 @@ def train_and_eval():
     test_result = test_pred[index]
     var = pd.DataFrame(test_result)
     var.to_csv(path + "/test_result.csv", index=False, header=False)
-    # plot_result(test_result,test_label1,path)
-    # plot_error(train_rmse,train_loss,test_rmse,test_acc,test_mae,path)
+    plot_result(test_result, test_label1, path)
+    plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path)
 
     print(
         "min_rmse:%r" % (np.min(test_rmse)),

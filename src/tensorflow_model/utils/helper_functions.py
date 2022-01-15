@@ -9,7 +9,7 @@ import numpy.linalg as la
 import math
 
 
-def normalized_adj(adj_matrix):
+def normalized_adj(adj):
     """Normalized adjacency matrix for GCN
 
     Args:
@@ -18,14 +18,12 @@ def normalized_adj(adj_matrix):
     Returns:
         normalized adjacency matrix
     """
-    adj_matrix = sp.coo_matrix(adj_matrix)
-    rowsum = np.array(adj_matrix.sum(1))
+    adj = sp.coo_matrix(adj)
+    rowsum = np.array(adj.sum(1))
     d_inv_sqrt = np.power(rowsum, -0.5).flatten()
     d_inv_sqrt[np.isinf(d_inv_sqrt)] = 0.0
     d_mat_inv_sqrt = sp.diags(d_inv_sqrt)
-    normalized_adj = (
-        adj_matrix.dot(d_mat_inv_sqrt).transpose().dot(d_mat_inv_sqrt).tocoo()
-    )
+    normalized_adj = adj.dot(d_mat_inv_sqrt).transpose().dot(d_mat_inv_sqrt).tocoo()
     normalized_adj = normalized_adj.astype(np.float32)
     return normalized_adj
 
@@ -45,11 +43,11 @@ def sparse_to_tuple(mx):
     return tf.sparse_reorder(L)
 
 
-def calculate_laplacian(adj_matrix, lambda_max=1):
-    adj_matrix = normalized_adj(adj_matrix + sp.eye(adj_matrix.shape[0]))
-    adj_matrix = sp.csr_matrix(adj_matrix)
-    adj_matrix = adj_matrix.astype(np.float32)
-    return sparse_to_tuple(adj_matrix)
+def calculate_laplacian(adj, lambda_max=1):
+    adj = normalized_adj(adj + sp.eye(adj.shape[0]))
+    adj = sp.csr_matrix(adj)
+    adj = adj.astype(np.float32)
+    return sparse_to_tuple(adj)
 
 
 def weight_variable_glorot(input_dim, output_dim, name=""):

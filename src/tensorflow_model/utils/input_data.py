@@ -11,9 +11,11 @@ def load_clean_scada_data():
     Returns:
         loaded clean-time-series dataset and adjacency matrix
     """
-    adj = pd.read_csv(r"data/processed/scada_adj_matrix.csv", header=None)
+    # adj = pd.read_csv(r"data/processed/scada_adj_matrix.csv", header=None)
+    adj = pd.read_csv(r"data/processed/sz_adj.csv", header=None)
     adj_matrix = np.mat(adj)
-    clean_data = pd.read_csv(r"data/processed/processed_clean_scada_dataset.csv")
+    # clean_data = pd.read_csv(r"data/processed/processed_clean_scada_dataset.csv")
+    clean_data = pd.read_csv(r"data/processed/sz_speed.csv")
     return clean_data, adj_matrix
 
 
@@ -45,8 +47,8 @@ def preprocess_data(data, time_len, rate, seq_len, pre_len):
     # divides testing dataset into features and label batches
     for i in range(len(test_data) - seq_len - pre_len):
         batch = test_data[i : i + seq_len + pre_len]
-        trainX.append(batch[0:seq_len])
-        trainY.append(batch[seq_len : seq_len + pre_len])
+        testX.append(batch[0:seq_len])
+        testY.append(batch[seq_len : seq_len + pre_len])
 
     # convert lists to array
     trainX1 = np.array(trainX)
