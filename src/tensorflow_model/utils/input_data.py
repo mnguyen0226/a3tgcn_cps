@@ -17,7 +17,7 @@ def load_clean_scada_data():
     return clean_data, adj_matrix
 
 
-def preprocessed_data(data, time_len, rate, seq_len, pre_len):
+def preprocess_data(data, time_len, rate, seq_len, pre_len):
     """Preprocesses training and testing dataset into batches
 
     Args:
