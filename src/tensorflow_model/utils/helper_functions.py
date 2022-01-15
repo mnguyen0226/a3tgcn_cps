@@ -3,6 +3,10 @@
 import tensorflow as tf
 import scipy.sparse as sp
 import numpy as np
+from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_squared_error
+import numpy.linalg as la
+import math
 
 
 def normalized_adj(adj_matrix):
@@ -55,3 +59,12 @@ def weight_variable_glorot(input_dim, output_dim, name=""):
     )
 
     return tf.Variable(initial, name=name)
+
+
+def evaluation(pred, label):
+    rmse = math.sqrt(mean_squared_error(pred, label))
+    mae = mean_absolute_error(pred, label)
+    F_norm = la.norm(pred - label, "fro") / la.norm(pred, "fro")
+    r2 = 1 - ((pred - label ** 2).sum()) / ((pred - pred.mean()) ** 2).sum()
+    var = 1 - (np.var(pred - label)) / np.var(pred)
+    return rmse, mae, 1 - F_norm, r2, var
