@@ -1,12 +1,12 @@
 # Reference: https://github.com/lehaifeng/T-GCN/blob/master/T-GCN/T-GCN-TensorFlow/tgcn.py
 
 import tensorflow as tf
-from tensorflow.keras.layers import SimpleRNNCell
+from tensorflow.contrib.rnn import RNNCell
 from utils import calculate_laplacian
 
 
-class TGCNCell(SimpleRNNCell):
-    """Temporal Graph Convolutional Network"""
+class tgcnCell(RNNCell):
+    """Temporal Graph Convolutional Network """
 
     def call(self, inputs, **kwargs):
         pass
@@ -15,7 +15,7 @@ class TGCNCell(SimpleRNNCell):
         self, num_units, adj, num_nodes, input_size=None, act=tf.nn.tanh, reuse=None
     ):
 
-        super(TGCNCell, self).__init__(_reuse=reuse)
+        super(tgcnCell, self).__init__(_reuse=reuse)
         self._act = act
         self._nodes = num_nodes
         self._units = num_units
