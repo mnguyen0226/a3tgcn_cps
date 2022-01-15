@@ -12,6 +12,9 @@ Explainable TGCN for Water Distribution Systems
 
 ## 3.Tensorflow
 
+- Note: interval option: 15 minutes, 30 minutes, 45 miutes, 60 minutes
+- 
+
 ## 4.Pytorch
 
 ### Requirements
