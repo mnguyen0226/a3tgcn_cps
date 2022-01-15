@@ -2,15 +2,19 @@
 
 Explainable TGCN for Water Distribution Systems
 
-## Overall Pipeline
+## 1.Overall Pipeline
 
 ![alt-text](https://github.com/mnguyen0226/xtgcn_wds_cps/blob/main/docs/imgs/pipeline.png)
 
-## Developing Pipeline
+## 2.Developing Pipeline
 
 ![alt-text](https://github.com/mnguyen0226/xtgcn_wds_cps/blob/main/docs/imgs/tgcn_train_pipeline.png)
 
-## Requirements
+## 3.Tensorflow
+
+## 4.Pytorch
+
+### Requirements
 
 - numpy
 - numpy
@@ -21,7 +25,7 @@ Explainable TGCN for Water Distribution Systems
 - torchmetrics>=0.3.0
 - python-dotenv
 
-## Model Training
+### Model Training
 
 ```python
 python train_main.py --model_name TGCN --max_epochs 1 --learning_rate 0.001 --weight_decay 0 --batch_size 32 --hidden_dim 64 --loss mse_with_regularizer --settings supervised
@@ -35,11 +39,11 @@ You can also adjust the `--data`, `--seq_len` and `--pre_len` parameters.
 
 Run tensorboard `--logdir lightning_logs/version_0` to monitor the training progress and view the prediction results.
 
-## References:
+### References:
 
 - [TGCN: A Temporal Graph Convolutional Network for Traffic Prediction](Reference: https://github.com/lehaifeng/T-GCN/tree/master/T-GCN/T-GCN-PyTorch)
 
-## Progress:
+### Progress:
 - Need to saved and loaded train model
 - Experience with Mahalanobis Outlier
 - Experience with Attribution
