@@ -1,0 +1,2 @@
+from tensorflow_model.utils.utils import weight_variable_glorot
+from tensorflow_model.utils.utils import calculate_laplacian
