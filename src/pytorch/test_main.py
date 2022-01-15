@@ -40,8 +40,8 @@ def get_task(model, dm):
 
 def get_callbacks():
     checkpoint_callback = pl.callbacks.ModelCheckpoint(monitor="train_loss")
-    plot_validation_predictions_callback = (
-        utils.callbacks.PlotValidationPredictionsCallback(monitor="train_loss")
+    plot_validation_predictions_callback = utils.callbacks.PlotValidationPredictionsCallback(
+        monitor="train_loss"
     )
     callbacks = [
         checkpoint_callback,
@@ -60,15 +60,15 @@ def test_model(args):  # might put on another file
     path = (
         "saved_models/time_22_41_3_date_12_30_2021_model.pt"  # load the trained weight
     )
-    tgcn_model = get_model(dm_test).load_state_dict(torch.load(path)['model_staste_dict']) # load trained model
+    tgcn_model = get_model(dm_test).load_state_dict(
+        torch.load(path)["model_staste_dict"]
+    )  # load trained model
     task = get_task(tgcn_model, dm_test)  # supervised learning
     callbacks = get_callbacks()  # get callbacks, trained weights
     tgcn_model.eval()
     tester = pl.Trainer.from_argparse_args(args, callbacks=callbacks)
     tester.fit(task, dm_test)  # train model
-    testing_result = tester.test(
-        datamodule=dm_test
-    )  # validate model
+    testing_result = tester.test(datamodule=dm_test)  # validate model
 
     return testing_result
 

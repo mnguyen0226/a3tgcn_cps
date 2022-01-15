@@ -40,8 +40,8 @@ def get_task(model, dm):
 
 def get_callbacks():
     checkpoint_callback = pl.callbacks.ModelCheckpoint(monitor="train_loss")
-    plot_validation_predictions_callback = (
-        utils.callbacks.PlotValidationPredictionsCallback(monitor="train_loss")
+    plot_validation_predictions_callback = utils.callbacks.PlotValidationPredictionsCallback(
+        monitor="train_loss"
     )
     callbacks = [
         checkpoint_callback,
@@ -80,12 +80,12 @@ def main_supervised(args):
         + str(x.year)
     )
     trainer.save_checkpoint("saved_models/" + localtime + "_model.ckpt")
-    
+
     weight_path = "saved_models/" + localtime + "_model_weight.pt"
     model_path = "saved_models/" + localtime + "_model.pt"
 
-    torch.save(model.state_dict(), weight_path) # save weigth
-    torch.save(model, model_path) # save model
+    torch.save(model.state_dict(), weight_path)  # save weigth
+    torch.save(model, model_path)  # save model
 
     return training_results
 

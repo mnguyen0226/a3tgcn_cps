@@ -73,7 +73,7 @@ class GCN(object):
         )
         scope = tf.get_variable_scope()
         with tf.variable_scope(scope):
-            
+
             # hidden1
             for adj in self._adj:
                 x1 = tf.sparse_tensor_dense_matmul(adj, x0)

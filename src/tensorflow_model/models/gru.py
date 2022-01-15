@@ -1,12 +1,12 @@
 # Reference: https://github.com/lehaifeng/T-GCN/blob/master/T-GCN/T-GCN-TensorFlow/gru.py
 
 import tensorflow as tf
-from tensorflow.keras.layers import SimpleRNNCell
+from tensorflow.contrib.rnn import RNNCell
 from tensorflow.python.platform import tf_logging as logging
 
 
-class GRUCell(SimpleRNNCell):
-    """Gated Recurrent Units."""
+class GRUCell(RNNCell):
+    """Gated Recurrent Units. """
 
     def call(self, inputs, **kwargs):
         pass
