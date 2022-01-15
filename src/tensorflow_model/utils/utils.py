@@ -27,6 +27,14 @@ def normalized_adj(adj_matrix):
 
 
 def sparse_to_tuple(mx):
+    """Converts sparse matrix to tuple
+
+    Args:
+        mx ([type]): matrix
+
+    Returns:
+        tuple
+    """
     mx = mx.tocoo()
     coords = np.vstack((mx.row, mx.col)).transpose()
     L = tf.SparseTensor(coords, mx.data, mx.shape)

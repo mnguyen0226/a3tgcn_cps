@@ -5,7 +5,7 @@ import pandas as pd
 import pickle as pkl
 
 
-def load_scada_data():
+def load_clean_scada_data():
     """Loads the adjacency matrix for GCN and clean time-series dataset.
 
     Returns:
