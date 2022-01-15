@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 
 
-def plot_result(test_result, test_label, path="results"):
+def plot_result(test_result, test_label, path):
     """Plots test datasets ground truth labels vs predictions on ground truth features
 
     Args:
@@ -34,7 +34,7 @@ def plot_result(test_result, test_label, path="results"):
     plt.show()
 
 
-def plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path="results"):
+def plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path):
     """Plots RMSE, Loss, accuracy, mae
 
     Args:
