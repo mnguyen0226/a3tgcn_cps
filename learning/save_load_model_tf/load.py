@@ -16,7 +16,7 @@ def load_model():
     graph = tf.get_default_graph()
     w1 = graph.get_tensor_by_name("w1:0")
     w2 = graph.get_tensor_by_name("w2:0")
-    feed_dict ={w1:13.0,w2:17.0}
+    feed_dict ={w1:13.0,w2:17.0} # fetch in new data to "test"
     
     #Now, access the op that you want to run. 
     op_to_restore = graph.get_tensor_by_name("op_to_restore:0")

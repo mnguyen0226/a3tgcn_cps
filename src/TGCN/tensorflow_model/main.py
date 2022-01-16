@@ -89,7 +89,7 @@ def TGCN(_X, _weights, _biases):
     return output, m, states
 
 
-### Place holders
+### Prepare to feed input to model: includes inputs and labels, this also includes the feed_dict in the train_and_eval()
 inputs = tf.compat.v1.placeholder(tf.float32, shape=[None, SEQ_LEN, num_nodes])
 labels = tf.compat.v1.placeholder(tf.float32, shape=[None, PRE_LEN, num_nodes])
 
@@ -101,10 +101,12 @@ weights = {
 }
 biases = {"out": tf.Variable(tf.random.normal([PRE_LEN]), name="bias_o")}
 
+### Define TGCN model
 y_pred, ttts, ttto = TGCN(inputs, weights, biases)
 
 ### Optimizer
 lambda_loss = 0.0015
+# L2 regularization to avoid over fit
 L_reg = lambda_loss * sum(
     tf.nn.l2_loss(tf_var) for tf_var in tf.compat.v1.trainable_variables()
 )
@@ -122,8 +124,10 @@ def train_and_eval():
     print("Start the training process")
     time_start = time.time()
 
-    ### Initializes session
+    # initializes session
     variables = tf.global_variables()
+    
+    # create a saver object which will save all the variables
     saver = tf.compat.v1.train.Saver(tf.global_variables())
     
     # checks for GPU
