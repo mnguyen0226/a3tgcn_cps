@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import os
 from utils import preprocess_data
-from utils import load_clean_scada_data
+from utils import load_scada_data
 from models import TGCNCell
 from utils import plot_error
 from utils import plot_result
@@ -42,7 +42,7 @@ MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
 
 # Loads data
-data, adj = load_clean_scada_data()
+data, adj = load_scada_data()
 
 time_len = data.shape[0]
 num_nodes = data.shape[1]

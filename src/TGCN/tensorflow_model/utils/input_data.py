@@ -5,7 +5,7 @@ import pandas as pd
 import pickle as pkl
 
 
-def load_clean_scada_data():
+def load_scada_data(dataset = 'train_clean'):
     """Loads the adjacency matrix for GCN and clean time-series dataset.
 
     Returns:
@@ -14,10 +14,17 @@ def load_clean_scada_data():
     adj = pd.read_csv(r"data/processed/processed_scada_adj_matrix.csv", header=None)
     # adj = pd.read_csv(r"data/processed/sz_adj.csv", header=None)
     adj_matrix = np.mat(adj)
-    clean_data = pd.read_csv(r"data/processed/processed_clean_scada_dataset.csv")
-    # clean_data = pd.read_csv(r"data/processed/sz_speed.csv")
-    return clean_data, adj_matrix
-
+    if(dataset == 'train_clean'):
+        time_series_data = pd.read_csv(r"data/processed/processed_clean_scada_dataset.csv")
+        # time_series_data = pd.read_csv(r"data/processed/sz_speed.csv")
+    elif(dataset == 'train_mix'):
+        time_series_data = pd.read_csv(r"data/processed/processed_clean_scada_dataset.csv")
+        # time_series_data = pd.read_csv(r"data/processed/sz_speed.csv")
+    elif(dataset == 'test_mix'):
+        time_series_data = pd.read_csv(r"data/processed/processed_clean_scada_dataset.csv")
+        # time_series_data = pd.read_csv(r"data/processed/sz_speed.csv")
+        
+    return time_series_data, adj_matrix
 
 def preprocess_data(data, time_len, rate, seq_len, pre_len):
     """Preprocesses training and testing dataset into batches
