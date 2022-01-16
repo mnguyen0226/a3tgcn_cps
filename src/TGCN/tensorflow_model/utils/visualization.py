@@ -7,12 +7,13 @@ def plot_result(test_result, test_label, path):
     """Plots test datasets ground truth labels vs predictions on ground truth features
 
     Args:
-        test_result ([type]): predictions on testing features
-        test_label ([type]): testing labels
-        path ([type]): saving image results
+        test_result: Predictions on testing features.
+        test_label: Testing labels.
+        path: Saving image results in path.
     """
     # all test result visualization
     fig1 = plt.figure(figsize=(7, 1.5))
+    
     #    ax1 = fig1.add_subplot(1,1,1)
     a_pred = test_result[:, 0]
     a_true = test_label[:, 0]
@@ -24,6 +25,7 @@ def plot_result(test_result, test_label, path):
 
     # oneday test result visualization
     fig1 = plt.figure(figsize=(7, 1.5))
+    
     #    ax1 = fig1.add_subplot(1,1,1)
     a_pred = test_result[0:96, 0]
     a_true = test_label[0:96, 0]
@@ -35,15 +37,15 @@ def plot_result(test_result, test_label, path):
 
 
 def plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path):
-    """Plots RMSE, Loss, accuracy, mae
+    """Plots rmse, loss, accuracy, mae
 
     Args:
-        train_rmse ([type]): root-mean-squared error on training dataset
-        train_loss ([type]): training loss
-        test_rmse ([type]): root-mean-squared error on testing dataset
-        test_acc ([type]): testing accuracy
-        test_mae ([type]): mean, absolute error
-        path ([type]): saving image results
+        train_rmse: List of root mean squared error on training dataset.
+        train_loss: List of training loss.
+        test_rmse: List of root-mean-squared error on testing dataset.
+        test_acc: List of accuracy on testing dataset.
+        test_mae: List of mean absolute error on testing dataset.
+        path: Saving image results in path.
     """
     # train_rmse & test_rmse
     fig1 = plt.figure(figsize=(5, 3))
