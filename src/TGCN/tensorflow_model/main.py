@@ -14,10 +14,10 @@ from utils import evaluation
 import time
 
 ### Global variables for Optimization (Ashita)
-OP_LR = 0.001 # learning rate 
-OP_EPOCH = 10 # number of epochs / iteration
-OP_BATCH_SIZE = 32 # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
-OP_HIDDEN_DIM = 64 # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
+OP_LR = 0.001  # learning rate
+OP_EPOCH = 10  # number of epochs / iteration
+OP_BATCH_SIZE = 32  # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
+OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
 ### Parse settings from command line
 flags = tf.app.flags
@@ -93,7 +93,7 @@ def TGCN(_X, _weights, _biases):
 inputs = tf.compat.v1.placeholder(tf.float32, shape=[None, SEQ_LEN, num_nodes])
 labels = tf.compat.v1.placeholder(tf.float32, shape=[None, PRE_LEN, num_nodes])
 
-### Graph weights
+### Graph weights and biases initialization of all neurons and layers
 weights = {
     "out": tf.Variable(
         tf.random.normal([GRU_UNITS, PRE_LEN], mean=1.0), name="weight_o"
@@ -126,13 +126,13 @@ def train_and_eval():
 
     # initializes session
     variables = tf.global_variables()
-    
+
     # create a saver object which will save all the variables
     saver = tf.compat.v1.train.Saver(tf.global_variables())
-    
+
     # checks for GPU
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
-    
+
     # setup training session
     sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
     sess.run(tf.global_variables_initializer())

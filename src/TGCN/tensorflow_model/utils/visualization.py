@@ -13,7 +13,7 @@ def plot_result(test_result, test_label, path):
     """
     # all test result visualization
     fig1 = plt.figure(figsize=(7, 1.5))
-    
+
     #    ax1 = fig1.add_subplot(1,1,1)
     a_pred = test_result[:, 0]
     a_true = test_label[:, 0]
@@ -25,7 +25,7 @@ def plot_result(test_result, test_label, path):
 
     # oneday test result visualization
     fig1 = plt.figure(figsize=(7, 1.5))
-    
+
     #    ax1 = fig1.add_subplot(1,1,1)
     a_pred = test_result[0:96, 0]
     a_true = test_label[0:96, 0]

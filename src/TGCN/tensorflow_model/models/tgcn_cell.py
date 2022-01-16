@@ -32,11 +32,11 @@ class TGCNCell(RNNCell):
         self._adj = []
         self._adj.append(calculate_laplacian(adj))
 
-    @property # getter and setter in python class
+    @property  # getter and setter in python class
     def state_size(self):
         return self._nodes * self._units
 
-    @property # getter and setter in python class
+    @property  # getter and setter in python class
     def output_size(self):
         return self._units
 
@@ -55,27 +55,25 @@ class TGCNCell(RNNCell):
             [type]: [description]
         """
         with tf.variable_scope(scope or "tgcn"):
-            with tf.variable_scope("gates"):    
+            with tf.variable_scope("gates"):
                 # ut = σ(Wu [f(A, Xt), ht−1] + bu)
-                # rt = σ(Wr [f(A, Xt), ht−1] + br) 
+                # rt = σ(Wr [f(A, Xt), ht−1] + br)
                 value = tf.nn.sigmoid(
                     self._gc(inputs, state, 2 * self._units, bias=1.0, scope=scope)
                 )
                 r, u = tf.split(value=value, num_or_size_splits=2, axis=1)
-                
+
             with tf.variable_scope("candidate"):
                 # ct = tanh(Wc [f(A, Xt),(rt ∗ ht−1)] + bc)
                 r_state = r * state
                 c = self._act(self._gc(inputs, r_state, self._units, scope=scope))
-                
+
             # ht = ut ∗ ht−1 + (1 − ut) ∗ ct
             new_h = u * state + (1 - u) * c
-            
+
         return new_h, new_h
 
-    def _gc(
-        self, inputs, state, output_size, bias=0.0, scope=None
-    ):  
+    def _gc(self, inputs, state, output_size, bias=0.0, scope=None):
         """Graph Convolution cell.
         
         Args:
