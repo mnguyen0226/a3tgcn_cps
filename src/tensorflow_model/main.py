@@ -73,11 +73,9 @@ def TGCN(_X, _weights, _biases):
         _biases ([type]): biases
     """
     cell_1 = TGCNCell(GRU_UNITS, adj=adj, num_nodes=num_nodes)
-    # cell = tf.nn.rnn_cell.MultiRNNCell([cell_1], state_is_tuple=True)
-    cell = tf.keras.layers.StackedRNNCells([cell_1], state_is_tuple=True)
+    cell = tf.nn.rnn_cell.MultiRNNCell([cell_1], state_is_tuple=True)
     _X = tf.unstack(_X, axis=1)
-    # outputs, states = tf.nn.static_rnn(cell, _X, dtype=tf.float32)
-    outputs, states = tf.keras.layers.RNN(cell, _X, dtype=tf.float32)
+    outputs, states = tf.nn.static_rnn(cell, _X, dtype=tf.float32)
     m = []
     for i in outputs:
         o = tf.reshape(i, shape=[-1, num_nodes, GRU_UNITS])
@@ -107,13 +105,13 @@ y_pred, ttts, ttto = TGCN(inputs, weights, biases)
 
 ### Optimizer
 lambda_loss = 0.0015
-L_reg = lambda_loss * sum(tf.nn.l2_loss(tf_var) for tf_var in tf.trainable_variables())
+L_reg = lambda_loss * sum(tf.nn.l2_loss(tf_var) for tf_var in tf.compat.v1.trainable_variables())
 label = tf.reshape(labels, [-1, num_nodes])
 
 ### Losses
 loss = tf.reduce_mean(tf.nn.l2_loss(y_pred - label) + L_reg)
 error = tf.sqrt(tf.reduce_mean(tf.square(y_pred - label)))
-optimizer = tf.train.AdamOptimizer(LR).minimize(loss)
+optimizer = tf.compat.v1.train.AdamOptimizer(LR).minimize(loss)
 
 
 def train_and_eval():
@@ -122,7 +120,7 @@ def train_and_eval():
 
     ### Initializes session
     variables = tf.global_variables()
-    saver = tf.train.Saver(tf.global_variables())
+    saver = tf.compat.v1.train.Saver(tf.global_variables())
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
     sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
     sess.run(tf.global_variables_initializer())
@@ -155,6 +153,11 @@ def train_and_eval():
     )
 
     print("-----------------------------------------\nResults of training and testing results:")
+    result_file = open(path + "/summary.txt", "a")
+    
+    # writes results to files
+    result_file.write("-----------------------------------------\nResults of training and testing results:\n")
+    
     for epoch in range(TRAINING_EPOCH):
         for m in range(total_batch):
             mini_batch = trainX[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
@@ -183,17 +186,27 @@ def train_and_eval():
         test_var.append(var_score)
         test_pred.append(test_output1)
 
-        print("Iter/Epoch #:{}".format(epoch))
-        print("Train_rmse:{:.4}".format(batch_rmse[-1]))
-        print("Test_loss:{:.4}".format(loss2))
-        print("Test_rmse:{:.4}".format(rmse))
-        print("Test_acc:{:.4}".format(acc))
+        print("----------\nIter/Epoch #: {}".format(epoch))
+        print("Train_rmse: {:.4}".format(batch_rmse[-1]))
+        print("Test_loss: {:.4}".format(loss2))
+        print("Test_rmse: {:.4}".format(rmse))
+        print("Test_acc: {:.4}\n".format(acc))
+
+        # writes results to files
+        result_file.write("----------\nIter/Epoch #: {}\n".format(epoch))
+        result_file.write("Train_rmse: {:.4}\n".format(batch_rmse[-1]))
+        result_file.write("Test_loss: {:.4}\n".format(loss2))
+        result_file.write("Test_rmse: {:.4}\n".format(rmse))
+        result_file.write("Test_acc: {:.4}\n\n".format(acc))
 
         if epoch % 500 == 0:
             saver.save(sess, path + "/model_100/TGCN_pre_%r" % epoch, global_step=epoch)
 
     time_end = time.time()
-    print(time_end - time_start, "Training Time: s")
+    print(f"Training Time: {time_end - time_start} sec")
+    
+    # writes results to files
+    result_file.write(f"Training Time: {time_end - time_start} sec.\n")
 
     ### Visualization
     b = int(len(batch_rmse) / total_batch)
@@ -216,12 +229,21 @@ def train_and_eval():
     plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path)
 
     print("-----------------------------------------\nEvaluation Metrics:")
-    print("min_rmse:%r" % (np.min(test_rmse)))
-    print("min_mae:%r" % (test_mae[index]))
-    print("max_acc:%r" % (test_acc[index]))
-    print("r2:%r" % (test_r2[index]))
-    print("var:%r" % test_var[index])
+    print("min_rmse: %r" % (np.min(test_rmse)))
+    print("min_mae: %r" % (test_mae[index]))
+    print("max_acc: %r" % (test_acc[index]))
+    print("r2: %r" % (test_r2[index]))
+    print("var: %r" % test_var[index])
+    
+    # writes results to files
+    result_file.write("-----------------------------------------\nEvaluation Metrics:")
+    result_file.write("min_rmse: %r\n" % (np.min(test_rmse)))
+    result_file.write("min_mae: %r\n" % (test_mae[index]))
+    result_file.write("max_acc: %r\n" % (test_acc[index]))
+    result_file.write("r2: %r\n" % (test_r2[index]))
+    result_file.write("var: %r\n" % test_var[index])
 
+    result_file.close()
 
 if __name__ == "__main__":
     train_and_eval()
