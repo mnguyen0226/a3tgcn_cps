@@ -1,4 +1,5 @@
 # Reference: https://github.com/lehaifeng/T-GCN/blob/master/T-GCN/T-GCN-TensorFlow/gru.py
+# Not really using this model
 
 import tensorflow as tf
 from tensorflow.contrib.rnn import RNNCell

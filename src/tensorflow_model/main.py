@@ -4,7 +4,6 @@ import pickle as plk
 import tensorflow as tf
 import pandas as pd
 import numpy as np
-import math
 import os
 from utils import preprocess_data
 from utils import load_clean_scada_data
@@ -16,7 +15,7 @@ import time
 
 ### Global variables for Optimization (Ashita)
 OP_LR = 0.001
-OP_EPOCH = 2
+OP_EPOCH = 10
 OP_BATCH_SIZE = 32
 
 ### Parse settings from command line
