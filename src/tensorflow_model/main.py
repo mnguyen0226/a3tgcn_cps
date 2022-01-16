@@ -152,6 +152,7 @@ def train_and_eval():
         [],
     )
 
+    print("-----------------------------------------\nResults of training and testing results:")
     for epoch in range(TRAINING_EPOCH):
         for m in range(total_batch):
             mini_batch = trainX[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
@@ -180,19 +181,17 @@ def train_and_eval():
         test_var.append(var_score)
         test_pred.append(test_output1)
 
-        print(
-            "Iter:{}".format(epoch),
-            "train_rmse:{:.4}".format(batch_rmse[-1]),
-            "test_loss:{:.4}".format(loss2),
-            "test_rmse:{:.4}".format(rmse),
-            "test_acc:{:.4}".format(acc),
-        )
+        print("Iter/Epoch #:{}".format(epoch))
+        print("Train_rmse:{:.4}".format(batch_rmse[-1]))
+        print("Test_loss:{:.4}".format(loss2))
+        print("Test_rmse:{:.4}".format(rmse))
+        print("Test_acc:{:.4}".format(acc))
 
         if epoch % 500 == 0:
             saver.save(sess, path + "/model_100/TGCN_pre_%r" % epoch, global_step=epoch)
 
     time_end = time.time()
-    print(time_end - time_start, "s")
+    print(time_end - time_start, "Training Time: s")
 
     ### Visualization
     b = int(len(batch_rmse) / total_batch)
@@ -211,6 +210,8 @@ def train_and_eval():
     test_result = test_pred[index]
     var = pd.DataFrame(test_result)
     var.to_csv(path + "/test_result.csv", index=False, header=False)
+    plot_result(test_result, test_label1, path)
+    plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path)
 
     print("-----------------------------------------\nTraining and Evaluating Results:")
     print("min_rmse:%r" % (np.min(test_rmse)))
