@@ -125,7 +125,11 @@ def train_and_eval():
     ### Initializes session
     variables = tf.global_variables()
     saver = tf.compat.v1.train.Saver(tf.global_variables())
+    
+    # checks for GPU
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
+    
+    # setup training session
     sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
     sess.run(tf.global_variables_initializer())
 
@@ -208,6 +212,7 @@ def train_and_eval():
         result_file.write("Test_acc: {:.4}\n\n".format(acc))
 
         if epoch % 500 == 0:
+            # saves model every 500 epoch
             saver.save(sess, path + "/model_100/TGCN_pre_%r" % epoch, global_step=epoch)
 
     time_end = time.time()
