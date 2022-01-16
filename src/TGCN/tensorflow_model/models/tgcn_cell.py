@@ -44,17 +44,19 @@ class TGCNCell(RNNCell):
             new_h = u * state + (1 - u) * c
         return new_h, new_h
 
-    def _gc(self, inputs, state, output_size, bias=0.0, scope=None): # graph convolutional networks
+    def _gc(
+        self, inputs, state, output_size, bias=0.0, scope=None
+    ):  # graph convolutional networks
         ## inputs:(-1,num_nodes)
         inputs = tf.expand_dims(inputs, 2)
-        
+
         ## state:(batch,num_node,gru_units)
         state = tf.reshape(state, (-1, self._nodes, self._units))
-        
+
         ## concat
         x_s = tf.concat([inputs, state], axis=2)
         input_size = x_s.get_shape()[2].value
-        
+
         ## (num_node,input_size,-1)
         x0 = tf.transpose(x_s, perm=[1, 2, 0])
         x0 = tf.reshape(x0, shape=[self._nodes, -1])
@@ -64,7 +66,7 @@ class TGCNCell(RNNCell):
         with tf.variable_scope(scope):
             for m in self._adj:
                 x1 = tf.sparse_tensor_dense_matmul(m, x0)
-                
+
             #                print(x1)
             x = tf.reshape(x1, shape=[self._nodes, input_size, -1])
             x = tf.transpose(x, perm=[2, 0, 1])

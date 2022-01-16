@@ -104,7 +104,9 @@ y_pred, ttts, ttto = TGCN(inputs, weights, biases)
 
 ### Optimizer
 lambda_loss = 0.0015
-L_reg = lambda_loss * sum(tf.nn.l2_loss(tf_var) for tf_var in tf.compat.v1.trainable_variables())
+L_reg = lambda_loss * sum(
+    tf.nn.l2_loss(tf_var) for tf_var in tf.compat.v1.trainable_variables()
+)
 label = tf.reshape(labels, [-1, num_nodes])
 
 ### Losses
@@ -151,12 +153,16 @@ def train_and_eval():
         [],
     )
 
-    print("-----------------------------------------\nResults of training and testing results:")
+    print(
+        "-----------------------------------------\nResults of training and testing results:"
+    )
     result_file = open(path + "/summary.txt", "a")
-    
+
     # writes results to files
-    result_file.write("-----------------------------------------\nResults of training and testing results:\n")
-    
+    result_file.write(
+        "-----------------------------------------\nResults of training and testing results:\n"
+    )
+
     for epoch in range(TRAINING_EPOCH):
         for m in range(total_batch):
             mini_batch = trainX[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
@@ -203,7 +209,7 @@ def train_and_eval():
 
     time_end = time.time()
     print(f"Training Time: {time_end - time_start} sec")
-    
+
     # writes results to files
     result_file.write(f"Training Time: {time_end - time_start} sec.\n")
 
@@ -233,7 +239,7 @@ def train_and_eval():
     print("max_acc: %r" % (test_acc[index]))
     print("r2: %r" % (test_r2[index]))
     print("var: %r" % test_var[index])
-    
+
     # writes results to files
     result_file.write("-----------------------------------------\nEvaluation Metrics:")
     result_file.write("min_rmse: %r\n" % (np.min(test_rmse)))
@@ -243,6 +249,7 @@ def train_and_eval():
     result_file.write("var: %r\n" % test_var[index])
 
     result_file.close()
+
 
 if __name__ == "__main__":
     train_and_eval()
