@@ -1,5 +1,5 @@
 # Reference: https://github.com/lehaifeng/T-GCN/blob/master/T-GCN/T-GCN-TensorFlow/gcn.py
-# Not really using this model
+# Not really using this model in TGCN, but will use for bench marking
 
 from __future__ import absolute_import
 from __future__ import division
