@@ -56,7 +56,8 @@ class TGCNCell(RNNCell):
         x0 = tf.transpose(x_s, perm=[1, 2, 0])
         x0 = tf.reshape(x0, shape=[self._nodes, -1])
 
-        scope = tf.get_variable_scope()
+        # scope = tf.get_variable_scope()
+        scope = tf.compat.v1.get_variable_scope()
         with tf.variable_scope(scope):
             for m in self._adj:
                 x1 = tf.sparse_tensor_dense_matmul(m, x0)

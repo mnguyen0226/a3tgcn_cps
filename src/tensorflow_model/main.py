@@ -16,7 +16,7 @@ import time
 
 ### Global variables for Optimization (Ashita)
 OP_LR = 0.001
-OP_EPOCH = 10
+OP_EPOCH = 2
 OP_BATCH_SIZE = 32
 
 ### Parse settings from command line
@@ -73,9 +73,11 @@ def TGCN(_X, _weights, _biases):
         _biases ([type]): biases
     """
     cell_1 = TGCNCell(GRU_UNITS, adj=adj, num_nodes=num_nodes)
-    cell = tf.nn.rnn_cell.MultiRNNCell([cell_1], state_is_tuple=True)
+    # cell = tf.nn.rnn_cell.MultiRNNCell([cell_1], state_is_tuple=True)
+    cell = tf.keras.layers.StackedRNNCells([cell_1], state_is_tuple=True)
     _X = tf.unstack(_X, axis=1)
-    outputs, states = tf.nn.static_rnn(cell, _X, dtype=tf.float32)
+    # outputs, states = tf.nn.static_rnn(cell, _X, dtype=tf.float32)
+    outputs, states = tf.keras.layers.RNN(cell, _X, dtype=tf.float32)
     m = []
     for i in outputs:
         o = tf.reshape(i, shape=[-1, num_nodes, GRU_UNITS])
@@ -90,16 +92,16 @@ def TGCN(_X, _weights, _biases):
 
 
 ### Place holders
-inputs = tf.placeholder(tf.float32, shape=[None, SEQ_LEN, num_nodes])
-labels = tf.placeholder(tf.float32, shape=[None, PRE_LEN, num_nodes])
+inputs = tf.compat.v1.placeholder(tf.float32, shape=[None, SEQ_LEN, num_nodes])
+labels = tf.compat.v1.placeholder(tf.float32, shape=[None, PRE_LEN, num_nodes])
 
 ### Graph weights
 weights = {
     "out": tf.Variable(
-        tf.random_normal([GRU_UNITS, PRE_LEN], mean=1.0), name="weight_o"
+        tf.random.normal([GRU_UNITS, PRE_LEN], mean=1.0), name="weight_o"
     )
 }
-biases = {"out": tf.Variable(tf.random_normal([PRE_LEN]), name="bias_o")}
+biases = {"out": tf.Variable(tf.random.normal([PRE_LEN]), name="bias_o")}
 
 y_pred, ttts, ttto = TGCN(inputs, weights, biases)
 
@@ -213,7 +215,7 @@ def train_and_eval():
     plot_result(test_result, test_label1, path)
     plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path)
 
-    print("-----------------------------------------\nTraining and Evaluating Results:")
+    print("-----------------------------------------\nEvaluation Metrics:")
     print("min_rmse:%r" % (np.min(test_rmse)))
     print("min_mae:%r" % (test_mae[index]))
     print("max_acc:%r" % (test_acc[index]))
