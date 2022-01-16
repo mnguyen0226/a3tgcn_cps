@@ -14,16 +14,17 @@ from utils import evaluation
 import time
 
 ### Global variables for Optimization (Ashita)
-OP_LR = 0.001
-OP_EPOCH = 10
-OP_BATCH_SIZE = 32
+OP_LR = 0.001 # learning rate 
+OP_EPOCH = 10 # number of epochs / iteration
+OP_BATCH_SIZE = 32 # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
+OP_HIDDEN_DIM = 64 # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
 ### Parse settings from command line
 flags = tf.app.flags
 FLAGS = flags.FLAGS
 flags.DEFINE_float("learning_rate", OP_LR, "Initial learning rate.")
 flags.DEFINE_integer("training_epoch", OP_EPOCH, "Number of epoch to train.")
-flags.DEFINE_integer("gru_units", 64, "hidden_units of gru")
+flags.DEFINE_integer("gru_units", OP_HIDDEN_DIM, "hidden_units of gru")
 flags.DEFINE_integer("seq_len", 12, "time length of inputs time series.")
 flags.DEFINE_integer("pre_len", 3, "time length of prediction.")
 flags.DEFINE_float("train_rate", 0.8, "rate of training set: 80% train, 20% validate.")
@@ -64,12 +65,12 @@ training_data_count = len(trainX)
 
 
 def TGCN(_X, _weights, _biases):
-    """Temporal Graph Convolutional Network = GCN + RNN
+    """TGCN model for scada batadal datasets, including multiple TGCNCell(s)
 
     Args:
-        _X ([type]): adj matrix, time series
-        _weights ([type]): weights
-        _biases ([type]): biases
+        _X: Adjacency matrix, time series.
+        _weights: Weights.
+        _biases: Biases.
     """
     cell_1 = TGCNCell(num_units=GRU_UNITS, adj=adj, num_nodes=num_nodes)
     cell = tf.nn.rnn_cell.MultiRNNCell([cell_1], state_is_tuple=True)
@@ -116,6 +117,8 @@ optimizer = tf.compat.v1.train.AdamOptimizer(LR).minimize(loss)
 
 
 def train_and_eval():
+    """Trains and evaluates TGCN on the clean_scada time-series dataset.
+    """
     print("Start the training process")
     time_start = time.time()
 
