@@ -25,8 +25,10 @@ Explainable TGCN for Water Distribution Systems
 * sklearn
 
 ### Model Training
+```
 nguye@DESKTOP-OBHI23I MINGW64 ~/OneDrive/Desktop/Senior/ECE 4994 A3 Research/xtgcn_wds_cps/src/tensorflow_model (main)
 $ python ./main.py
+```
 
 ## 4.Pytorch
 
@@ -59,7 +61,12 @@ Run tensorboard `--logdir lightning_logs/version_0` to monitor the training prog
 
 - [TGCN: A Temporal Graph Convolutional Network for Traffic Prediction](Reference: https://github.com/lehaifeng/T-GCN/tree/master/T-GCN/T-GCN-PyTorch)
 
-### Progress:
-- Need to saved and loaded train model
-- Experience with Mahalanobis Outlier
-- Experience with Attribution
+## 5.Progress:
+- Need to saved and loaded train model => Evaluate with poisoned dataset
+- :soon: Experience with Mahalanobis Outlier => Understand the pipeline
+- Provide Bench-marking results
+- Option: Continue to help Namzul with GANs
+- Option: Working on Attribution
+- Option ATCGN
+
+## TGCN mathematics

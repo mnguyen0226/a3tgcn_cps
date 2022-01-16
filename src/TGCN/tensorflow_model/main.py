@@ -71,7 +71,7 @@ def TGCN(_X, _weights, _biases):
         _weights ([type]): weights
         _biases ([type]): biases
     """
-    cell_1 = TGCNCell(GRU_UNITS, adj=adj, num_nodes=num_nodes)
+    cell_1 = TGCNCell(num_units=GRU_UNITS, adj=adj, num_nodes=num_nodes)
     cell = tf.nn.rnn_cell.MultiRNNCell([cell_1], state_is_tuple=True)
     _X = tf.unstack(_X, axis=1)
     outputs, states = tf.nn.static_rnn(cell, _X, dtype=tf.float32)
