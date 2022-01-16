@@ -18,7 +18,7 @@ def load_scada_data(dataset = 'train_clean'):
         time_series_data = pd.read_csv(r"data/processed/processed_clean_scada_dataset.csv")
         # time_series_data = pd.read_csv(r"data/processed/sz_speed.csv")
     elif(dataset == 'train_mix'):
-        time_series_data = pd.read_csv(r"data/processed/processed_clean_scada_dataset.csv")
+        time_series_data = pd.read_csv(r"data/processed/processed_clean_poisoned_scada_dataset.csv")
         # time_series_data = pd.read_csv(r"data/processed/sz_speed.csv")
     elif(dataset == 'test_mix'):
         time_series_data = pd.read_csv(r"data/processed/processed_clean_scada_dataset.csv")
