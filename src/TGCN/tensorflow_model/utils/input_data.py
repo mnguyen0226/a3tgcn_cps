@@ -9,7 +9,7 @@ def load_clean_scada_data():
     """Loads the adjacency matrix for GCN and clean time-series dataset.
 
     Returns:
-        loaded clean-time-series dataset and adjacency matrix
+        Loaded clean-time-series dataset and adjacency matrix
     """
     adj = pd.read_csv(r"data/processed/processed_scada_adj_matrix.csv", header=None)
     # adj = pd.read_csv(r"data/processed/sz_adj.csv", header=None)
@@ -23,11 +23,11 @@ def preprocess_data(data, time_len, rate, seq_len, pre_len):
     """Preprocesses training and testing dataset into batches
 
     Args:
-        data ([type]): time-series dataset
-        time_len ([type]): 15, 30, or 45 minutes
-        rate ([type]): ?
-        seq_len ([type]): ?
-        pre_len ([type]): ?
+        data: Time-series dataset.
+        time_len: Number of row in the matrix.
+        rate: %80, 20% train, evaluate split.
+        seq_len: Number of row to train =  12.
+        pre_len: Number of row to predict = 3, 6, 9, or 12.
 
     Returns:
         Preprocessed training and testing features and labels
@@ -50,7 +50,7 @@ def preprocess_data(data, time_len, rate, seq_len, pre_len):
         testX.append(batch[0:seq_len])
         testY.append(batch[seq_len : seq_len + pre_len])
 
-    # convert lists to array
+    # converts lists to array
     trainX1 = np.array(trainX)
     trainY1 = np.array(trainY)
     testX1 = np.array(testX)
