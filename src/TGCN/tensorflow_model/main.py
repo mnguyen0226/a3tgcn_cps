@@ -13,6 +13,9 @@ from utils import plot_result
 from utils import evaluation
 import time
 
+# sets time
+local_time = time.asctime(time.localtime(time.time()))
+
 ### Global variables for Optimization (Ashita)
 OP_LR = 0.001  # learning rate
 OP_EPOCH = 3  # number of epochs / iteration
@@ -171,6 +174,11 @@ def train_and_eval():
     )
     result_file = open(path + "/summary.txt", "a")
 
+    # logs in time
+    result_file.write("TIME LOG ----------------\n")
+    result_file.write(local_time + "\n")
+    result_file.write("-----------------------------------------\n")
+
     # writes results to files
     result_file.write(
         "-----------------------------------------\nResults of training and testing results:\n"
@@ -265,5 +273,10 @@ def train_and_eval():
     result_file.close()
 
 
-if __name__ == "__main__":
+# User Interface
+def main():
     train_and_eval()
+
+
+if __name__ == "__main__":
+    main()
