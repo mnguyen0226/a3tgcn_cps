@@ -165,9 +165,9 @@ def load_and_eval():
 
 # User Interface
 def main():
-    train_and_eval() 
+    # train_and_eval() 
     # load_and_retrain() # and save model
-    # load_and_eval()
+    load_and_eval()
     
 if __name__ == "__main__":
     main()
