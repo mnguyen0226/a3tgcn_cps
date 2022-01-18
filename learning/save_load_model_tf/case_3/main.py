@@ -150,13 +150,27 @@ def load_and_retrain(): # expect the accuracy to increase
         
         
 def load_and_eval():
-    print("Load model and evaluate")
+    print("\nLoad model and evaluate")
+    with tf.Session() as sess:
+        # Initialzie variables
+        sess.run(init)
+        
+        # Restore model weights from previously saved model
+        load_path = saver.restore(sess, model_path)
+        print("Model restored from file: %s" % global_save_path)
+
+        # Test model
+        correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
+        
+        # Calculate accuracy
+        accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+        print("Accuracy: ", accuracy.eval({x: mnist.test.images, y: mnist.test.labels}))
 
 # User Interface
 def main():
     # train_and_eval() 
-    
-    load_and_retrain()
+    # load_and_retrain()
+    load_and_eval()
     
 if __name__ == "__main__":
     main()
