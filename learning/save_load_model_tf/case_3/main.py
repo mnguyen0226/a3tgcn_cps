@@ -13,6 +13,7 @@ learning_rate = 0.001
 batch_size = 100
 display_step = 1
 model_path = "trained_model/model.ckpt"
+global save_path
 
 # Network parameters
 n_hidden_1 = 256 # 1st layer number of features
@@ -65,6 +66,7 @@ init = tf.global_variables_initializer()
 saver = tf.train.Saver()
                         
 def train_and_eval():
+    
     # Run first session
     print("Start 1st session...")
     with tf.Session() as sess:
@@ -100,7 +102,7 @@ def train_and_eval():
         print("Accuracy: ", accuracy.eval({x: mnist.test.images, y: mnist.test.labels}))
         
         # Save model weights to disk
-        global save_path = saver.save(sess, model_path)
+        save_path = saver.save(sess, model_path)
         print("Model saved in file: %s" % save_path)
 
 def load_and_retrain(): # expect the accuracy to increase
@@ -111,7 +113,7 @@ def load_and_retrain(): # expect the accuracy to increase
         
         # Restore model weights from previously saved model
         load_path = saver.restore(sess, model_path)
-        print("Model restored from file: %s" % save_path)
+        # print("Model restored from file: %s" % save_path)
 
         # Resume training
         for epoch in range(7):
