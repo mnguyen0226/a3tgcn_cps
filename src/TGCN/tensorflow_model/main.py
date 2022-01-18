@@ -170,18 +170,20 @@ def train_and_eval():
     )
 
     print(
-        "-----------------------------------------\nResults of training and testing results:"
+        "-----------------------------------------------\nResults of training and testing results:"
     )
     result_file = open(path + "/summary.txt", "a")
 
     # logs in time
+    result_file.write(
+        "----------------------------------------------------------------------------------------------\n"
+    )
     result_file.write("TIME LOG ----------------\n")
     result_file.write(local_time + "\n")
-    result_file.write("-----------------------------------------\n")
 
     # writes results to files
     result_file.write(
-        "-----------------------------------------\nResults of training and testing results:\n"
+        "-----------------------------------------------\n\nResults of training and testing results:\n"
     )
 
     for epoch in range(TRAINING_EPOCH):
@@ -212,14 +214,14 @@ def train_and_eval():
         test_var.append(var_score)
         test_pred.append(test_output1)
 
-        print("----------\nIter/Epoch #: {}".format(epoch))
+        print("-------------------------\nIter/Epoch #: {}".format(epoch))
         print("Train_rmse: {:.4}".format(batch_rmse[-1]))
         print("Test_loss: {:.4}".format(loss2))
         print("Test_rmse: {:.4}".format(rmse))
         print("Test_acc: {:.4}\n".format(acc))
 
         # writes results to files
-        result_file.write("----------\nIter/Epoch #: {}\n".format(epoch))
+        result_file.write("-------------------------\nIter/Epoch #: {}\n".format(epoch))
         result_file.write("Train_rmse: {:.4}\n".format(batch_rmse[-1]))
         result_file.write("Test_loss: {:.4}\n".format(loss2))
         result_file.write("Test_rmse: {:.4}\n".format(rmse))
@@ -255,7 +257,7 @@ def train_and_eval():
     plot_result(test_result, test_label1, path)
     plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path)
 
-    print("-----------------------------------------\nEvaluation Metrics:")
+    print("-----------------------------------------------\nEvaluation Metrics:")
     print("min_rmse: %r" % (np.min(test_rmse)))
     print("min_mae: %r" % (test_mae[index]))
     print("max_acc: %r" % (test_acc[index]))
@@ -263,7 +265,9 @@ def train_and_eval():
     print("var: %r" % test_var[index])
 
     # writes results to files
-    result_file.write("-----------------------------------------\nEvaluation Metrics:")
+    result_file.write(
+        "-----------------------------------------------\nEvaluation Metrics:"
+    )
     result_file.write("min_rmse: %r\n" % (np.min(test_rmse)))
     result_file.write("min_mae: %r\n" % (test_mae[index]))
     result_file.write("max_acc: %r\n" % (test_acc[index]))
