@@ -112,7 +112,7 @@ def load_and_retrain(): # expect the accuracy to increase
         
         # Restore model weights from previously saved model
         load_path = saver.restore(sess, model_path)
-        # print("Model restored from file: %s" % model_path)
+        print("Model restored from file: %s" % model_path)
 
         # Resume training
         for epoch in range(7):
@@ -154,7 +154,7 @@ def load_and_eval():
         
         # Restore model weights from previously saved model
         load_path = saver.restore(sess, model_path)
-        # print("Model restored from file: %s" % model_path)
+        print("Model restored from file: %s" % model_path)
 
         # Test model
         correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
