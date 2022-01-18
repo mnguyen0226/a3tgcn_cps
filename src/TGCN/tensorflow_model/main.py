@@ -15,7 +15,7 @@ import time
 
 ### Global variables for Optimization (Ashita)
 OP_LR = 0.001  # learning rate
-OP_EPOCH = 10  # number of epochs / iteration
+OP_EPOCH = 3  # number of epochs / iteration
 OP_BATCH_SIZE = 32  # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
 OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
@@ -64,7 +64,7 @@ total_batch = int(trainX.shape[0] / BATCH_SIZE)
 training_data_count = len(trainX)
 
 
-def TGCN(_X, _weights, _biases):
+def TGCN(_X, _weights, _biases, reuse=None):
     """TGCN model for scada batadal datasets, including multiple TGCNCell(s)
 
     Args:
@@ -72,7 +72,7 @@ def TGCN(_X, _weights, _biases):
         _weights: Weights.
         _biases: Biases.
     """
-    cell_1 = TGCNCell(num_units=GRU_UNITS, adj=adj, num_nodes=num_nodes)
+    cell_1 = TGCNCell(num_units=GRU_UNITS, adj=adj, num_nodes=num_nodes, reuse=reuse)
     cell = tf.nn.rnn_cell.MultiRNNCell([cell_1], state_is_tuple=True)
     _X = tf.unstack(_X, axis=1)
     outputs, states = tf.nn.static_rnn(cell, _X, dtype=tf.float32)
@@ -85,7 +85,9 @@ def TGCN(_X, _weights, _biases):
     output = tf.matmul(last_output, _weights["out"]) + _biases["out"]
     output = tf.reshape(output, shape=[-1, num_nodes, PRE_LEN])
     output = tf.transpose(output, perm=[0, 2, 1])
-    output = tf.reshape(output, shape=[-1, num_nodes])
+    output = tf.reshape(
+        output, shape=[-1, num_nodes], name="op_to_restore"
+    )  # name for restoration
     return output, m, states
 
 
@@ -102,7 +104,7 @@ weights = {
 biases = {"out": tf.Variable(tf.random.normal([PRE_LEN]), name="bias_o")}
 
 ### Define TGCN model
-y_pred, ttts, ttto = TGCN(inputs, weights, biases)
+y_pred, _, _ = TGCN(inputs, weights, biases)
 
 ### Optimizer
 lambda_loss = 0.0015
