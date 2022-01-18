@@ -12,8 +12,7 @@ mnist = input_data.read_data_sets("MNIST_data/", one_hot = True)
 learning_rate = 0.001
 batch_size = 100
 display_step = 1
-model_path = "trained_model/model.ckpt"
-global save_path
+model_path = "trained_model_2/model.ckpt"
 
 # Network parameters
 n_hidden_1 = 256 # 1st layer number of features
@@ -166,9 +165,9 @@ def load_and_eval():
 
 # User Interface
 def main():
-    # train_and_eval() 
+    train_and_eval() 
     # load_and_retrain()
-    load_and_eval()
+    # load_and_eval()
     
 if __name__ == "__main__":
     main()
