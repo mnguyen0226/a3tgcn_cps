@@ -63,9 +63,7 @@ init = tf.global_variables_initializer()
 
 # 'Saver" op to save and restore all the variables
 saver = tf.train.Saver()
-            
-global_save_path = ""  
-            
+                        
 def train_and_eval():
     # Run first session
     print("Start 1st session...")
@@ -102,8 +100,7 @@ def train_and_eval():
         print("Accuracy: ", accuracy.eval({x: mnist.test.images, y: mnist.test.labels}))
         
         # Save model weights to disk
-        save_path = saver.save(sess, model_path)
-        global_save_path = save_path
+        global save_path = saver.save(sess, model_path)
         print("Model saved in file: %s" % save_path)
 
 def load_and_retrain(): # expect the accuracy to increase
@@ -114,7 +111,7 @@ def load_and_retrain(): # expect the accuracy to increase
         
         # Restore model weights from previously saved model
         load_path = saver.restore(sess, model_path)
-        print("Model restored from file: %s" % global_save_path)
+        print("Model restored from file: %s" % save_path)
 
         # Resume training
         for epoch in range(7):
@@ -143,10 +140,9 @@ def load_and_retrain(): # expect the accuracy to increase
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
         print("Accuracy: ", accuracy.eval({x: mnist.test.images, y: mnist.test.labels}))
         
-        # # Save model weights to disk
-        # save_path = saver.save(sess, model_path)
-        # global_save_path = save_path
-        # print("Model saved in file: %s" % save_path)
+        # Save model weights to disk -- override saved model
+        save_path = saver.save(sess, model_path)
+        print("Model saved in file: %s" % save_path)
         
         
 def load_and_eval():
@@ -157,7 +153,7 @@ def load_and_eval():
         
         # Restore model weights from previously saved model
         load_path = saver.restore(sess, model_path)
-        print("Model restored from file: %s" % global_save_path)
+        print("Model restored from file: %s" % save_path)
 
         # Test model
         correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
@@ -169,8 +165,8 @@ def load_and_eval():
 # User Interface
 def main():
     # train_and_eval() 
-    # load_and_retrain()
-    load_and_eval()
+    load_and_retrain()
+    # load_and_eval()
     
 if __name__ == "__main__":
     main()
