@@ -123,17 +123,22 @@ loss = tf.reduce_mean(tf.nn.l2_loss(y_pred - label) + L_reg)
 error = tf.sqrt(tf.reduce_mean(tf.square(y_pred - label)))
 optimizer = tf.compat.v1.train.AdamOptimizer(LR).minimize(loss)
 
+### Initialize the variables
+init = tf.global_variables_initializer()
+
+### 'saver' op to save and restore all the variables
+saver = tf.train.Saver()
 
 def train_and_eval():
     """Trains and evaluates TGCN on the clean_scada time-series dataset."""
-    print("Start the training process")
+    print("Start the training and saving process")
     time_start = time.time()
 
     # Initializes session
-    variables = tf.global_variables()
+    # variables = tf.global_variables()
 
     # Create a saver object which will save all the variables
-    saver = tf.compat.v1.train.Saver(tf.global_variables())
+    # saver = tf.compat.v1.train.Saver(tf.global_variables())
 
     # Checks for GPU
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
@@ -275,6 +280,11 @@ def train_and_eval():
     result_file.write("var: %r\n" % test_var[index])
 
     result_file.close()
+
+def load_and_eval():
+    """Loads and evaluates trained model"""
+    print("Start the loading and evaluating process")
+
 
 
 def main():
