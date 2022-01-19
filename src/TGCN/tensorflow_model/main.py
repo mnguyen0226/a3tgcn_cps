@@ -18,7 +18,7 @@ local_time = time.asctime(time.localtime(time.time()))
 
 ### Global variables for Optimization (Ashita)
 OP_LR = 0.001  # learning rate
-OP_EPOCH = 3  # number of epochs / iteration
+OP_EPOCH = 15  # number of epochs / iteration
 OP_BATCH_SIZE = 32  # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
 OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
@@ -145,7 +145,7 @@ def train_and_eval():
 
     # Setups training session
     sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
-    sess.run(tf.global_variables_initializer())
+    sess.run(init)
 
     out = "out/%s" % (MODEL_NAME)
     path1 = "%s_%s_lr%r_batch%r_unit%r_seq%r_pre%r_epoch%r" % (
@@ -284,12 +284,74 @@ def train_and_eval():
 def load_and_eval():
     """Loads and evaluates trained model"""
     print("Start the loading and evaluating process")
+    time_start = time.time()
+    
+    # Checks for GPU
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
 
+    # Setups traininng session
+    sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
+    sess.run(init)
 
+    # Chooses trained model path
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre3_epoch15/model_100/TGCN_pre_0-0"
+
+    # Loads model from trained path
+    load_path = saver.restore(sess, saved_path)
+
+    # Initializes the array for testing results
+    test_loss, test_rmse, test_mae, test_acc, test_r2, test_var, test_pred = (
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+    )
+
+    # Tests completely at every epoch
+    loss2, rmse2, test_output = sess.run(
+        [loss, error, y_pred], feed_dict={inputs: testX, labels: testY}
+    )
+
+    # Provides testing results 
+    test_label = np.reshape(testY, [-1, num_nodes])
+    rmse, mae, acc, r2_score, var_score = evaluation(test_label, test_output)
+    test_label1 = test_label * max_value
+    test_output1 = test_output * max_value
+    test_loss.append(loss2)
+    test_rmse.append(rmse * max_value)
+    test_mae.append(mae * max_value)
+    test_acc.append(acc)
+    test_r2.append(r2_score)
+    test_var.append(var_score)
+    test_pred.append(test_output1)
+
+    # Set index and provides test results
+    index = test_rmse.index(np.min(test_rmse))
+    test_result = test_pred[index]
+
+    # Plots results
+    path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre3_epoch15/new/"
+    plot_result(test_result, test_label1, path)
+    plot_error(_, _, test_rmse, test_acc, test_mae, path, plot_eval = True)
+
+    # Prints out testing results
+    print("-----------------------------------------------\nEvaluation Metrics:")
+    print("min_rmse: %r" % (np.min(test_rmse)))
+    print("min_mae: %r" % (test_mae[index]))
+    print("max_acc: %r" % (test_acc[index]))
+    print("r2: %r" % (test_r2[index]))
+    print("var: %r" % test_var[index])
+    
+    time_end = time.time()
+    print(f"Training Time: {time_end - time_start} sec")
 
 def main():
     """User Interface"""
-    train_and_eval()
+    # train_and_eval()
+    load_and_eval()
 
 
 if __name__ == "__main__":

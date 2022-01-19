@@ -36,7 +36,7 @@ def plot_result(test_result, test_label, path):
     plt.show()
 
 
-def plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path):
+def plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path, plot_eval=False):
     """Plots rmse, loss, accuracy, mae
 
     Args:
@@ -47,44 +47,66 @@ def plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path):
         test_mae: List of mean absolute error on testing dataset.
         path: Saving image results in path.
     """
-    # train_rmse & test_rmse
-    fig1 = plt.figure(figsize=(5, 3))
-    plt.plot(train_rmse, "r-", label="train_rmse")
-    plt.plot(test_rmse, "b-", label="test_rmse")
-    plt.legend(loc="best", fontsize=10)
-    plt.savefig(path + "/rmse.jpg")
-    plt.show()
+    if(plot_eval == False):
+        # train_rmse & test_rmse
+        fig1 = plt.figure(figsize=(5, 3))
+        plt.plot(train_rmse, "r-", label="train_rmse")
+        plt.plot(test_rmse, "b-", label="test_rmse")
+        plt.legend(loc="best", fontsize=10)
+        plt.savefig(path + "/rmse.jpg")
+        plt.show()
 
-    # train_loss & train_rmse
-    fig1 = plt.figure(figsize=(5, 3))
-    plt.plot(train_loss, "b-", label="train_loss")
-    plt.legend(loc="best", fontsize=10)
-    plt.savefig(path + "/train_loss.jpg")
-    plt.show()
+        # train_loss & train_rmse
+        fig1 = plt.figure(figsize=(5, 3))
+        plt.plot(train_loss, "b-", label="train_loss")
+        plt.legend(loc="best", fontsize=10)
+        plt.savefig(path + "/train_loss.jpg")
+        plt.show()
 
-    fig1 = plt.figure(figsize=(5, 3))
-    plt.plot(train_rmse, "b-", label="train_rmse")
-    plt.legend(loc="best", fontsize=10)
-    plt.savefig(path + "/train_rmse.jpg")
-    plt.show()
+        fig1 = plt.figure(figsize=(5, 3))
+        plt.plot(train_rmse, "b-", label="train_rmse")
+        plt.legend(loc="best", fontsize=10)
+        plt.savefig(path + "/train_rmse.jpg")
+        plt.show()
 
-    # accuracy
-    fig1 = plt.figure(figsize=(5, 3))
-    plt.plot(test_acc, "b-", label="test_acc")
-    plt.legend(loc="best", fontsize=10)
-    plt.savefig(path + "/test_acc.jpg")
-    plt.show()
+        # test accuracy
+        fig1 = plt.figure(figsize=(5, 3))
+        plt.plot(test_acc, "b-", label="test_acc")
+        plt.legend(loc="best", fontsize=10)
+        plt.savefig(path + "/test_acc.jpg")
+        plt.show()
 
-    # rmse
-    fig1 = plt.figure(figsize=(5, 3))
-    plt.plot(test_rmse, "b-", label="test_rmse")
-    plt.legend(loc="best", fontsize=10)
-    plt.savefig(path + "/test_rmse.jpg")
-    plt.show()
+        # test rmse
+        fig1 = plt.figure(figsize=(5, 3))
+        plt.plot(test_rmse, "b-", label="test_rmse")
+        plt.legend(loc="best", fontsize=10)
+        plt.savefig(path + "/test_rmse.jpg")
+        plt.show()
 
-    # mae
-    fig1 = plt.figure(figsize=(5, 3))
-    plt.plot(test_mae, "b-", label="test_mae")
-    plt.legend(loc="best", fontsize=10)
-    plt.savefig(path + "/test_mae.jpg")
-    plt.show()
+        # test mae
+        fig1 = plt.figure(figsize=(5, 3))
+        plt.plot(test_mae, "b-", label="test_mae")
+        plt.legend(loc="best", fontsize=10)
+        plt.savefig(path + "/test_mae.jpg")
+        plt.show()
+    elif(plot_eval == True):
+        # train accuracy
+        fig1 = plt.figure(figsize=(5, 3))
+        plt.plot(test_acc, "b-", label="test_acc")
+        plt.legend(loc="best", fontsize=10)
+        plt.savefig(path + "/test_acc.jpg")
+        plt.show()
+
+        # train rmse
+        fig1 = plt.figure(figsize=(5, 3))
+        plt.plot(test_rmse, "b-", label="test_rmse")
+        plt.legend(loc="best", fontsize=10)
+        plt.savefig(path + "/test_rmse.jpg")
+        plt.show()
+
+        # train mae
+        fig1 = plt.figure(figsize=(5, 3))
+        plt.plot(test_mae, "b-", label="test_mae")
+        plt.legend(loc="best", fontsize=10)
+        plt.savefig(path + "/test_mae.jpg")
+        plt.show()
