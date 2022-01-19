@@ -13,7 +13,7 @@ from utils import plot_result
 from utils import evaluation
 import time
 
-# sets time
+### Sets time for saving different trained time model
 local_time = time.asctime(time.localtime(time.time()))
 
 ### Global variables for Optimization (Ashita)
@@ -22,7 +22,7 @@ OP_EPOCH = 3  # number of epochs / iteration
 OP_BATCH_SIZE = 32  # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
 OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
-### Parse settings from command line
+### Parses settings from command line
 flags = tf.app.flags
 FLAGS = flags.FLAGS
 flags.DEFINE_float("learning_rate", OP_LR, "Initial learning rate.")
@@ -44,7 +44,7 @@ GRU_UNITS = FLAGS.gru_units
 MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
 
-# Loads data
+### Loads data
 data, adj = load_scada_data()
 
 time_len = data.shape[0]
@@ -62,7 +62,7 @@ trainX, trainY, testX, testY = preprocess_data(
     pre_len=PRE_LEN,
 )
 
-# Gets number of batches
+### Gets number of batches
 total_batch = int(trainX.shape[0] / BATCH_SIZE)
 training_data_count = len(trainX)
 
@@ -94,7 +94,7 @@ def TGCN(_X, _weights, _biases, reuse=None):
     return output, m, states
 
 
-### Prepare to feed input to model: includes inputs and labels, this also includes the feed_dict in the train_and_eval()
+### Prepares to feed input to model: includes inputs and labels, this also includes the feed_dict in the train_and_eval()
 inputs = tf.compat.v1.placeholder(tf.float32, shape=[None, SEQ_LEN, num_nodes])
 labels = tf.compat.v1.placeholder(tf.float32, shape=[None, PRE_LEN, num_nodes])
 
@@ -111,7 +111,8 @@ y_pred, _, _ = TGCN(inputs, weights, biases)
 
 ### Optimizer
 lambda_loss = 0.0015
-# L2 regularization to avoid over fit
+
+### L2 regularization to avoid over fit
 L_reg = lambda_loss * sum(
     tf.nn.l2_loss(tf_var) for tf_var in tf.compat.v1.trainable_variables()
 )
@@ -124,21 +125,20 @@ optimizer = tf.compat.v1.train.AdamOptimizer(LR).minimize(loss)
 
 
 def train_and_eval():
-    """Trains and evaluates TGCN on the clean_scada time-series dataset.
-    """
+    """Trains and evaluates TGCN on the clean_scada time-series dataset."""
     print("Start the training process")
     time_start = time.time()
 
-    # initializes session
+    # Initializes session
     variables = tf.global_variables()
 
-    # create a saver object which will save all the variables
+    # Create a saver object which will save all the variables
     saver = tf.compat.v1.train.Saver(tf.global_variables())
 
-    # checks for GPU
+    # Checks for GPU
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
 
-    # setup training session
+    # Setups training session
     sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
     sess.run(tf.global_variables_initializer())
 
@@ -174,14 +174,14 @@ def train_and_eval():
     )
     result_file = open(path + "/summary.txt", "a")
 
-    # logs in time
+    # Logs in time
     result_file.write(
         "----------------------------------------------------------------------------------------------\n"
     )
     result_file.write("TIME LOG ----------------\n")
     result_file.write(local_time + "\n")
 
-    # writes results to files
+    # Writes results to files
     result_file.write(
         "-----------------------------------------------\n\nResults of training and testing results:\n"
     )
@@ -220,7 +220,7 @@ def train_and_eval():
         print("Test_rmse: {:.4}".format(rmse))
         print("Test_acc: {:.4}\n".format(acc))
 
-        # writes results to files
+        # Writes results to files
         result_file.write("-------------------------\nIter/Epoch #: {}\n".format(epoch))
         result_file.write("Train_rmse: {:.4}\n".format(batch_rmse[-1]))
         result_file.write("Test_loss: {:.4}\n".format(loss2))
@@ -228,16 +228,16 @@ def train_and_eval():
         result_file.write("Test_acc: {:.4}\n\n".format(acc))
 
         if epoch % 500 == 0:
-            # saves model every 500 epoch
+            # Saves model every 500 epoch
             saver.save(sess, path + "/model_100/TGCN_pre_%r" % epoch, global_step=epoch)
 
     time_end = time.time()
     print(f"Training Time: {time_end - time_start} sec")
 
-    # writes results to files
+    # Writes results to files
     result_file.write(f"Training Time: {time_end - time_start} sec.\n")
 
-    ### Visualization
+    # Visualization
     b = int(len(batch_rmse) / total_batch)
     batch_rmse1 = [i for i in batch_rmse]
     train_rmse = [
@@ -264,7 +264,7 @@ def train_and_eval():
     print("r2: %r" % (test_r2[index]))
     print("var: %r" % test_var[index])
 
-    # writes results to files
+    # Writes results to files
     result_file.write(
         "-----------------------------------------------\nEvaluation Metrics:"
     )
@@ -277,8 +277,8 @@ def train_and_eval():
     result_file.close()
 
 
-# User Interface
 def main():
+    """User Interface"""
     train_and_eval()
 
 
