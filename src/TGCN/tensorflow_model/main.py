@@ -337,6 +337,15 @@ def load_and_eval():
     plot_result(test_result, test_label1, path)
     plot_error(_, _, test_rmse, test_acc, test_mae, path, plot_eval = True)
 
+    # Debug:
+    print(f"Test Loss - shape: {np.array(test_loss).shape}: {test_loss}")
+    print(f"Test RMSE - shape: {np.array(test_rmse).shape}: {test_rmse}")    
+    print(f"Test MAE - shape: {np.array(test_mae).shape}: {test_mae}")
+    print(f"Test Accuracy - shape: {np.array(test_acc).shape}: {test_acc}")
+    print(f"Test R2 - shape: {np.array(test_r2).shape}: {test_r2}")
+    print(f"Test Variance - shape: {np.array(test_var).shape}: {test_var}")
+    print(f"Test Prediction - shape: {np.array(test_pred).shape}: {test_pred}")
+
     # Prints out testing results
     print("-----------------------------------------------\nEvaluation Metrics:")
     print("min_rmse: %r" % (np.min(test_rmse)))
@@ -350,8 +359,8 @@ def load_and_eval():
 
 def main():
     """User Interface"""
-    # train_and_eval()
-    load_and_eval()
+    train_and_eval()
+    # load_and_eval()
 
 
 if __name__ == "__main__":

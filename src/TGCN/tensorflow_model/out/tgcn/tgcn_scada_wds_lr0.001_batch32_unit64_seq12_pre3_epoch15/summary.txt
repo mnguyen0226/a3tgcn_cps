@@ -234,3 +234,121 @@ min_mae: 6.239357
 max_acc: 0.7541923820972443
 r2: -0.581206202507019
 var: 0.8986615687608719
+----------------------------------------------------------------------------------------------
+TIME LOG ----------------
+Wed Jan 19 13:28:49 2022
+-----------------------------------------------
+
+Results of training and testing results:
+-------------------------
+Iter/Epoch #: 0
+Train_rmse: 24.88
+Test_loss: 3.454e+03
+Test_rmse: 0.2067
+Test_acc: 0.398
+
+-------------------------
+Iter/Epoch #: 1
+Train_rmse: 21.28
+Test_loss: 2.603e+03
+Test_rmse: 0.1795
+Test_acc: 0.4774
+
+-------------------------
+Iter/Epoch #: 2
+Train_rmse: 18.88
+Test_loss: 2.073e+03
+Test_rmse: 0.1601
+Test_acc: 0.5337
+
+-------------------------
+Iter/Epoch #: 3
+Train_rmse: 16.28
+Test_loss: 1.557e+03
+Test_rmse: 0.1388
+Test_acc: 0.5959
+
+-------------------------
+Iter/Epoch #: 4
+Train_rmse: 14.31
+Test_loss: 1.237e+03
+Test_rmse: 0.1237
+Test_acc: 0.6398
+
+-------------------------
+Iter/Epoch #: 5
+Train_rmse: 13.07
+Test_loss: 1.057e+03
+Test_rmse: 0.1143
+Test_acc: 0.6671
+
+-------------------------
+Iter/Epoch #: 6
+Train_rmse: 11.93
+Test_loss: 929.1
+Test_rmse: 0.1072
+Test_acc: 0.6879
+
+-------------------------
+Iter/Epoch #: 7
+Train_rmse: 11.24
+Test_loss: 817.2
+Test_rmse: 0.1005
+Test_acc: 0.7073
+
+-------------------------
+Iter/Epoch #: 8
+Train_rmse: 10.73
+Test_loss: 749.1
+Test_rmse: 0.09623
+Test_acc: 0.7198
+
+-------------------------
+Iter/Epoch #: 9
+Train_rmse: 10.52
+Test_loss: 756.8
+Test_rmse: 0.09672
+Test_acc: 0.7184
+
+-------------------------
+Iter/Epoch #: 10
+Train_rmse: 10.44
+Test_loss: 702.5
+Test_rmse: 0.09318
+Test_acc: 0.7287
+
+-------------------------
+Iter/Epoch #: 11
+Train_rmse: 10.24
+Test_loss: 676.5
+Test_rmse: 0.09144
+Test_acc: 0.7337
+
+-------------------------
+Iter/Epoch #: 12
+Train_rmse: 10.09
+Test_loss: 654.7
+Test_rmse: 0.08995
+Test_acc: 0.7381
+
+-------------------------
+Iter/Epoch #: 13
+Train_rmse: 9.96
+Test_loss: 635.4
+Test_rmse: 0.08862
+Test_acc: 0.742
+
+-------------------------
+Iter/Epoch #: 14
+Train_rmse: 9.849
+Test_loss: 618.1
+Test_rmse: 0.0874
+Test_acc: 0.7455
+
+Training Time: 491.1295371055603 sec.
+-----------------------------------------------
+Evaluation Metrics:min_rmse: 10.72428708509676
+min_mae: 6.6240296
+max_acc: 0.7455098032951355
+r2: -0.608727216720581
+var: 0.8896092772483826
