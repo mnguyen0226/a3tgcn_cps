@@ -29,7 +29,7 @@ flags.DEFINE_float("learning_rate", OP_LR, "Initial learning rate.")
 flags.DEFINE_integer("training_epoch", OP_EPOCH, "Number of epoch to train.")
 flags.DEFINE_integer("gru_units", OP_HIDDEN_DIM, "hidden_units of gru")
 flags.DEFINE_integer("seq_len", 12, "time length of inputs time series.")
-flags.DEFINE_integer("pre_len", 3, "time length of prediction.")
+flags.DEFINE_integer("pre_len", 1, "time length of prediction.")
 flags.DEFINE_float("train_rate", 0.8, "rate of training set: 80% train, 20% validate.")
 flags.DEFINE_integer("batch_size", OP_BATCH_SIZE, "batch size.")
 
