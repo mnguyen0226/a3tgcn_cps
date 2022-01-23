@@ -295,7 +295,7 @@ def load_and_eval():
     sess.run(init)
 
     # Chooses trained model path (CHANGE)
-    saved_path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre1_epoch15/model_100/TGCN_pre_0-0"
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre1_epoch15/model_100/TGCN_pre_14-14"
 
     # Loads model from trained path
     load_path = saver.restore(sess, saved_path)

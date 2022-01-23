@@ -1,2 +1,6 @@
-model_checkpoint_path: "TGCN_pre_0-0"
-all_model_checkpoint_paths: "TGCN_pre_0-0"
+model_checkpoint_path: "TGCN_pre_14-14"
+all_model_checkpoint_paths: "TGCN_pre_10-10"
+all_model_checkpoint_paths: "TGCN_pre_11-11"
+all_model_checkpoint_paths: "TGCN_pre_12-12"
+all_model_checkpoint_paths: "TGCN_pre_13-13"
+all_model_checkpoint_paths: "TGCN_pre_14-14"
