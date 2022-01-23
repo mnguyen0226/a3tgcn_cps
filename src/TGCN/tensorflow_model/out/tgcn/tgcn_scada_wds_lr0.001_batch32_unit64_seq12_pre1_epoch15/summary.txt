@@ -1,0 +1,112 @@
+----------------------------------------------------------------------------------------------
+TIME LOG ----------------
+Sun Jan 23 14:52:20 2022
+-----------------------------------------------
+
+Results of training and testing results:
+-------------------------
+Iter/Epoch #: 0
+Train_rmse: 17.66
+Test_loss: 606.4
+Test_rmse: 0.1499
+Test_acc: 0.5635
+
+-------------------------
+Iter/Epoch #: 1
+Train_rmse: 12.91
+Test_loss: 348.0
+Test_rmse: 0.1135
+Test_acc: 0.6694
+
+-------------------------
+Iter/Epoch #: 2
+Train_rmse: 11.22
+Test_loss: 305.8
+Test_rmse: 0.1064
+Test_acc: 0.6902
+
+-------------------------
+Iter/Epoch #: 3
+Train_rmse: 10.16
+Test_loss: 246.2
+Test_rmse: 0.09546
+Test_acc: 0.722
+
+-------------------------
+Iter/Epoch #: 4
+Train_rmse: 9.718
+Test_loss: 229.4
+Test_rmse: 0.09214
+Test_acc: 0.7317
+
+-------------------------
+Iter/Epoch #: 5
+Train_rmse: 9.43
+Test_loss: 214.4
+Test_rmse: 0.08907
+Test_acc: 0.7406
+
+-------------------------
+Iter/Epoch #: 6
+Train_rmse: 9.718
+Test_loss: 210.0
+Test_rmse: 0.08815
+Test_acc: 0.7433
+
+-------------------------
+Iter/Epoch #: 7
+Train_rmse: 9.506
+Test_loss: 182.7
+Test_rmse: 0.08222
+Test_acc: 0.7606
+
+-------------------------
+Iter/Epoch #: 8
+Train_rmse: 8.614
+Test_loss: 172.1
+Test_rmse: 0.07979
+Test_acc: 0.7677
+
+-------------------------
+Iter/Epoch #: 9
+Train_rmse: 8.432
+Test_loss: 162.1
+Test_rmse: 0.07743
+Test_acc: 0.7746
+
+-------------------------
+Iter/Epoch #: 10
+Train_rmse: 8.274
+Test_loss: 155.4
+Test_rmse: 0.07581
+Test_acc: 0.7793
+
+-------------------------
+Iter/Epoch #: 11
+Train_rmse: 8.159
+Test_loss: 150.3
+Test_rmse: 0.07455
+Test_acc: 0.7829
+
+-------------------------
+Iter/Epoch #: 12
+Train_rmse: 8.071
+Test_loss: 146.4
+Test_rmse: 0.07356
+Test_acc: 0.7858
+
+-------------------------
+Iter/Epoch #: 13
+Train_rmse: 7.997
+Test_loss: 143.2
+Test_rmse: 0.07277
+Test_acc: 0.7881
+
+-------------------------
+Iter/Epoch #: 14
+Train_rmse: 7.937
+Test_loss: 140.8
+Test_rmse: 0.07214
+Test_acc: 0.79
+
+Training Time: 179.14124846458435 sec.
