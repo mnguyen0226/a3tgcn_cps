@@ -43,6 +43,7 @@ TRAINING_EPOCH = FLAGS.training_epoch
 GRU_UNITS = FLAGS.gru_units
 MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
+SAVING_STEP = 1
 
 ### Loads data
 data, adj = load_scada_data()
@@ -202,7 +203,7 @@ def train_and_eval():
             batch_loss.append(loss1)
             batch_rmse.append(rmse1 * max_value)
 
-        # Tests completely at every epoch
+        # Tests/Evaluates completely at every epoch
         loss2, rmse2, test_output = sess.run(
             [loss, error, y_pred], feed_dict={inputs: testX, labels: testY}
         )
@@ -232,8 +233,8 @@ def train_and_eval():
         result_file.write("Test_rmse: {:.4}\n".format(rmse))
         result_file.write("Test_acc: {:.4}\n\n".format(acc))
 
-        if epoch % 500 == 0:
-            # Saves model every 500 epoch
+        if epoch % SAVING_STEP == 0:
+            # Saves model every SAVING_STEP epoch
             saver.save(sess, path + "/model_100/TGCN_pre_%r" % epoch, global_step=epoch)
 
     time_end = time.time()
@@ -293,8 +294,8 @@ def load_and_eval():
     sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
     sess.run(init)
 
-    # Chooses trained model path
-    saved_path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre3_epoch15/model_100/TGCN_pre_0-0"
+    # Chooses trained model path (CHANGE)
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre1_epoch15/model_100/TGCN_pre_0-0"
 
     # Loads model from trained path
     load_path = saver.restore(sess, saved_path)
@@ -332,8 +333,8 @@ def load_and_eval():
     index = test_rmse.index(np.min(test_rmse))
     test_result = test_pred[index]
 
-    # Plots results
-    path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre3_epoch15/new/"
+    # Plots results (CHANGE & creates eval dir)
+    path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre1_epoch15/eval/"
     plot_result(test_result, test_label1, path)
     plot_error(_, _, test_rmse, test_acc, test_mae, path, plot_eval = True)
 
@@ -359,8 +360,8 @@ def load_and_eval():
 
 def main():
     """User Interface"""
-    train_and_eval()
-    # load_and_eval()
+    # train_and_eval()
+    load_and_eval()
 
 
 if __name__ == "__main__":

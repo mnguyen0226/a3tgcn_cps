@@ -21,7 +21,7 @@ n_hidden_2 = 256  # 2nd layer number of features
 n_input = 784  # MNIST data input (img_shape = 28x28)
 n_classes = 10  # MNIST total classes (0-9 digits)
 
-# Tf graph input
+# Tf graph input features and labels
 x = tf.placeholder("float", [None, n_input])
 y = tf.placeholder("float", [None, n_classes])
 
@@ -106,7 +106,7 @@ def train_and_eval():
 
         # Calculate accuracy
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-        print("Accuracy: ", accuracy.eval({x: mnist.test.images, y: mnist.test.labels}))
+        print("Accuracy: ", accuracy.eval({x: mnist.test.images, y: mnist.test.labels})) # evaluate on the predefined testing dataset
 
         # Save model weights to disk
         save_path = saver.save(sess, model_path)
@@ -148,7 +148,7 @@ def load_and_retrain():  # expect the accuracy to increase
                 )
         print("Second Optimization Finished!")
 
-        # Test model
+        # Test model - highest output of prediction vs the label
         correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
 
         # Calculate accuracy
@@ -172,12 +172,12 @@ def load_and_eval():
         load_path = saver.restore(sess, model_path)
         print("Model restored from file: %s" % model_path)
 
-        # Test model
+        # Test model - make prediction
         correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
 
         # Calculate accuracy
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-        print("Accuracy: ", accuracy.eval({x: mnist.test.images, y: mnist.test.labels}))
+        print("Accuracy: ", accuracy.eval({x: mnist.test.images, y: mnist.test.labels})) # evaluate on the predefined testing dataset
 
 
 # User Interface
