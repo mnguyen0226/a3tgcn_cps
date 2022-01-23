@@ -50,14 +50,14 @@ Explainable TGCN for Water Distribution Systems
 
 ### Requirements
 
-- tensorflow == 1.14
-- python == 3.7
-- scipy
-- numpy
-- matplotlib
-- pandas
+- tensorflow == 1.14 (conda install -c conda-forge tensorflow=1.14)
+- python == 3.7 
+- scipy (conda install -c anaconda scipy)
+- numpy (conda install -c anaconda numpy)
+- matplotlib (conda install -c conda-forge matplotlib)
+- pandas (conda install -c anaconda pandas)
 - math
-- sklearn
+- sklearn (conda install -c anaconda scikit-learn)
 
 ### Model Training
 
