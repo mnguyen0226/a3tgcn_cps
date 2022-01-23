@@ -130,6 +130,7 @@ init = tf.global_variables_initializer()
 ### 'saver' op to save and restore all the variables
 saver = tf.train.Saver()
 
+
 def train_and_eval():
     """Trains and evaluates TGCN on the clean_scada time-series dataset."""
     print("Start the training and saving process")
@@ -282,11 +283,12 @@ def train_and_eval():
 
     result_file.close()
 
+
 def load_and_eval():
     """Loads and evaluates trained model"""
     print("Start the loading and evaluating process")
     time_start = time.time()
-    
+
     # Checks for GPU
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
 
@@ -316,7 +318,7 @@ def load_and_eval():
         [loss, error, y_pred], feed_dict={inputs: testX, labels: testY}
     )
 
-    # Provides testing results 
+    # Provides testing results
     test_label = np.reshape(testY, [-1, num_nodes])
     rmse, mae, acc, r2_score, var_score = evaluation(test_label, test_output)
     test_label1 = test_label * max_value
@@ -336,11 +338,11 @@ def load_and_eval():
     # Plots results (CHANGE & creates eval dir)
     path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre1_epoch15/eval/"
     plot_result(test_result, test_label1, path)
-    plot_error(_, _, test_rmse, test_acc, test_mae, path, plot_eval = True)
+    plot_error(_, _, test_rmse, test_acc, test_mae, path, plot_eval=True)
 
     # Debug:
     print(f"Test Loss - shape: {np.array(test_loss).shape}: {test_loss}")
-    print(f"Test RMSE - shape: {np.array(test_rmse).shape}: {test_rmse}")    
+    print(f"Test RMSE - shape: {np.array(test_rmse).shape}: {test_rmse}")
     print(f"Test MAE - shape: {np.array(test_mae).shape}: {test_mae}")
     print(f"Test Accuracy - shape: {np.array(test_acc).shape}: {test_acc}")
     print(f"Test R2 - shape: {np.array(test_r2).shape}: {test_r2}")
@@ -354,9 +356,10 @@ def load_and_eval():
     print("max_acc: %r" % (test_acc[index]))
     print("r2: %r" % (test_r2[index]))
     print("var: %r" % test_var[index])
-    
+
     time_end = time.time()
     print(f"Training Time: {time_end - time_start} sec")
+
 
 def main():
     """User Interface"""

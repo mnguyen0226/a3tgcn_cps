@@ -36,7 +36,9 @@ def plot_result(test_result, test_label, path):
     plt.show()
 
 
-def plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path, plot_eval=False):
+def plot_error(
+    train_rmse, train_loss, test_rmse, test_acc, test_mae, path, plot_eval=False
+):
     """Plots rmse, loss, accuracy, mae
 
     Args:
@@ -47,7 +49,7 @@ def plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path, plot
         test_mae: List of mean absolute error on testing dataset.
         path: Saving image results in path.
     """
-    if(plot_eval == False):
+    if plot_eval == False:
         # train_rmse & test_rmse
         fig1 = plt.figure(figsize=(5, 3))
         plt.plot(train_rmse, "r-", label="train_rmse")
@@ -89,7 +91,7 @@ def plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path, plot
         plt.legend(loc="best", fontsize=10)
         plt.savefig(path + "/test_mae.png")
         plt.show()
-    elif(plot_eval == True):
+    elif plot_eval == True:
         # train accuracy
         fig1 = plt.figure(figsize=(5, 3))
         plt.plot(test_acc, "b-", label="test_acc")

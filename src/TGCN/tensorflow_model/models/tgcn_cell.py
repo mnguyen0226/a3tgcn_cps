@@ -43,7 +43,7 @@ class TGCNCell(RNNCell):
     def __call__(self, inputs, state, scope=None):
         """Built-in methods in Python enable to write classes where the instances behave like function and can be called as function.
         Reference: https://www.geeksforgeeks.org/__call__-in-python/
-        
+
         These are functions in 1 TGCN cells: https://arxiv.org/pdf/1811.05320.pdf
 
         Args:
@@ -75,14 +75,14 @@ class TGCNCell(RNNCell):
 
     def _gc(self, inputs, state, output_size, bias=0.0, scope=None):
         """Graph Convolution cell.
-        
+
         Args:
             inputs: Inputs.
             state: States.
             output_size: Output size.
             bias: Bias rate. Defaults to 0.0
             scope: Defaults to None.
-        
+
         """
         ## inputs:(-1,num_nodes)
         inputs = tf.expand_dims(inputs, 2)

@@ -7,7 +7,7 @@ from tensorflow.python.platform import tf_logging as logging
 
 
 class GRUCell(RNNCell):
-    """Gated Recurrent Units. """
+    """Gated Recurrent Units."""
 
     def call(self, inputs, **kwargs):
         pass
