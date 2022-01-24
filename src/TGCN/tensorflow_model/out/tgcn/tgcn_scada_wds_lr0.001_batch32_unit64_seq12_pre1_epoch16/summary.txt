@@ -1,0 +1,125 @@
+----------------------------------------------------------------------------------------------
+TIME LOG ----------------
+Sun Jan 23 19:29:24 2022
+-----------------------------------------------
+
+Results of training and testing results:
+-------------------------
+Iter/Epoch #: 0
+Train_rmse: 18.96
+Test_loss: 713.1
+Test_rmse: 0.1626
+Test_acc: 0.5267
+
+-------------------------
+Iter/Epoch #: 1
+Train_rmse: 15.02
+Test_loss: 452.5
+Test_rmse: 0.1295
+Test_acc: 0.623
+
+-------------------------
+Iter/Epoch #: 2
+Train_rmse: 13.02
+Test_loss: 334.2
+Test_rmse: 0.1113
+Test_acc: 0.6761
+
+-------------------------
+Iter/Epoch #: 3
+Train_rmse: 10.87
+Test_loss: 283.6
+Test_rmse: 0.1025
+Test_acc: 0.7016
+
+-------------------------
+Iter/Epoch #: 4
+Train_rmse: 10.08
+Test_loss: 241.9
+Test_rmse: 0.09462
+Test_acc: 0.7245
+
+-------------------------
+Iter/Epoch #: 5
+Train_rmse: 9.383
+Test_loss: 206.3
+Test_rmse: 0.08736
+Test_acc: 0.7456
+
+-------------------------
+Iter/Epoch #: 6
+Train_rmse: 9.499
+Test_loss: 192.8
+Test_rmse: 0.08446
+Test_acc: 0.7541
+
+-------------------------
+Iter/Epoch #: 7
+Train_rmse: 9.122
+Test_loss: 178.4
+Test_rmse: 0.08122
+Test_acc: 0.7635
+
+-------------------------
+Iter/Epoch #: 8
+Train_rmse: 8.824
+Test_loss: 167.7
+Test_rmse: 0.07875
+Test_acc: 0.7707
+
+-------------------------
+Iter/Epoch #: 9
+Train_rmse: 8.572
+Test_loss: 158.9
+Test_rmse: 0.07665
+Test_acc: 0.7768
+
+-------------------------
+Iter/Epoch #: 10
+Train_rmse: 8.349
+Test_loss: 151.6
+Test_rmse: 0.07487
+Test_acc: 0.782
+
+-------------------------
+Iter/Epoch #: 11
+Train_rmse: 8.149
+Test_loss: 146.9
+Test_rmse: 0.0737
+Test_acc: 0.7854
+
+-------------------------
+Iter/Epoch #: 12
+Train_rmse: 8.008
+Test_loss: 144.0
+Test_rmse: 0.07295
+Test_acc: 0.7876
+
+-------------------------
+Iter/Epoch #: 13
+Train_rmse: 7.934
+Test_loss: 142.4
+Test_rmse: 0.07254
+Test_acc: 0.7888
+
+-------------------------
+Iter/Epoch #: 14
+Train_rmse: 7.874
+Test_loss: 141.1
+Test_rmse: 0.07222
+Test_acc: 0.7897
+
+-------------------------
+Iter/Epoch #: 15
+Train_rmse: 7.824
+Test_loss: 139.8
+Test_rmse: 0.07189
+Test_acc: 0.7907
+
+Training Time: 327.5210647583008 sec.
+-----------------------------------------------
+Evaluation Metrics:min_rmse: 8.82129957888167
+min_mae: 5.2983575
+max_acc: 0.7906817346811295
+r2: -0.8144254684448242
+var: 0.9255739897489548

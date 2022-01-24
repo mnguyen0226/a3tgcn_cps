@@ -18,7 +18,7 @@ local_time = time.asctime(time.localtime(time.time()))
 
 ### Global variables for Optimization (Ashita)
 OP_LR = 0.001  # learning rate
-OP_EPOCH = 15  # number of epochs / iteration
+OP_EPOCH = 16  # number of epochs / iteration
 OP_BATCH_SIZE = 32  # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
 OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
@@ -43,7 +43,7 @@ TRAINING_EPOCH = FLAGS.training_epoch
 GRU_UNITS = FLAGS.gru_units
 MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
-SAVING_STEP = 1
+SAVING_STEP = 5
 
 ### Loads data
 data, adj = load_scada_data()
@@ -297,7 +297,7 @@ def load_and_eval():
     sess.run(init)
 
     # Chooses trained model path (CHANGE)
-    saved_path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre1_epoch15/model_100/TGCN_pre_14-14"
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre1_epoch16/model_100/TGCN_pre_15-15"
 
     # Loads model from trained path
     load_path = saver.restore(sess, saved_path)
@@ -336,7 +336,7 @@ def load_and_eval():
     test_result = test_pred[index]
 
     # Plots results (CHANGE & creates eval dir)
-    path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre1_epoch15/eval/"
+    path = "out/tgcn/tgcn_scada_wds_lr0.001_batch32_unit64_seq12_pre1_epoch16/eval"
     plot_result(test_result, test_label1, path)
     plot_error(_, _, test_rmse, test_acc, test_mae, path, plot_eval=True)
 
