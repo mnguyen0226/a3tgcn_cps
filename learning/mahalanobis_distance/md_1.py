@@ -13,7 +13,7 @@ df.head()
 df = df[["Ozone", "Temp"]]
 df = df.dropna()
 df = df.to_numpy()
-
+print(f"\n\nDF: {df}\n\n")
 # 1. Calculate the covariance matrix
 cov = np.cov(df, rowvar=False)
 
@@ -33,7 +33,7 @@ for i, val in enumerate(df):
     p2 = centerpoint
     distance = (p1 - p2).T.dot(covariance_pm1).dot(p1 - p2)
     distances.append(distance)
-    print(f"Distance: {distance}")
+    # print(f"Distance: {distance}")
 distances = np.array(distances)
 
 # 4. Cutoff (threshold) value from Chi-Square Distribution for detecting outliers

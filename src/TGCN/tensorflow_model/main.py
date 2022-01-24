@@ -18,7 +18,7 @@ local_time = time.asctime(time.localtime(time.time()))
 
 ### Global variables for Optimization (Ashita)
 OP_LR = 0.001  # learning rate
-OP_EPOCH = 16  # number of epochs / iteration
+OP_EPOCH = 31  # number of epochs / iteration
 OP_BATCH_SIZE = 32  # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
 OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
@@ -43,7 +43,7 @@ TRAINING_EPOCH = FLAGS.training_epoch
 GRU_UNITS = FLAGS.gru_units
 MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
-SAVING_STEP = 5
+SAVING_STEP = 10
 
 ### Loads data
 data, adj = load_scada_data()
@@ -357,8 +357,8 @@ def load_and_eval():
 
 def main():
     """User Interface"""
-    # train_and_eval()
-    load_and_eval()
+    train_and_eval()
+    # load_and_eval()
 
 
 if __name__ == "__main__":
