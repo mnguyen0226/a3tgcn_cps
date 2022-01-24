@@ -318,8 +318,11 @@ def load_and_eval():
         [loss, error, y_pred], feed_dict={inputs: testX, labels: testY}
     )
 
+    print(f"TEST OUTPUT 1: {test_output[1]}")
+
     # Provides testing results
     test_label = np.reshape(testY, [-1, num_nodes])
+    print(f"LABEL 1: {test_label[1]}")
     rmse, mae, acc, r2_score, var_score = evaluation(test_label, test_output)
     test_label1 = test_label * max_value
     test_output1 = test_output * max_value

@@ -19,7 +19,7 @@ Explainable TGCN for Water Distribution Systems
 - Provide Bench-marking results
 - Option: Continue to help Namzul with GANs
 - Option: Working on Attribution
-- Option ATCGN
+- Option ATCGN + Robust MD
 
 ## Mahalanobis Distance Process (in Validation phase):
 - Load up trained model.
