@@ -14,7 +14,8 @@ Explainable TGCN for Water Distribution Systems
 
 - Need to saved and loaded train model => Evaluate with poisoned dataset
 - :soon: Experience with Mahalanobis Outlier => Understand the pipeline
-- Make the prediction next line to 1 instead of 3
+- Calculate the MD between the prediction and clean validation labels.
+- Calculate the MD between the prediction and the attacked labels just to make sure 
 - Provide Bench-marking results
 - Option: Continue to help Namzul with GANs
 - Option: Working on Attribution
