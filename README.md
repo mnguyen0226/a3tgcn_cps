@@ -21,6 +21,18 @@ Explainable TGCN for Water Distribution Systems
 - Option: Working on Attribution
 - Option ATCGN
 
+## Mahalanobis Distance Process (in Validation phase):
+- Load up trained model.
+- Input the first 12 row in the validation table, predict the next row.
+- Calculate the error array at time i between the predictions array at time i and the ground-truth array at time i.
+- Append the newly calculated error array to the 2D ERROR array.
+- Calculate the mean error array by calculate the mean of 2D Error array.
+- Calculate the covariance between the mean error array and the error array at time i
+- Calculate the MD_ value.
+- Append the MD_ value to the MD array
+
+=> After done, calculate the mean of MD to get the max threshold to be "normal operation"
+
 ## Baseline models:
 
 - SVM
