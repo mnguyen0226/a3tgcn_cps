@@ -1,0 +1,153 @@
+----------------------------------------------------------------------------------------------
+TIME LOG ----------------
+Wed Jan 26 15:06:51 2022
+-----------------------------------------------
+
+Results of training and testing results:
+-------------------------
+Iter/Epoch #: 0
+Train_rmse: 19.63
+Test_loss: 864.1
+Test_rmse: 0.1597
+Test_acc: 0.5349
+
+-------------------------
+Iter/Epoch #: 1
+Train_rmse: 17.63
+Test_loss: 700.0
+Test_rmse: 0.1437
+Test_acc: 0.5814
+
+-------------------------
+Iter/Epoch #: 2
+Train_rmse: 14.79
+Test_loss: 497.1
+Test_rmse: 0.1211
+Test_acc: 0.6473
+
+-------------------------
+Iter/Epoch #: 3
+Train_rmse: 13.44
+Test_loss: 412.5
+Test_rmse: 0.1103
+Test_acc: 0.6788
+
+-------------------------
+Iter/Epoch #: 4
+Train_rmse: 12.53
+Test_loss: 364.2
+Test_rmse: 0.1036
+Test_acc: 0.6982
+
+-------------------------
+Iter/Epoch #: 5
+Train_rmse: 11.79
+Test_loss: 329.5
+Test_rmse: 0.09856
+Test_acc: 0.713
+
+-------------------------
+Iter/Epoch #: 6
+Train_rmse: 11.05
+Test_loss: 289.3
+Test_rmse: 0.09234
+Test_acc: 0.7311
+
+-------------------------
+Iter/Epoch #: 7
+Train_rmse: 10.65
+Test_loss: 273.0
+Test_rmse: 0.08968
+Test_acc: 0.7388
+
+-------------------------
+Iter/Epoch #: 8
+Train_rmse: 10.3
+Test_loss: 257.9
+Test_rmse: 0.08718
+Test_acc: 0.7461
+
+-------------------------
+Iter/Epoch #: 9
+Train_rmse: 10.04
+Test_loss: 248.2
+Test_rmse: 0.08552
+Test_acc: 0.7509
+
+-------------------------
+Iter/Epoch #: 10
+Train_rmse: 9.797
+Test_loss: 237.4
+Test_rmse: 0.08362
+Test_acc: 0.7565
+
+-------------------------
+Iter/Epoch #: 11
+Train_rmse: 9.591
+Test_loss: 228.4
+Test_rmse: 0.08203
+Test_acc: 0.7611
+
+-------------------------
+Iter/Epoch #: 12
+Train_rmse: 9.428
+Test_loss: 221.6
+Test_rmse: 0.0808
+Test_acc: 0.7647
+
+-------------------------
+Iter/Epoch #: 13
+Train_rmse: 9.312
+Test_loss: 216.5
+Test_rmse: 0.07986
+Test_acc: 0.7674
+
+-------------------------
+Iter/Epoch #: 14
+Train_rmse: 9.236
+Test_loss: 212.5
+Test_rmse: 0.07911
+Test_acc: 0.7696
+
+-------------------------
+Iter/Epoch #: 15
+Train_rmse: 9.187
+Test_loss: 209.0
+Test_rmse: 0.07846
+Test_acc: 0.7715
+
+-------------------------
+Iter/Epoch #: 16
+Train_rmse: 9.154
+Test_loss: 205.9
+Test_rmse: 0.07787
+Test_acc: 0.7732
+
+-------------------------
+Iter/Epoch #: 17
+Train_rmse: 9.127
+Test_loss: 203.1
+Test_rmse: 0.07734
+Test_acc: 0.7748
+
+-------------------------
+Iter/Epoch #: 18
+Train_rmse: 9.098
+Test_loss: 200.7
+Test_rmse: 0.07687
+Test_acc: 0.7761
+
+-------------------------
+Iter/Epoch #: 19
+Train_rmse: 9.066
+Test_loss: 198.6
+Test_rmse: 0.07646
+Test_acc: 0.7773
+
+Training Time: 117.410151720047 sec.
+-----------------------------------------------
+Evaluation Metrics:min_rmse: 9.382370440171826
+min_mae: 5.9033036
+max_acc: 0.7773203700780869
+r2: -0.8820422887802124
+var: 0.9199427664279938
