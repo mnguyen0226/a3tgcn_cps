@@ -317,11 +317,9 @@ def load_and_eval():
         [loss, error, y_pred], feed_dict={inputs: testX, labels: testY}
     )
 
-    print(f"TEST OUTPUT 1: {test_output[1]}")
-
     # Provides testing results
     test_label = np.reshape(testY, [-1, num_nodes])
-    print(f"LABEL 1: {test_label[1]}")
+    
     rmse, mae, acc, r2_score, var_score = evaluation(test_label, test_output)
     test_label1 = test_label * max_value
     test_output1 = test_output * max_value
@@ -333,14 +331,22 @@ def load_and_eval():
     test_var.append(var_score)
     test_pred.append(test_output1)
 
-    # Set index and provides test results
+    # Sets index and provides test results
     index = test_rmse.index(np.min(test_rmse))
     test_result = test_pred[index]
+    
+    # Create a evaluation path
+    eval_path = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval"
+    
+    var_test_result = pd.DataFrame(test_result)
+    var_test_result.to_csv(eval_path + "/test_results.csv", index=False, header=False)
 
-    # Plots results (CHANGE & creates eval dir)
-    path = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval"
-    plot_result(test_result, test_label1, path)
-    plot_error(_, _, test_rmse, test_acc, test_mae, path, plot_eval=True)
+    var_test_label = pd.DataFrame(test_label)
+    var_test_label.to_csv(eval_path + "/test_labels.csv", index=False, header=False)
+
+    # Plots results
+    plot_result(test_result, test_label1, eval_path)
+    plot_error(_, _, test_rmse, test_acc, test_mae, eval_path, plot_eval=True)
 
     # Prints out testing results
     print("-----------------------------------------------\nEvaluation Metrics:")
