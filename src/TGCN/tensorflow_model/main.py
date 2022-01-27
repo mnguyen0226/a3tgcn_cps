@@ -338,8 +338,8 @@ def load_and_eval():
     # Create a evaluation path
     eval_path = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval"
     
-    var_test_result = pd.DataFrame(test_result)
-    var_test_result.to_csv(eval_path + "/test_results.csv", index=False, header=False)
+    var_test_output = pd.DataFrame(test_output) # test_result
+    var_test_output.to_csv(eval_path + "/test_output.csv", index=False, header=False)
 
     var_test_label = pd.DataFrame(test_label)
     var_test_label.to_csv(eval_path + "/test_labels.csv", index=False, header=False)
