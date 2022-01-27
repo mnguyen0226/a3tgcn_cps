@@ -17,9 +17,9 @@ local_time = time.asctime(time.localtime(time.time()))
 
 ### Global variables for Optimization (Ashita)
 OP_LR = 0.01  # learning rate
-OP_EPOCH = 101  # number of epochs / iteration (TGCN: 20)
+OP_EPOCH = 51  # number of epochs / iteration (TGCN: 20)
 OP_BATCH_SIZE = 16  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
-OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
+OP_HIDDEN_DIM = 32  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
 ### Parses settings from command line
 flags = tf.app.flags
