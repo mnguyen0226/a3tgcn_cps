@@ -29,7 +29,7 @@ flags.DEFINE_integer("training_epoch", OP_EPOCH, "Number of epoch to train.")
 flags.DEFINE_integer("gru_units", OP_HIDDEN_DIM, "hidden_units of gru")
 flags.DEFINE_integer("seq_len", 8, "time length of inputs time series.") # 12, (TGCN: 8)
 flags.DEFINE_integer("pre_len", 1, "time length of prediction.")
-flags.DEFINE_float("train_rate", 0.75, "rate of training set: 80% train, 20% validate.")
+flags.DEFINE_float("train_rate", 0.8, "rate of training set: 80% train, 20% validate.")
 flags.DEFINE_integer("batch_size", OP_BATCH_SIZE, "batch size.")
 
 ### Global variables
@@ -42,7 +42,7 @@ TRAINING_EPOCH = FLAGS.training_epoch
 GRU_UNITS = FLAGS.gru_units
 MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
-SAVING_STEP = 10
+SAVING_STEP = 50
 
 ### Loads data
 data, adj = load_scada_data()
