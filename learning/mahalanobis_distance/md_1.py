@@ -1,5 +1,4 @@
 # Detect outliers using "Ozone" and "Temp".
-from asyncio import as_completed
 import pandas as pd
 import numpy as np
 from scipy.stats import chi2
@@ -17,7 +16,8 @@ print(f"\n\nDF: {df}\n\n")
 # 1. Calculate the covariance matrix
 cov = np.cov(df, rowvar=False)
 
-# Covanriance matrix power of -1
+# Covariance matrix power of -1
+# Covariance matrix indicates how variables variate together
 covariance_pm1 = np.linalg.matrix_power(cov, -1)
 print(f"Covariance matrix: {covariance_pm1}")
 
