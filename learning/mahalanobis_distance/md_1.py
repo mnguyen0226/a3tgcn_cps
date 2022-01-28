@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 df = pd.read_csv("airquality.csv", sep=",", decimal=".")
 df.head()
 
-df = df[["Ozone", "Temp"]]
+df = df[["Ozone","Solar.R","Wind","Temp"]]
 df = df.dropna()
 df = df.to_numpy()
 print(f"\n\nDF: {df}\n\n")

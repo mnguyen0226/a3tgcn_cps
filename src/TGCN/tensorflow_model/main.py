@@ -16,10 +16,10 @@ import time
 local_time = time.asctime(time.localtime(time.time()))
 
 ### Global variables for Optimization (Ashita) - ideal: 0.01 51 16 32 => 83%;
-OP_LR = 0.001  # learning rate
-OP_EPOCH = 501  # number of epochs / iteration (TGCN: 20)
+OP_LR = 0.01  # learning rate
+OP_EPOCH = 101  # number of epochs / iteration (TGCN: 20)
 OP_BATCH_SIZE = 16  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
-OP_HIDDEN_DIM = 16  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
+OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
 ### Parses settings from command line
 flags = tf.app.flags
@@ -258,7 +258,7 @@ def train_and_eval():
 
     index = test_rmse.index(np.min(test_rmse))
     test_result = test_pred[index]
-    var = pd.DataFrame(test_result)
+    var = pd.DataFrame(test_result) # gets the prediction to unnormalized result
     var.to_csv(path + "/test_result.csv", index=False, header=False)
     plot_result(test_result, test_label1, path)
     plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path)
@@ -338,10 +338,10 @@ def load_and_eval():
     # Create a evaluation path
     eval_path = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval"
     
-    var_test_output = pd.DataFrame(test_output) # test_result
+    var_test_output = pd.DataFrame(test_output*max_value) # test_result, make this unnormalize
     var_test_output.to_csv(eval_path + "/test_output.csv", index=False, header=False)
 
-    var_test_label = pd.DataFrame(test_label)
+    var_test_label = pd.DataFrame(test_label*max_value)
     var_test_label.to_csv(eval_path + "/test_labels.csv", index=False, header=False)
 
     # Plots results
@@ -362,8 +362,8 @@ def load_and_eval():
 
 def main():
     """User Interface"""
-    train_and_eval()
-    # load_and_eval()
+    # train_and_eval()
+    load_and_eval()
 
 
 if __name__ == "__main__":
