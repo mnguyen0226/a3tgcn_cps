@@ -380,7 +380,7 @@ error_8 = gt_arr8 - pred_arr8
 error_9 = gt_arr9 - pred_arr9
 error_10 = gt_arr10 - pred_arr10
 
-# Stacks errors
+# Stacks errors - create a database
 error_stack = np.stack((error_1, error_2, error_3, error_4, error_5, error_6, error_7, error_8, error_9, error_10))
 
 # Covariance Matrix of the stacked error (between predictions and loss)
@@ -389,10 +389,9 @@ covariance = np.cov(error_stack, rowvar=False)
 # Covariance matrix power of -1
 covariance_pm1 = np.linalg.matrix_power(covariance, -1)
 
-# Calculates the mean error
+# Calculates the mean error - center point
 mean_error = np.mean(error_stack, axis=0)
 
-# Calculate s the covariance matrix
 md1_ = (error_1 - mean_error).T.dot(covariance_pm1).dot(error_1 - mean_error)
 print(f"Mahalanobis 1: {md1_}")
 
@@ -435,7 +434,7 @@ print(f"Cut off: {cutoff}")
 outlierIndexes = np.where(distances > cutoff)
 
 print("--- Index/Position of Outliers ----")
-print(outlierIndexes)
+# print(outlierIndexes)
 
 print("--- Observations found as outlier -----")
-print(error_stack[distances > cutoff, :])
+# print(error_stack[distances > cutoff, :])
