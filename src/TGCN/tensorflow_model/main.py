@@ -8,7 +8,7 @@ from utils import preprocess_data
 from utils import load_scada_data
 from models import TGCNCell
 from utils import plot_error
-from utils import plot_result
+from utils import plot_result_tank
 from utils import evaluation
 import time
 
@@ -18,7 +18,7 @@ local_time = time.asctime(time.localtime(time.time()))
 ### Global variables for Optimization (Ashita) - ideal: 0.01 51 16 32 => 83%;
 OP_LR = 0.01  # learning rate
 OP_EPOCH = 101  # number of epochs / iteration (TGCN: 20)
-OP_BATCH_SIZE = 16  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
+OP_BATCH_SIZE = 16 # 24 hours (1 days)  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
 OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
 ### Parses settings from command line
@@ -27,8 +27,8 @@ FLAGS = flags.FLAGS
 flags.DEFINE_float("learning_rate", OP_LR, "Initial learning rate.")
 flags.DEFINE_integer("training_epoch", OP_EPOCH, "Number of epoch to train.")
 flags.DEFINE_integer("gru_units", OP_HIDDEN_DIM, "hidden_units of gru")
-flags.DEFINE_integer("seq_len", 8, "time length of inputs time series.") # 12, (TGCN: 8)
-flags.DEFINE_integer("pre_len", 1, "time length of prediction.")
+flags.DEFINE_integer("seq_len", 8, "time length of inputs time series.") # 12, (TGCN: 8) # 48
+flags.DEFINE_integer("pre_len", 1, "time length of prediction.") # 24
 flags.DEFINE_float("train_rate", 0.8, "rate of training set: 80% train, 20% validate.")
 flags.DEFINE_integer("batch_size", OP_BATCH_SIZE, "batch size.")
 
@@ -345,8 +345,7 @@ def load_and_eval():
     var_test_label.to_csv(eval_path + "/test_labels.csv", index=False, header=False)
 
     # Plots results
-    plot_result(test_result, test_label1, eval_path)
-    plot_error(_, _, test_rmse, test_acc, test_mae, eval_path, plot_eval=True)
+    plot_result_tank(test_result, test_label1, eval_path, hour = 24)
 
     # Prints out testing results
     print("-----------------------------------------------\nEvaluation Metrics:")
