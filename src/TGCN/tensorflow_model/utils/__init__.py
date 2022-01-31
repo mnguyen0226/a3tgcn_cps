@@ -4,4 +4,5 @@ from utils.input_data import preprocess_data
 from utils.input_data import load_scada_data
 from utils.visualization import plot_error
 from utils.visualization import plot_result_tank
+from utils.visualization import plot_result_pump
 from utils.helper_functions import evaluation

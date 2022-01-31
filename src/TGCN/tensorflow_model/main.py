@@ -9,6 +9,7 @@ from utils import load_scada_data
 from models import TGCNCell
 from utils import plot_error
 from utils import plot_result_tank
+from utils import plot_result_pump
 from utils import evaluation
 import time
 
@@ -260,7 +261,7 @@ def train_and_eval():
     test_result = test_pred[index]
     var = pd.DataFrame(test_result) # gets the prediction to unnormalized result
     var.to_csv(path + "/test_result.csv", index=False, header=False)
-    plot_result(test_result, test_label1, path)
+    plot_result_tank(test_result, test_label1, path)
     plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path)
 
     print("-----------------------------------------------\nEvaluation Metrics:")
@@ -346,6 +347,7 @@ def load_and_eval():
 
     # Plots results
     plot_result_tank(test_result, test_label1, eval_path, hour = 24)
+    plot_result_pump(test_result, test_label1, eval_path, hour = 24)
 
     # Prints out testing results
     print("-----------------------------------------------\nEvaluation Metrics:")
