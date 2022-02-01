@@ -348,10 +348,10 @@ def load_and_eval():
     var_test_label.to_csv(eval_path + "/test_labels.csv", index=False, header=False)
 
     # Plots results
-    plot_result_tank(test_result, test_label1, eval_path, hour = 24)
-    plot_result_pump(test_result, test_label1, eval_path, hour = 24)
-    plot_result_valve(test_result, test_label1, eval_path, hour = 24)
-    plot_result_junction(test_result, test_label1, eval_path, hour = 24)
+    plot_result_tank(test_result, test_label1, eval_path, hour = 720)
+    plot_result_pump(test_result, test_label1, eval_path, hour = 720)
+    plot_result_valve(test_result, test_label1, eval_path, hour = 720)
+    plot_result_junction(test_result, test_label1, eval_path, hour = 720)
     
     # Prints out testing results
     print("-----------------------------------------------\nEvaluation Metrics:")
