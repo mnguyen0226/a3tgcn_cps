@@ -282,8 +282,8 @@ def plot_result_valve(test_result, test_label, path, hour = 24):
     hour_cal = float(hour) / 24.0
     fig_name = "Flow Rates of Valve # 2 - F_V2 in " + str(hour_cal) + " Day(s)"    
     plt.title(fig_name)
-    plt.xlabel("Flow Rate (L/s)")
-    plt.ylabel("Number of Hours")
+    plt.xlabel("Number of Hours")
+    plt.ylabel("Flow Rate (L/s)")
 
     name = "/test_" + str(hour) + "_valve_flow_rate.png"
 
