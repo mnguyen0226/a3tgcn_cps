@@ -10,6 +10,8 @@ from models import TGCNCell
 from utils import plot_error
 from utils import plot_result_tank
 from utils import plot_result_pump
+from utils import plot_result_valve
+from utils import plot_result_junction
 from utils import evaluation
 import time
 
@@ -348,7 +350,9 @@ def load_and_eval():
     # Plots results
     plot_result_tank(test_result, test_label1, eval_path, hour = 24)
     plot_result_pump(test_result, test_label1, eval_path, hour = 24)
-
+    plot_result_valve(test_result, test_label1, eval_path, hour = 24)
+    plot_result_junction(test_result, test_label1, eval_path, hour = 24)
+    
     # Prints out testing results
     print("-----------------------------------------------\nEvaluation Metrics:")
     print("min_rmse: %r" % (np.min(test_rmse)))
