@@ -286,7 +286,7 @@ def plot_result_valve(test_result, test_label, path, hour = 24):
     plt.ylabel("Flow Rate (L/s)")
 
     name = "/test_" + str(hour) + "_valve_flow_rate.png"
-
+    
     plt.savefig(path + name)
     plt.show()
     
