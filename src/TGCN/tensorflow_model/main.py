@@ -350,7 +350,7 @@ def load_and_eval():
     # Plots results
     plot_result_tank(test_result, test_label1, eval_path, hour = 168)
     plot_result_pump(test_result, test_label1, eval_path, hour = 168)
-    plot_result_valve(test_result, test_label1, eval_path, hour = 168)
+    plot_result_valve(test_result, test_label1, eval_path, hour = 720)
     plot_result_junction(test_result, test_label1, eval_path, hour = 168)
     
     # Prints out testing results

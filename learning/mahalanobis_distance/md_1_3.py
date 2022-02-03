@@ -4,6 +4,9 @@ import numpy as np
 from scipy.stats import chi2
 from matplotlib import patches
 import matplotlib.pyplot as plt
+import seaborn as sns
+import scipy as sp
+from sklearn.covariance import MinCovDet
 
 ### Unnormalize
 pred_arr1 = np.array([2.475547,1.5705636,6.025444,4.731599,-0.8687508,5.594996,2.1713212,95.91558,93.6594,-0.17621931,4.685346,0.4219419,3.4335778,51.136,36.416744,-0.39112145,26.12053,0.42140067,63.47454,4.97738,35.90024,28.184366,73.52542,28.205782,87.11683,21.478146,81.95435,25.039217,68.35812,33.705902,30.581335])
@@ -53,63 +56,43 @@ covariance_pm1 = np.linalg.matrix_power(cov, -1)
 print(f"Covariance matrix: {covariance_pm1}")
 
 # 2. Center point
-centerpoint = np.mean(df, axis=0)
-print(f"Center point of Ozone and Temp: {centerpoint}")
-
-# 3. Find the distance between the center point and each observation point in the dataset.
-# We need to find the cutoff value from the Chi-Square distribution.
-distances = []
-for i, val in enumerate(df):
-    p1 = val  # Ozone and Temp of the ith row
-    p2 = centerpoint
-    distance = (p1 - p2).dot(covariance_pm1).dot(p1 - p2).T
-    distances.append(distance)
-    print(f"Distance: {distance}")
-distances = np.array(distances)
-
-print(distances)
+mean_error = np.mean(df, axis=0)
+print(f"Center point of Ozone and Temp: {mean_error}")
 
 
-###################################
-# Calcualte the MD Distance using scipy between mean and the error
-from scipy.spatial import distance
-test_dist = distance.mahalanobis(error_1, centerpoint, covariance_pm1)
-print(f"Test Scipy MD: {test_dist}")
+def mahalanobis_method(df):
+    # MD
+    x_minus_mu = df - np.mean(df, axis=0)
+    # cov = np.cov(df.T)
+    cov = np.cov(df, rowvar=False)
+    inv_covmat = sp.linalg.inv(cov)
+    left_term = np.dot(x_minus_mu, inv_covmat)
+    mahal = np.dot(left_term, x_minus_mu.T)
+    md = np.sqrt(mahal.diagonal())
+    print(md)
 
-###################################
-# # 4. Cutoff (threshold) value from Chi-Square Distribution for detecting outliers
-# cutoff = chi2.ppf(0.95, df.shape[1])
+print("\nMAHALANOBIS DISTANCE: \n")
+mahalanobis_method(df)
 
-# # Index of outliers
-# outlierIndexes = np.where(distances > cutoff)
+def robust_mahalanobis_method(df):
+    #Minimum covariance determinant
+    rng = np.random.RandomState(0)
+    # real_cov = np.cov(df.values.T)
+    real_cov = np.cov(df, rowvar=False)
+    X = rng.multivariate_normal(mean=np.mean(df, axis=0), cov=real_cov, size=506)
+    cov = MinCovDet(random_state=0).fit(X)
+    mcd = cov.covariance_ #robust covariance metric
+    robust_mean = cov.location_  #robust mean
+    inv_covmat = sp.linalg.inv(mcd) #inverse covariance metric
+    
+    #Robust M-Distance
+    x_minus_mu = df - robust_mean
+    left_term = np.dot(x_minus_mu, inv_covmat)
+    mahal = np.dot(left_term, x_minus_mu.T)
+    print(mahal)
+    md = np.sqrt(mahal.diagonal())
+    
+    print(md)
 
-# print("--- Index of Outliers ----")
-# print(outlierIndexes)
-# # array([24, 35, 67, 81])
-
-# print("--- Observations found as outlier -----")
-# print(df[distances > cutoff, :])
-# # [[115.  79.], [135.  84.], [122.  89.], [168.  81.]]
-
-# ## 5. Finding ellipse dimensions
-# pearson = cov[0, 1] / np.sqrt(cov[0, 0] * cov[1, 1])
-# ell_radius_x = np.sqrt(1 + pearson)
-# ell_radius_y = np.sqrt(1 - pearson)
-# lambda_, v = np.linalg.eig(cov)
-# lambda_ = np.sqrt(lambda_)
-
-# # Ellipse patch
-# ellipse = patches.Ellipse(
-#     xy=(centerpoint[0], centerpoint[1]),
-#     width=lambda_[0] * np.sqrt(cutoff) * 2,
-#     height=lambda_[1] * np.sqrt(cutoff) * 2,
-#     angle=np.rad2deg(np.arccos(v[0, 0])),
-#     edgecolor="#fab1a0",
-# )
-# ellipse.set_facecolor("#0984e3")
-# ellipse.set_alpha(0.5)
-# fig = plt.figure()
-# ax = plt.subplot()
-# ax.add_artist(ellipse)
-# plt.scatter(df[:, 0], df[:, 1])
-# plt.show()
+print("\nROBUST MAHALANOBIS DISTANCE: \n")
+robust_mahalanobis_method(df)
