@@ -12,6 +12,14 @@ from scipy.stats import chi2
 import csv
 
 def data_preprocessing(num_line = 9):
+    """Takes in the test_labels.csv, and test_output.csv, converts values from string to float and return the two arrays
+
+    Args:
+        num_line (int, optional): Number of array. Defaults to 9.
+
+    Returns:
+        Two arrays
+    """
     df_eval_labels = []
     df_eval_preds = []
     
@@ -53,6 +61,8 @@ def data_preprocessing(num_line = 9):
 
 
 def calculate_md():
+    """Calculates the Mahalanobis Distance
+    """
     # Get lists
     df_eval_labels, df_eval_preds = data_preprocessing(num_line=1743)
     
