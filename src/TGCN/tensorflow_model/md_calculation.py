@@ -13,6 +13,9 @@ import numpy as np
 from scipy.stats import chi2
 import csv
 
+TEST_LABEL_DIR = 'out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval/test_labels.csv'
+TEST_PREDS_DIR = 'out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval/test_output.csv'
+
 def data_preprocessing(num_line = 9):
     """Takes in the test_labels.csv, and test_output.csv, converts values from string to float and return the two arrays
 
@@ -26,7 +29,7 @@ def data_preprocessing(num_line = 9):
     df_eval_preds = []
     
     # Read in the eval ground truth  
-    with open('out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval/test_labels.csv') as label_file:
+    with open(TEST_LABEL_DIR) as label_file:
         
         # Read the csv file
         csv_file = csv.reader(label_file)
@@ -40,7 +43,7 @@ def data_preprocessing(num_line = 9):
     label_file.close()
     
     # Read in the eval prediction
-    with open('out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval/test_output.csv') as pred_file:
+    with open(TEST_PREDS_DIR) as pred_file:
         
         # Read tge csv file
         csv_file = csv.reader(pred_file)
@@ -96,12 +99,12 @@ def calculate_md():
     
     # Check if there is any negative number in the mahalanobis distance
     nega = [distances[i] for i in range (len(distances)) if distances[i] <= 0.0]
-    print(f"List of negative Mahalanobis Distance: {nega}")
+    print(f"\nList of negative Mahalanobis Distance: {nega}")
     
     # Calculate the average Mahalanobis Distance (not useful)
     avg_md = np.average(distances)
     
-    print(f"The average of the Mahalanobis Distance: {avg_md}")
+    print(f"\nThe average of the Mahalanobis Distance: {avg_md}")
 
     # 5. Find the cut-off Chi-Square values. The points outside of 0.95 will be considered as outliers
     # Note, we also set the degree of freedom values for Chi-Square. This number is equal to the number of variables in our dataset, 31
@@ -110,7 +113,7 @@ def calculate_md():
     # Index of outliers
     outlier_index = np.where(distances > cutoff)
     
-    print("TIME SERIES INDEX OF OUTLIERS\n")
+    print("\nTIME SERIES INDEX OF OUTLIERS:")
     print(outlier_index)
     
     # print("OUTLIERS DETAILS\n")
