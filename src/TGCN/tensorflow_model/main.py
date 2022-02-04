@@ -20,7 +20,7 @@ local_time = time.asctime(time.localtime(time.time()))
 
 ### Global variables for Optimization (Ashita) - ideal: 0.01 51 16 32 => 83%;
 OP_LR = 0.01  # learning rate
-OP_EPOCH = 101  # number of epochs / iteration (TGCN: 20)
+OP_EPOCH = 1  # number of epochs / iteration (TGCN: 20)
 OP_BATCH_SIZE = 16 # 24 hours (1 days)  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
 OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
@@ -57,7 +57,7 @@ data_maxtrix = np.mat(data, dtype=np.float32)
 # Normalizes data
 max_value = np.max(data_maxtrix)
 data_maxtrix = data_maxtrix / max_value
-trainX, trainY, testX, testY = preprocess_data(
+train_X_clean, train_Y_clean, eval_X_clean, eval_Y_clean = preprocess_data(
     data=data_maxtrix,
     time_len=time_len,
     rate=TRAIN_RATE,
@@ -66,8 +66,8 @@ trainX, trainY, testX, testY = preprocess_data(
 )
 
 ### Gets number of batches
-total_batch = int(trainX.shape[0] / BATCH_SIZE)
-training_data_count = len(trainX)
+total_batch = int(train_X_clean.shape[0] / BATCH_SIZE)
+training_data_count = len(train_X_clean)
 
 
 def TGCN(_X, _weights, _biases, reuse=None):
@@ -168,7 +168,7 @@ def train_and_eval():
         os.makedirs(path)
 
     batch_loss, batch_rmse = [], []
-    test_loss, test_rmse, test_mae, test_acc, test_r2, test_var, test_pred = (
+    eval_loss, eval_rmse, eval_mae, eval_acc, eval_r2, eval_var, eval_pred = (
         [],
         [],
         [],
@@ -179,7 +179,7 @@ def train_and_eval():
     )
 
     print(
-        "-----------------------------------------------\nResults of training and testing results:"
+        "-----------------------------------------------\nResults of training and evaluating results:"
     )
     result_file = open(path + "/summary.txt", "a")
 
@@ -192,13 +192,13 @@ def train_and_eval():
 
     # Writes results to files
     result_file.write(
-        "-----------------------------------------------\n\nResults of training and testing results:\n"
+        "-----------------------------------------------\n\nResults of training and evaluating results:\n"
     )
 
     for epoch in range(TRAINING_EPOCH):
         for m in range(total_batch):
-            mini_batch = trainX[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
-            mini_label = trainY[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
+            mini_batch = train_X_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
+            mini_label = train_Y_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
             _, loss1, rmse1, train_output = sess.run(
                 [optimizer, loss, error, y_pred],
                 feed_dict={inputs: mini_batch, labels: mini_label},
@@ -206,35 +206,35 @@ def train_and_eval():
             batch_loss.append(loss1)
             batch_rmse.append(rmse1 * max_value)
 
-        # Tests/Evaluates completely at every epoch
-        loss2, rmse2, test_output = sess.run(
-            [loss, error, y_pred], feed_dict={inputs: testX, labels: testY}
+        # Evaluates completely at every epoch
+        loss2, rmse2, eval_output = sess.run(
+            [loss, error, y_pred], feed_dict={inputs: eval_X_clean, labels: eval_Y_clean}
         )
 
-        test_label = np.reshape(testY, [-1, num_nodes])
-        rmse, mae, acc, r2_score, var_score = evaluation(test_label, test_output)
-        test_label1 = test_label * max_value
-        test_output1 = test_output * max_value
-        test_loss.append(loss2)
-        test_rmse.append(rmse * max_value)
-        test_mae.append(mae * max_value)
-        test_acc.append(acc)
-        test_r2.append(r2_score)
-        test_var.append(var_score)
-        test_pred.append(test_output1)
+        eval_label = np.reshape(eval_Y_clean, [-1, num_nodes])
+        rmse, mae, acc, r2_score, var_score = evaluation(eval_label, eval_output)
+        eval_label1 = eval_label * max_value
+        eval_output1 = eval_output * max_value
+        eval_loss.append(loss2)
+        eval_rmse.append(rmse * max_value)
+        eval_mae.append(mae * max_value)
+        eval_acc.append(acc)
+        eval_r2.append(r2_score)
+        eval_var.append(var_score)
+        eval_pred.append(eval_output1)
 
         print("-------------------------\nIter/Epoch #: {}".format(epoch))
         print("Train_rmse: {:.4}".format(batch_rmse[-1]))
-        print("Test_loss: {:.4}".format(loss2))
-        print("Test_rmse: {:.4}".format(rmse))
-        print("Test_acc: {:.4}\n".format(acc))
+        print("Eval_loss: {:.4}".format(loss2))
+        print("Eval_rmse: {:.4}".format(rmse))
+        print("Eval_acc: {:.4}\n".format(acc))
 
         # Writes results to files
         result_file.write("-------------------------\nIter/Epoch #: {}\n".format(epoch))
         result_file.write("Train_rmse: {:.4}\n".format(batch_rmse[-1]))
-        result_file.write("Test_loss: {:.4}\n".format(loss2))
-        result_file.write("Test_rmse: {:.4}\n".format(rmse))
-        result_file.write("Test_acc: {:.4}\n\n".format(acc))
+        result_file.write("Eval_loss: {:.4}\n".format(loss2))
+        result_file.write("Eval_rmse: {:.4}\n".format(rmse))
+        result_file.write("Eval_acc: {:.4}\n\n".format(acc))
 
         if epoch % SAVING_STEP == 0:
             # Saves model every SAVING_STEP epoch
@@ -259,35 +259,39 @@ def train_and_eval():
         for i in range(b)
     ]
 
-    index = test_rmse.index(np.min(test_rmse))
-    test_result = test_pred[index]
-    var = pd.DataFrame(test_result) # gets the prediction to unnormalized result
-    var.to_csv(path + "/test_result.csv", index=False, header=False)
-    plot_result_tank(test_result, test_label1, path)
-    plot_error(train_rmse, train_loss, test_rmse, test_acc, test_mae, path)
+    index = eval_rmse.index(np.min(eval_rmse))
+    eval_result = eval_pred[index]
+    var = pd.DataFrame(eval_result) # gets the prediction to unnormalized result
+    var.to_csv(path + "/eval_result.csv", index=False, header=False)
+    plot_result_tank(eval_result, eval_label1, path)
+    plot_error(train_rmse, train_loss, eval_rmse, eval_acc, eval_mae, path)
 
     print("-----------------------------------------------\nEvaluation Metrics:")
-    print("min_rmse: %r" % (np.min(test_rmse)))
-    print("min_mae: %r" % (test_mae[index]))
-    print("max_acc: %r" % (test_acc[index]))
-    print("r2: %r" % (test_r2[index]))
-    print("var: %r" % test_var[index])
+    print("min_rmse: %r" % (np.min(eval_rmse)))
+    print("min_mae: %r" % (eval_mae[index]))
+    print("max_acc: %r" % (eval_acc[index]))
+    print("r2: %r" % (eval_r2[index]))
+    print("var: %r" % eval_var[index])
 
     # Writes results to files
     result_file.write(
         "-----------------------------------------------\nEvaluation Metrics:"
     )
-    result_file.write("min_rmse: %r\n" % (np.min(test_rmse)))
-    result_file.write("min_mae: %r\n" % (test_mae[index]))
-    result_file.write("max_acc: %r\n" % (test_acc[index]))
-    result_file.write("r2: %r\n" % (test_r2[index]))
-    result_file.write("var: %r\n" % test_var[index])
+    result_file.write("min_rmse: %r\n" % (np.min(eval_rmse)))
+    result_file.write("min_mae: %r\n" % (eval_mae[index]))
+    result_file.write("max_acc: %r\n" % (eval_acc[index]))
+    result_file.write("r2: %r\n" % (eval_r2[index]))
+    result_file.write("var: %r\n" % eval_var[index])
 
     result_file.close()
 
 
 def load_and_eval():
     """Loads and evaluates trained model"""
+    
+    
+    
+    
     print("Start the loading and evaluating process")
     time_start = time.time()
 
@@ -304,8 +308,8 @@ def load_and_eval():
     # Loads model from trained path
     load_path = saver.restore(sess, saved_path)
 
-    # Initializes the array for testing results
-    test_loss, test_rmse, test_mae, test_acc, test_r2, test_var, test_pred = (
+    # Initializes the array for evaluating results
+    eval_loss, eval_rmse, eval_mae, eval_acc, eval_r2, eval_var, eval_pred = (
         [],
         [],
         [],
@@ -315,55 +319,54 @@ def load_and_eval():
         [],
     )
 
-    # Tests completely at every epoch
-    loss2, rmse2, test_output = sess.run(
-        [loss, error, y_pred], feed_dict={inputs: testX, labels: testY}
+    # Evals completely at every epoch
+    loss2, rmse2, eval_output = sess.run(
+        [loss, error, y_pred], feed_dict={inputs: eval_X_clean, labels: eval_Y_clean}
     )
 
-    # Provides testing results
-    test_label = np.reshape(testY, [-1, num_nodes])
+    # Provides evaluating results
+    eval_label = np.reshape(eval_Y_clean, [-1, num_nodes])
     
-    rmse, mae, acc, r2_score, var_score = evaluation(test_label, test_output)
-    test_label1 = test_label * max_value
-    test_output1 = test_output * max_value
-    test_loss.append(loss2)
-    test_rmse.append(rmse * max_value)
-    test_mae.append(mae * max_value)
-    test_acc.append(acc)
-    test_r2.append(r2_score)
-    test_var.append(var_score)
-    test_pred.append(test_output1)
+    rmse, mae, acc, r2_score, var_score = evaluation(eval_label, eval_output)
+    eval_label1 = eval_label * max_value
+    eval_output1 = eval_output * max_value
+    eval_loss.append(loss2)
+    eval_rmse.append(rmse * max_value)
+    eval_mae.append(mae * max_value)
+    eval_acc.append(acc)
+    eval_r2.append(r2_score)
+    eval_var.append(var_score)
+    eval_pred.append(eval_output1)
 
-    # Sets index and provides test results
-    index = test_rmse.index(np.min(test_rmse))
-    test_result = test_pred[index]
+    # Sets index and provides eval results
+    index = eval_rmse.index(np.min(eval_rmse))
+    eval_result = eval_pred[index]
     
     # Create a evaluation path
     eval_path = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval"
     
-    var_test_output = pd.DataFrame(test_output*max_value) # test_result, make this unnormalize
-    var_test_output.to_csv(eval_path + "/test_output.csv", index=False, header=False)
+    var_eval_output = pd.DataFrame(eval_output*max_value) # eval_result, make this unnormalize
+    var_eval_output.to_csv(eval_path + "/eval_output.csv", index=False, header=False)
 
-    var_test_label = pd.DataFrame(test_label*max_value)
-    var_test_label.to_csv(eval_path + "/test_labels.csv", index=False, header=False)
+    var_eval_label = pd.DataFrame(eval_label*max_value)
+    var_eval_label.to_csv(eval_path + "/eval_labels.csv", index=False, header=False)
 
     # Plots results
-    plot_result_tank(test_result, test_label1, eval_path, hour = 168)
-    plot_result_pump(test_result, test_label1, eval_path, hour = 168)
-    plot_result_valve(test_result, test_label1, eval_path, hour = 720)
-    plot_result_junction(test_result, test_label1, eval_path, hour = 168)
+    plot_result_tank(eval_result, eval_label1, eval_path, hour = 168)
+    plot_result_pump(eval_result, eval_label1, eval_path, hour = 168)
+    plot_result_valve(eval_result, eval_label1, eval_path, hour = 720)
+    plot_result_junction(eval_result, eval_label1, eval_path, hour = 168)
     
-    # Prints out testing results
+    # Prints out evaluates results
     print("-----------------------------------------------\nEvaluation Metrics:")
-    print("min_rmse: %r" % (np.min(test_rmse)))
-    print("min_mae: %r" % (test_mae[index]))
-    print("max_acc: %r" % (test_acc[index]))
-    print("r2: %r" % (test_r2[index]))
-    print("var: %r" % test_var[index])
+    print("min_rmse: %r" % (np.min(eval_rmse)))
+    print("min_mae: %r" % (eval_mae[index]))
+    print("max_acc: %r" % (eval_acc[index]))
+    print("r2: %r" % (eval_r2[index]))
+    print("var: %r" % eval_var[index])
 
     time_end = time.time()
     print(f"Training Time: {time_end - time_start} sec")
-
 
 def main():
     """User Interface"""
