@@ -3,6 +3,7 @@
 # Test calculate the first 20 rows
 # Calculate and return if there is any negative numbers
 # Concatenate the poison datasets in to this, the calibrate to outlier all the poison data points
+# Calculate the mean distance of the poison dataset
 # Check the math for robust mahalanobis distance
 
 
@@ -97,7 +98,7 @@ def calculate_md():
     nega = [distances[i] for i in range (len(distances)) if distances[i] <= 0.0]
     print(f"List of negative Mahalanobis Distance: {nega}")
     
-    # Calculate the average Mahalanobis Distance
+    # Calculate the average Mahalanobis Distance (not useful)
     avg_md = np.average(distances)
     
     print(f"The average of the Mahalanobis Distance: {avg_md}")

@@ -21,6 +21,7 @@ Explainable TGCN for Water Distribution Systems
 - Option: Continue to help Namzul with GANs
 - Option: Working on Attribution
 - Option ATCGN + Robust MD
+- Dr. B Preference: Work on Seasoning Prediction: Split Clean Dataset 50/50 to train / test dataset. Train 80% of the training dataset and predict 1 days, 1 weeks, 1 months. Then validate the testing dataset.
 
 ## Mahalanobis Distance Process (in Validation phase):
 - Load up trained model.
