@@ -73,9 +73,11 @@ error_19 = gt_arr19 - pred_arr19
 error_20 = gt_arr20 - pred_arr20
 
 # Stacks errors - create a database
-df = np.stack((error_1, error_2, error_3, error_4, error_5, error_6, error_7, error_8, error_9, error_10, error_11, error_12, error_13, error_14, error_15, error_16, error_17, error_18, error_19, error_20))
-# df = np.stack((error_1, error_2, error_3, error_4, error_5, error_6, error_7, error_8, error_9, error_10))
-               
+# df = np.stack((error_1, error_2, error_3, error_4, error_5, error_6, error_7, error_8, error_9, error_10, error_11, error_12, error_13, error_14, error_15, error_16, error_17, error_18, error_19, error_20))
+df = np.stack((error_1, error_2, error_3, error_4, error_5, error_6, error_7, error_8, error_9, error_10))
+
+print(f"SHAPE of DF: {df.shape}")
+         
 print(f"\n\nDF: {df}\n\n")
 # 1. Calculate the covariance matrix
 cov = np.cov(df, rowvar=False)
@@ -90,6 +92,20 @@ mean_error = np.mean(df, axis=0)
 print(f"Center point of Ozone and Temp: {mean_error}")
 
 
+# 3. Find the distance between the center point and each observation point in the dataset.
+# We need to find the cutoff value from the Chi-Square distribution.
+distances = []
+for i, val in enumerate(df):
+    p1 = val  # Ozone and Temp of the ith row
+    p2 = mean_error
+    distance = (p1 - p2).dot(covariance_pm1).dot(p1 - p2).T
+    distances.append(distance)
+    print(f"Distance: {np.sqrt(distance)}")
+distances = np.array(distances)
+
+print(distances)
+
+##########################################################3
 def mahalanobis_method(df):
     # MD
     x_minus_mu = df - np.mean(df, axis=0)
@@ -104,24 +120,24 @@ def mahalanobis_method(df):
 print("\nMAHALANOBIS DISTANCE: \n")
 mahalanobis_method(df)
 
-def robust_mahalanobis_method(df):
-    #Minimum covariance determinant
-    rng = np.random.RandomState(0)
-    # real_cov = np.cov(df.values.T)
-    real_cov = np.cov(df, rowvar=False)
-    X = rng.multivariate_normal(mean=np.mean(df, axis=0), cov=real_cov, size=506)
-    cov = MinCovDet(random_state=0).fit(X)
-    mcd = cov.covariance_ #robust covariance metric
-    robust_mean = cov.location_  #robust mean
-    inv_covmat = sp.linalg.inv(mcd) #inverse covariance metric
+# def robust_mahalanobis_method(df):
+#     #Minimum covariance determinant
+#     rng = np.random.RandomState(0)
+#     # real_cov = np.cov(df.values.T)
+#     real_cov = np.cov(df, rowvar=False)
+#     X = rng.multivariate_normal(mean=np.mean(df, axis=0), cov=real_cov, size=506)
+#     cov = MinCovDet(random_state=0).fit(X)
+#     mcd = cov.covariance_ #robust covariance metric
+#     robust_mean = cov.location_  #robust mean
+#     inv_covmat = sp.linalg.inv(mcd) #inverse covariance metric
     
-    #Robust M-Distance
-    x_minus_mu = df - robust_mean
-    left_term = np.dot(x_minus_mu, inv_covmat)
-    mahal = np.dot(left_term, x_minus_mu.T)
-    print(mahal)
-    md = np.sqrt(mahal.diagonal())
-    print("\nROBUST MAHALANOBIS DISTANCE: \n")
-    print(md)
+#     #Robust M-Distance
+#     x_minus_mu = df - robust_mean
+#     left_term = np.dot(x_minus_mu, inv_covmat)
+#     mahal = np.dot(left_term, x_minus_mu.T)
+#     print(mahal)
+#     md = np.sqrt(mahal.diagonal())
+#     print("\nROBUST MAHALANOBIS DISTANCE: \n")
+#     print(md)
 
-robust_mahalanobis_method(df)
+# # robust_mahalanobis_method(df)
