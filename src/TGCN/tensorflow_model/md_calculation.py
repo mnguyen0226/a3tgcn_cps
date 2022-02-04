@@ -2,6 +2,7 @@
 # Test calculate the first 10 rows
 # Test calculate the first 20 rows
 # Calculate and return if there is any negative numbers
+# Concatenate the poison datasets in to this, the calibrate to outlier all the poison data points
 # Check the math for robust mahalanobis distance
 
 
@@ -91,11 +92,28 @@ def calculate_md():
         distances.append(distance)
         print(f"Distance: {distance}")
     distances = np.array(distances)
-
-    # print(distances)
     
+    # Check if there is any negative number in the mahalanobis distance
     nega = [distances[i] for i in range (len(distances)) if distances[i] <= 0.0]
-    print(nega)
+    print(f"List of negative Mahalanobis Distance: {nega}")
+    
+    # Calculate the average Mahalanobis Distance
+    avg_md = np.average(distances)
+    
+    print(f"The average of the Mahalanobis Distance: {avg_md}")
+
+    # 5. Find the cut-off Chi-Square values. The points outside of 0.95 will be considered as outliers
+    # Note, we also set the degree of freedom values for Chi-Square. This number is equal to the number of variables in our dataset, 31
+    cutoff = chi2.ppf(0.99999999999999999, df_error.shape[1]) # THRESHOLD = 0.99999999999999999
+    
+    # Index of outliers
+    outlier_index = np.where(distances > cutoff)
+    
+    print("TIME SERIES INDEX OF OUTLIERS\n")
+    print(outlier_index)
+    
+    # print("OUTLIERS DETAILS\n")
+    # print(df_error[ distances > cutoff , :])
     
 if __name__ == "__main__":
     calculate_md()
