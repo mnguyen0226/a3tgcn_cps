@@ -468,10 +468,10 @@ def load_and_eval_poisoned_dataset():
     )
 
     # Plots results
-    plot_result_tank(eval_result, eval_label1, eval_path, hour=168)
-    plot_result_pump(eval_result, eval_label1, eval_path, hour=168)
-    plot_result_valve(eval_result, eval_label1, eval_path, hour=168)
-    plot_result_junction(eval_result, eval_label1, eval_path, hour=168)
+    plot_result_tank(eval_result, eval_label1, eval_path, hour=738)
+    plot_result_pump(eval_result, eval_label1, eval_path, hour=738)
+    plot_result_valve(eval_result, eval_label1, eval_path, hour=738)
+    plot_result_junction(eval_result, eval_label1, eval_path, hour=738)
 
     # Prints out evaluates results
     print("-----------------------------------------------\nEvaluation Metrics:")
@@ -488,8 +488,8 @@ def load_and_eval_poisoned_dataset():
 def main():
     """User Interface"""
     # train_and_eval()
-    load_and_eval_clean_dataset()
-    # load_and_eval_poisoned_dataset()
+    # load_and_eval_clean_dataset()
+    load_and_eval_poisoned_dataset()
 
 
 if __name__ == "__main__":
