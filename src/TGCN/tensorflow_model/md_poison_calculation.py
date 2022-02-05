@@ -3,19 +3,30 @@ from scipy.stats import chi2
 import csv
 from md_clean_calculation import data_preprocessing
 import matplotlib.pyplot as plt
+from md_clean_calculation import GLOBAL_ME
+import pandas as pd
 
 # Before any attacks there will be a 17 hour time stamps
 EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_labels.csv"
 EVAL_POISON_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_output.csv"
-L = 12
+L = 25
 TH = 0
+EVAL_POISON_LINE_NUM = 728
+
+dataset04 = pd.read_csv(
+    r"data/processed/dataset04_origin_no_binary_30_split.csv"
+)
+
+binary_arr = dataset04['ATT_FLAG'].to_list()
+binary_arr = binary_arr[(L+8):-1] # use 8 for prediction + L for first window size
+print((binary_arr))
 
 ##########
 def calculate_md_poison():
     """Calculates the Mahalanobis Distance for poisoned dataset"""
     # Get lists
     df_eval_labels, df_eval_preds = data_preprocessing(
-        num_line=483,
+        num_line=EVAL_POISON_LINE_NUM,
         label_dataset=EVAL_POISON_LABEL_DIR,
         preds_dataset=EVAL_POISON_PREDS_DIR,
     )
@@ -34,7 +45,7 @@ def calculate_md_poison():
     covariance_pm1 = np.linalg.matrix_power(cov, -1)
 
     # 3. Calculate the mean error arrayy
-    global_mean_error = np.mean(df_error, axis=0)
+    global_mean_error = GLOBAL_ME
 
     # 4. Calculate the mahalanobis distance
     distances = []
@@ -47,21 +58,22 @@ def calculate_md_poison():
     distances = np.array(distances)
 
     cutoff_arr = []
-    
+
     for i in range(L, (len(distances))):
-        batch_squared_md = distances[i-L:i] # take the first L batches
+        batch_squared_md = distances[i - L : i]  # take the first L batches
         mean_batch_squared_md = np.average(batch_squared_md)
         # batch_cutoff = chi2.pff(0.95, 31)
         cutoff_arr.append(mean_batch_squared_md)
-    print(len(cutoff_arr))         
+    print(len(cutoff_arr))
 
     plt.plot(cutoff_arr)
-    plt.title("Mean Squared Mahalanobis Distance Every L Hours TimeStamp - Poisoned Dataset")
+    plt.title(
+        "Mean Squared Mahalanobis Distance Every L Hours TimeStamp - Poisoned Dataset"
+    )
     plt.xlabel("Every L hours")
     plt.ylabel("Mean Squared Mahalanobis Distance - To Calibrate Max Threshold")
     print(f"The Average Mean Squared Mahalanobis Distance {np.average(cutoff_arr)}")
     plt.show()
-
 
     # # Check if there is any negative number in the mahalanobis distance
     # nega = [distances[i] for i in range(len(distances)) if distances[i] <= 0.0]

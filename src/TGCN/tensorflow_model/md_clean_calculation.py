@@ -14,8 +14,43 @@ import matplotlib.pyplot as plt
 
 EVAL_CLEAN_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_labels.csv"
 EVAL_CLEAN_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_output.csv"
-L = 12
+L = 25
 TH = 0
+GLOBAL_ME = np.array(
+    [
+        0.25263925,
+        1.72064805,
+        -1.21583359,
+        -1.09088844,
+        1.8052068,
+        -0.47301259,
+        -0.19618666,
+        0.08631689,
+        0.01535588,
+        0.18300351,
+        -1.77710595,
+        0.40690686,
+        -1.50650184,
+        -0.32522933,
+        -0.10789579,
+        0.12839262,
+        -1.59134306,
+        -0.87404767,
+        0.21639689,
+        -0.58031516,
+        0.72516544,
+        0.87291746,
+        -1.53235269,
+        0.21657286,
+        -0.72567742,
+        -0.53414824,
+        0.1540499,
+        -0.90060805,
+        1.26067521,
+        1.34126008,
+        0.02611067,
+    ]
+)
 
 ##########
 def data_preprocessing(
@@ -90,33 +125,37 @@ def calculate_md_clean():
 
     # 3. Calculate the global mean error arrayy
     global_mean_error = np.mean(df_error, axis=0)
+    print(global_mean_error)
 
     # 4. Calculate the mahalanobis distance
     distances = []
     for i, val in enumerate(df_error):
         p1 = val  # Ozone and Temp of the ith row
         p2 = global_mean_error
-        distance = (p1 - p2).T.dot(covariance_pm1).dot(p1 - p2) # squared mahalanobis distance
+        distance = (
+            (p1 - p2).T.dot(covariance_pm1).dot(p1 - p2)
+        )  # squared mahalanobis distance
         distances.append(distance)
         # print(f"Distance: {distance}")
-    distances = np.array(distances) # 1744 values
+    distances = np.array(distances)  # 1744 values
 
     cutoff_arr = []
-    
+
     for i in range(L, (len(distances))):
-        batch_squared_md = distances[i-L:i] # take the first L batches
+        batch_squared_md = distances[i - L : i]  # take the first L batches
         mean_batch_squared_md = np.average(batch_squared_md)
         # batch_cutoff = chi2.pff(0.95, 31)
         cutoff_arr.append(mean_batch_squared_md)
-    print(len(cutoff_arr))         
+    print(len(cutoff_arr))
 
     plt.plot(cutoff_arr)
-    plt.title("Mean Squared Mahalanobis Distance Every L Hours TimeStamp - Clean Dataset")
+    plt.title(
+        "Mean Squared Mahalanobis Distance Every L Hours TimeStamp - Clean Dataset"
+    )
     plt.xlabel("Every L hours")
     plt.ylabel("Mean Squared Mahalanobis Distance - To Calibrate Max Threshold")
     print(f"The Average Mean Squared Mahalanobis Distance {np.average(cutoff_arr)}")
     plt.show()
-
 
     # # Check if there is any negative number in the mahalanobis distance
     # nega = [distances[i] for i in range(len(distances)) if distances[i] <= 0.0]
