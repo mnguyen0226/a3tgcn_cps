@@ -21,8 +21,8 @@ local_time = time.asctime(time.localtime(time.time()))
 ########## Global variables for Optimization (Ashita) - ideal: 0.01 51 16 128 => 83%;
 OP_LR = 0.01  # learning rate
 OP_EPOCH = 101  # number of epochs / iteration (TGCN: 20)
-OP_BATCH_SIZE = 64  # 24 hours (1 days)  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
-OP_HIDDEN_DIM = 128  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
+OP_BATCH_SIZE = 16  # 24 hours (1 days)  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
+OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
 ########## Parses settings from command line
 flags = tf.app.flags
@@ -31,7 +31,7 @@ flags.DEFINE_float("learning_rate", OP_LR, "Initial learning rate.")
 flags.DEFINE_integer("training_epoch", OP_EPOCH, "Number of epoch to train.")
 flags.DEFINE_integer("gru_units", OP_HIDDEN_DIM, "hidden_units of gru")
 flags.DEFINE_integer(
-    "seq_len", 20, "time length of inputs time series."
+    "seq_len", 8, "time length of inputs time series."
 )  # 12, (TGCN: 8) # 48
 flags.DEFINE_integer("pre_len", 1, "time length of prediction.")  # 24
 flags.DEFINE_float("train_rate", 0.8, "rate of training set: 80% train, 20% validate.")
@@ -486,8 +486,8 @@ def load_and_eval_poisoned_dataset():
 
 def main():
     """User Interface"""
-    train_and_eval()
-    # load_and_eval_clean_dataset()
+    # train_and_eval()
+    load_and_eval_clean_dataset()
     # load_and_eval_poisoned_dataset()
 
 
