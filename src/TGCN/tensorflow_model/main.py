@@ -451,6 +451,7 @@ def load_and_eval_poisoned_dataset():
 
     # Create a evaluation path
     eval_path = (
+        # "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned"
         "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned"
     )
 
