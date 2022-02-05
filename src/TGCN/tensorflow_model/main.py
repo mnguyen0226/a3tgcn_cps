@@ -47,12 +47,12 @@ MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
 SAVING_STEP = 100
 
-### Loads data
-data, adj = load_scada_data()
+### Preprocess clean dataset for train and evaluation
+clean_data, adj = load_scada_data(dataset="train_eval_clean")
 
-time_len = data.shape[0]
-num_nodes = data.shape[1]
-data_maxtrix = np.mat(data, dtype=np.float32)
+time_len = clean_data.shape[0]
+num_nodes = clean_data.shape[1]
+data_maxtrix = np.mat(clean_data, dtype=np.float32)
 
 # Normalizes data
 max_value = np.max(data_maxtrix)
@@ -65,9 +65,11 @@ train_X_clean, train_Y_clean, eval_X_clean, eval_Y_clean = preprocess_data(
     pre_len=PRE_LEN,
 )
 
-### Gets number of batches
-total_batch = int(train_X_clean.shape[0] / BATCH_SIZE)
-training_data_count = len(train_X_clean)
+# Gets number of batches of clean dataset
+total_clean_batch = int(train_X_clean.shape[0] / BATCH_SIZE)
+# training_data_count = len(train_X_clean)
+
+### Preprocess poisoned dataset for train and evaluation
 
 
 def TGCN(_X, _weights, _biases, reuse=None):
@@ -138,12 +140,6 @@ def train_and_eval():
     print("Start the training and saving process")
     time_start = time.time()
 
-    # Initializes session
-    # variables = tf.global_variables()
-
-    # Create a saver object which will save all the variables
-    # saver = tf.compat.v1.train.Saver(tf.global_variables())
-
     # Checks for GPU
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
 
@@ -196,7 +192,7 @@ def train_and_eval():
     )
 
     for epoch in range(TRAINING_EPOCH):
-        for m in range(total_batch):
+        for m in range(total_clean_batch):
             mini_batch = train_X_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
             mini_label = train_Y_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
             _, loss1, rmse1, train_output = sess.run(
@@ -247,15 +243,15 @@ def train_and_eval():
     result_file.write(f"Training Time: {time_end - time_start} sec.\n")
 
     # Visualization
-    b = int(len(batch_rmse) / total_batch)
+    b = int(len(batch_rmse) / total_clean_batch)
     batch_rmse1 = [i for i in batch_rmse]
     train_rmse = [
-        (sum(batch_rmse1[i * total_batch : (i + 1) * total_batch]) / total_batch)
+        (sum(batch_rmse1[i * total_clean_batch : (i + 1) * total_clean_batch]) / total_clean_batch)
         for i in range(b)
     ]
     batch_loss1 = [i for i in batch_loss]
     train_loss = [
-        (sum(batch_loss1[i * total_batch : (i + 1) * total_batch]) / total_batch)
+        (sum(batch_loss1[i * total_clean_batch : (i + 1) * total_clean_batch]) / total_clean_batch)
         for i in range(b)
     ]
 
@@ -288,9 +284,6 @@ def train_and_eval():
 
 def load_and_eval():
     """Loads and evaluates trained model"""
-    
-    
-    
     
     print("Start the loading and evaluating process")
     time_start = time.time()

@@ -5,7 +5,7 @@ import pandas as pd
 import pickle as pkl
 
 
-def load_scada_data(dataset="train_clean"):
+def load_scada_data(dataset="train_eval_clean"):
     """Loads the adjacency matrix for GCN and clean time-series dataset.
 
     Returns:
@@ -14,19 +14,19 @@ def load_scada_data(dataset="train_clean"):
     adj = pd.read_csv(r"data/processed/processed_scada_adj_matrix.csv", header=None)
     # adj = pd.read_csv(r"data/processed/sz_adj.csv", header=None)
     adj_matrix = np.mat(adj)
-    if dataset == "train_clean":
+    if dataset == "train_eval_clean":
         time_series_data = pd.read_csv(
             r"data/processed/processed_clean_scada_dataset.csv"
         )
         # time_series_data = pd.read_csv(r"data/processed/sz_speed.csv")
-    elif dataset == "train_mix":
+    elif dataset == "eval_poison":
         time_series_data = pd.read_csv(
-            r"data/processed/processed_clean_poisoned_scada_dataset.csv"
+            r"data/processed/processed_poisoned_scada_dataset.csv"
         )
         # time_series_data = pd.read_csv(r"data/processed/sz_speed.csv")
     elif dataset == "test_mix":
         time_series_data = pd.read_csv(
-            r"data/processed/processed_clean_scada_dataset.csv"
+            r"data/processed/processed_test_scada_dataset.csv"
         )
         # time_series_data = pd.read_csv(r"data/processed/sz_speed.csv")
 
