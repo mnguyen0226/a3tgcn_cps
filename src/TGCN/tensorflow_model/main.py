@@ -362,15 +362,21 @@ def load_and_eval_clean_dataset():
     eval_result = eval_pred[index]
 
     # Create a evaluation path
-    eval_path = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_clean"
+    eval_path = (
+        "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_clean"
+    )
 
     var_eval_output = pd.DataFrame(
         eval_output * max_value
     )  # eval_result, make this unnormalize
-    var_eval_output.to_csv(eval_path + "/eval_clean_output.csv", index=False, header=False)
+    var_eval_output.to_csv(
+        eval_path + "/eval_clean_output.csv", index=False, header=False
+    )
 
     var_eval_label = pd.DataFrame(eval_label * max_value)
-    var_eval_label.to_csv(eval_path + "/eval_clean_labels.csv", index=False, header=False)
+    var_eval_label.to_csv(
+        eval_path + "/eval_clean_labels.csv", index=False, header=False
+    )
 
     # Plots results
     plot_result_tank(eval_result, eval_label1, eval_path, hour=168)
@@ -388,6 +394,7 @@ def load_and_eval_clean_dataset():
 
     time_end = time.time()
     print(f"Training Time: {time_end - time_start} sec")
+
 
 def load_and_eval_poisoned_dataset():
     """Loads and evaluates trained model poisoned dataset"""
@@ -443,15 +450,21 @@ def load_and_eval_poisoned_dataset():
     eval_result = eval_pred[index]
 
     # Create a evaluation path
-    eval_path = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned"
+    eval_path = (
+        "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned"
+    )
 
     var_eval_output = pd.DataFrame(
         eval_output * p_max_value
     )  # eval_result, make this unnormalize
-    var_eval_output.to_csv(eval_path + "/eval_poisoned_output.csv", index=False, header=False)
+    var_eval_output.to_csv(
+        eval_path + "/eval_poisoned_output.csv", index=False, header=False
+    )
 
     var_eval_label = pd.DataFrame(eval_label * p_max_value)
-    var_eval_label.to_csv(eval_path + "/eval_poisoned_labels.csv", index=False, header=False)
+    var_eval_label.to_csv(
+        eval_path + "/eval_poisoned_labels.csv", index=False, header=False
+    )
 
     # Plots results
     plot_result_tank(eval_result, eval_label1, eval_path, hour=168)
