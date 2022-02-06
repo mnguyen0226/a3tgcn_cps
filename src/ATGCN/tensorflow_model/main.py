@@ -20,9 +20,9 @@ import matplotlib.pyplot as plt
 local_time = time.asctime(time.localtime(time.time()))
 
 ########## Global variables for Optimization (Ashita) - ideal: 0.01 51 16 128 => 83%;
-OP_LR = 0.01  # learning rate
+OP_LR = 0.001  # learning rate
 OP_EPOCH = 101  # number of epochs / iteration (TGCN: 20)
-OP_BATCH_SIZE = 16  # 24 hours (1 days)  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
+OP_BATCH_SIZE = 64 # 64  # 24 hours (1 days)  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
 OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
 ########## Parses settings from command line
@@ -50,7 +50,8 @@ TRAINING_EPOCH = FLAGS.training_epoch
 GRU_UNITS = FLAGS.gru_units
 MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
-SAVING_STEP = 10
+SAVING_STEP = 50
+LAMBDA_LOSS = 0.0015
 
 ########## Preprocess clean dataset for train and evaluation
 clean_data, adj = load_scada_data(dataset="train_eval_clean")
@@ -118,7 +119,14 @@ _, _, eval_X_poison, eval_Y_poison = preprocess_data(
 #     )  # name for restoration
 #     return output, m, states
 
-def self_attention1(x, weight_att, bias_att):
+def self_attention(x, weight_att, bias_att):
+    """Constructs self-attention mechanism
+
+    Args:
+        x: Input.
+        weight_att: Weights attribute.
+        bias_att: Biases attribute.
+    """
     x = tf.matmul(tf.reshape(x,[-1,GRU_UNITS]),weight_att['w1']) + bias_att['b1']
 #    f = tf.layers.conv2d(x, ch // 8, kernel_size=1, kernel_initializer=tf.variance_scaling_initializer())
     f = tf.matmul(tf.reshape(x, [-1, num_nodes]), weight_att['w2']) + bias_att['b2']
@@ -140,7 +148,13 @@ def self_attention1(x, weight_att, bias_att):
     return context, beta 
 
 def TGCN(_X, weights, biases):
-    ###
+    """TGCN model for scada batadal datasets, including multiple TGCNCell(s)
+
+    Args:
+        _X: Adjacency matrix, time series.
+        weights: Weights.
+        biases: Biases.
+    """
     cell_1 = TGCNCell(GRU_UNITS, adj, num_nodes=num_nodes)
     cell = tf.nn.rnn_cell.MultiRNNCell([cell_1], state_is_tuple=True)
     _X = tf.unstack(_X, axis=1)
@@ -150,7 +164,7 @@ def TGCN(_X, weights, biases):
     out = tf.reshape(out, shape=[SEQ_LEN,-1,num_nodes,GRU_UNITS])
     out = tf.transpose(out, perm=[1,0,2,3])
 
-    last_output,alpha = self_attention1(out, weight_att, bias_att)
+    last_output,alpha = self_attention(out, weight_att, bias_att)
 
     output = tf.reshape(last_output,shape=[-1,SEQ_LEN])
     output = tf.matmul(output, weights['out']) + biases['out']
@@ -168,7 +182,7 @@ labels = tf.compat.v1.placeholder(tf.float32, shape=[None, PRE_LEN, num_nodes])
 ########## Graph weights and biases initialization of all neurons and layers
 weights = {
     "out": tf.Variable(
-        tf.random.normal([GRU_UNITS, PRE_LEN], mean=1.0), name="weight_o"
+        tf.random.normal([SEQ_LEN, PRE_LEN], mean=1.0), name="weight_o"
     )
 }
 biases = {"out": tf.Variable(tf.random.normal([PRE_LEN]), name="bias_o")}
@@ -185,7 +199,7 @@ bias_att = {
 y_pred,_,_,alpha = TGCN(inputs, weights, biases)
 
 ########## Optimizer
-lambda_loss = 0.0015
+lambda_loss = LAMBDA_LOSS
 
 ########## L2 regularization to avoid over fit
 L_reg = lambda_loss * sum(
@@ -265,10 +279,6 @@ def train_and_eval():
         for m in range(total_clean_batch):
             mini_batch = train_X_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
             mini_label = train_Y_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
-            # _, loss1, rmse1, train_output = sess.run(
-            #     [optimizer, loss, error, y_pred],
-            #     feed_dict={inputs: mini_batch, labels: mini_label},
-            # )
             _, loss1, rmse1, train_output, alpha1 = sess.run([optimizer, loss, error, y_pred, alpha],
                                                  feed_dict = {inputs:mini_batch, labels:mini_label})
             batch_loss.append(loss1)
@@ -551,9 +561,9 @@ def load_and_eval_poisoned_dataset():
 
 def main():
     """User Interface"""
-    # train_and_eval()
+    train_and_eval()
     # load_and_eval_clean_dataset()
-    load_and_eval_poisoned_dataset()
+    # load_and_eval_poisoned_dataset()
 
 
 if __name__ == "__main__":
