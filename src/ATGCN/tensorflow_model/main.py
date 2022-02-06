@@ -51,7 +51,7 @@ GRU_UNITS = FLAGS.gru_units
 MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
 SAVING_STEP = 50
-LAMBDA_LOSS = 0.0015
+LAMBDA_LOSS = 0.002 #0.0015
 
 ########## Preprocess clean dataset for train and evaluation
 clean_data, adj = load_scada_data(dataset="train_eval_clean")
@@ -354,12 +354,12 @@ def train_and_eval():
     fig1 = plt.figure(figsize=(7,3))
     ax1 = fig1.add_subplot(1,1,1)
     plt.plot(np.sum(alpha1,0))
-    plt.savefig(path+'/alpha.png',dpi=500)
+    plt.savefig(path+'/alpha1.png',dpi=500)
     plt.show()
 
 
     plt.imshow(np.mat(np.sum(alpha1,0)))
-    plt.savefig(path+'/alpha11.png',dpi=500)
+    plt.savefig(path+'/alpha2.png',dpi=500)
     plt.show()
 
     print("-----------------------------------------------\nEvaluation Metrics:")
@@ -380,6 +380,93 @@ def train_and_eval():
     result_file.write("var: %r\n" % eval_var[index])
 
     result_file.close()
+
+def load_and_keep_train_clean_dataset():
+    """Loads and evaluates trained model clean dataset"""
+
+    print("Start the loading and evaluating process")
+    time_start = time.time()
+
+    # Checks for GPU
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
+
+    # Setups traininng session
+    sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
+    sess.run(init)
+
+    # Chooses trained model path (CHANGE)
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.001_batch64_unit100_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"
+
+    # Loads model from trained path
+    load_path = saver.restore(sess, saved_path)
+
+    # Initializes the array for evaluating results
+    eval_loss, eval_rmse, eval_mae, eval_acc, eval_r2, eval_var, eval_pred = (
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+    )
+
+    # Evals completely at every epoch
+    loss2, rmse2, eval_output = sess.run(
+        [loss, error, y_pred], feed_dict={inputs: eval_X_clean, labels: eval_Y_clean}
+    )
+
+    # Provides evaluating results
+    eval_label = np.reshape(eval_Y_clean, [-1, num_nodes])
+
+    rmse, mae, acc, r2_score, var_score = evaluation(eval_label, eval_output)
+    eval_label1 = eval_label * max_value
+    eval_output1 = eval_output * max_value
+    eval_loss.append(loss2)
+    eval_rmse.append(rmse * max_value)
+    eval_mae.append(mae * max_value)
+    eval_acc.append(acc)
+    eval_r2.append(r2_score)
+    eval_var.append(var_score)
+    eval_pred.append(eval_output1)
+
+    # Sets index and provides eval results
+    index = eval_rmse.index(np.min(eval_rmse))
+    eval_result = eval_pred[index]
+
+    # Create a evaluation path
+    eval_path = (
+        "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_clean"
+    )
+
+    var_eval_output = pd.DataFrame(
+        eval_output * max_value
+    )  # eval_result, make this unnormalize
+    var_eval_output.to_csv(
+        eval_path + "/eval_clean_output.csv", index=False, header=False
+    )
+
+    var_eval_label = pd.DataFrame(eval_label * max_value)
+    var_eval_label.to_csv(
+        eval_path + "/eval_clean_labels.csv", index=False, header=False
+    )
+
+    # Plots results
+    plot_result_tank(eval_result, eval_label1, eval_path, hour=168)
+    plot_result_pump(eval_result, eval_label1, eval_path, hour=168)
+    plot_result_valve(eval_result, eval_label1, eval_path, hour=168)
+    plot_result_junction(eval_result, eval_label1, eval_path, hour=168)
+
+    # Prints out evaluates results
+    print("-----------------------------------------------\nEvaluation Metrics:")
+    print("min_rmse: %r" % (np.min(eval_rmse)))
+    print("min_mae: %r" % (eval_mae[index]))
+    print("max_acc: %r" % (eval_acc[index]))
+    print("r2: %r" % (eval_r2[index]))
+    print("var: %r" % eval_var[index])
+
+    time_end = time.time()
+    print(f"Training Time: {time_end - time_start} sec")
 
 
 def load_and_eval_clean_dataset():

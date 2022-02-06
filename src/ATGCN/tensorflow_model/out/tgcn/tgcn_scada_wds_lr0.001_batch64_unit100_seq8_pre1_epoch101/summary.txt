@@ -1,0 +1,111 @@
+----------------------------------------------------------------------------------------------
+TIME LOG ----------------
+Sat Feb  5 22:05:04 2022
+-----------------------------------------------
+
+Results of training and evaluating results:
+-------------------------
+Iter/Epoch #: 0
+Train_rmse: 32.82
+Eval_loss: 1.944e+03
+Eval_rmse: 0.2681
+Eval_acc: 0.2193
+
+-------------------------
+Iter/Epoch #: 1
+Train_rmse: 31.23
+Eval_loss: 1.773e+03
+Eval_rmse: 0.2561
+Eval_acc: 0.2544
+
+-------------------------
+Iter/Epoch #: 2
+Train_rmse: 30.48
+Eval_loss: 1.671e+03
+Eval_rmse: 0.2486
+Eval_acc: 0.2762
+
+-------------------------
+Iter/Epoch #: 3
+Train_rmse: 30.03
+Eval_loss: 1.621e+03
+Eval_rmse: 0.2449
+Eval_acc: 0.2871
+
+-------------------------
+Iter/Epoch #: 4
+Train_rmse: 29.7
+Eval_loss: 1.565e+03
+Eval_rmse: 0.2406
+Eval_acc: 0.2996
+
+-------------------------
+Iter/Epoch #: 5
+Train_rmse: 29.12
+Eval_loss: 1.534e+03
+Eval_rmse: 0.2382
+Eval_acc: 0.3066
+
+-------------------------
+Iter/Epoch #: 6
+Train_rmse: 28.83
+Eval_loss: 1.504e+03
+Eval_rmse: 0.2358
+Eval_acc: 0.3134
+
+-------------------------
+Iter/Epoch #: 7
+Train_rmse: 28.23
+Eval_loss: 1.44e+03
+Eval_rmse: 0.2308
+Eval_acc: 0.3281
+
+-------------------------
+Iter/Epoch #: 8
+Train_rmse: 27.77
+Eval_loss: 1.4e+03
+Eval_rmse: 0.2275
+Eval_acc: 0.3375
+
+-------------------------
+Iter/Epoch #: 9
+Train_rmse: 27.04
+Eval_loss: 1.321e+03
+Eval_rmse: 0.2211
+Eval_acc: 0.3564
+
+-------------------------
+Iter/Epoch #: 10
+Train_rmse: 26.42
+Eval_loss: 1.265e+03
+Eval_rmse: 0.2163
+Eval_acc: 0.3704
+
+-------------------------
+Iter/Epoch #: 11
+Train_rmse: 25.75
+Eval_loss: 1.201e+03
+Eval_rmse: 0.2108
+Eval_acc: 0.3863
+
+-------------------------
+Iter/Epoch #: 12
+Train_rmse: 24.99
+Eval_loss: 1.134e+03
+Eval_rmse: 0.2047
+Eval_acc: 0.4039
+
+-------------------------
+Iter/Epoch #: 13
+Train_rmse: 24.15
+Eval_loss: 1.06e+03
+Eval_rmse: 0.1979
+Eval_acc: 0.4237
+
+-------------------------
+Iter/Epoch #: 14
+Train_rmse: 23.27
+Eval_loss: 973.3
+Eval_rmse: 0.1897
+Eval_acc: 0.4476
+
