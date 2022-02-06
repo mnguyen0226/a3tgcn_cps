@@ -14,6 +14,7 @@ from utils import plot_result_valve
 from utils import plot_result_junction
 from utils import evaluation
 import time
+import matplotlib.pyplot as plt
 
 ########## Sets time for saving different trained time model
 local_time = time.asctime(time.localtime(time.time()))
@@ -91,31 +92,73 @@ _, _, eval_X_poison, eval_Y_poison = preprocess_data(
 )
 
 ########## TGCN
-def TGCN(_X, _weights, _biases, reuse=None):
-    """TGCN model for scada batadal datasets, including multiple TGCNCell(s)
+# def TGCN(_X, _weights, _biases, reuse=None):
+#     """TGCN model for scada batadal datasets, including multiple TGCNCell(s)
 
-    Args:
-        _X: Adjacency matrix, time series.
-        _weights: Weights.
-        _biases: Biases.
-    """
-    cell_1 = TGCNCell(num_units=GRU_UNITS, adj=adj, num_nodes=num_nodes, reuse=reuse)
+#     Args:
+#         _X: Adjacency matrix, time series.
+#         _weights: Weights.
+#         _biases: Biases.
+#     """
+#     cell_1 = TGCNCell(num_units=GRU_UNITS, adj=adj, num_nodes=num_nodes, reuse=reuse)
+#     cell = tf.nn.rnn_cell.MultiRNNCell([cell_1], state_is_tuple=True)
+#     _X = tf.unstack(_X, axis=1)
+#     outputs, states = tf.nn.static_rnn(cell, _X, dtype=tf.float32)
+#     m = []
+#     for i in outputs:
+#         o = tf.reshape(i, shape=[-1, num_nodes, GRU_UNITS])
+#         o = tf.reshape(o, shape=[-1, GRU_UNITS])
+#         m.append(o)
+#     last_output = m[-1]
+#     output = tf.matmul(last_output, _weights["out"]) + _biases["out"]
+#     output = tf.reshape(output, shape=[-1, num_nodes, PRE_LEN])
+#     output = tf.transpose(output, perm=[0, 2, 1])
+#     output = tf.reshape(
+#         output, shape=[-1, num_nodes], name="op_to_restore"
+#     )  # name for restoration
+#     return output, m, states
+
+def self_attention1(x, weight_att, bias_att):
+    x = tf.matmul(tf.reshape(x,[-1,GRU_UNITS]),weight_att['w1']) + bias_att['b1']
+#    f = tf.layers.conv2d(x, ch // 8, kernel_size=1, kernel_initializer=tf.variance_scaling_initializer())
+    f = tf.matmul(tf.reshape(x, [-1, num_nodes]), weight_att['w2']) + bias_att['b2']
+    g = tf.matmul(tf.reshape(x, [-1, num_nodes]), weight_att['w2']) + bias_att['b2']
+    h = tf.matmul(tf.reshape(x, [-1, num_nodes]), weight_att['w2']) + bias_att['b2']
+
+    f1 = tf.reshape(f, [-1,SEQ_LEN])
+    g1 = tf.reshape(g, [-1,SEQ_LEN])
+    h1 = tf.reshape(h, [-1,SEQ_LEN])
+    s = g1 * f1
+    print('s',s)
+
+    beta = tf.nn.softmax(s, dim=-1)  # attention map
+    print('bata',beta)
+    context = tf.expand_dims(beta,2) * tf.reshape(x,[-1,SEQ_LEN,num_nodes])
+
+    context = tf.transpose(context,perm=[0,2,1])
+    print('context', context)
+    return context, beta 
+
+def TGCN(_X, weights, biases):
+    ###
+    cell_1 = TGCNCell(GRU_UNITS, adj, num_nodes=num_nodes)
     cell = tf.nn.rnn_cell.MultiRNNCell([cell_1], state_is_tuple=True)
     _X = tf.unstack(_X, axis=1)
     outputs, states = tf.nn.static_rnn(cell, _X, dtype=tf.float32)
-    m = []
-    for i in outputs:
-        o = tf.reshape(i, shape=[-1, num_nodes, GRU_UNITS])
-        o = tf.reshape(o, shape=[-1, GRU_UNITS])
-        m.append(o)
-    last_output = m[-1]
-    output = tf.matmul(last_output, _weights["out"]) + _biases["out"]
-    output = tf.reshape(output, shape=[-1, num_nodes, PRE_LEN])
-    output = tf.transpose(output, perm=[0, 2, 1])
-    output = tf.reshape(
-        output, shape=[-1, num_nodes], name="op_to_restore"
-    )  # name for restoration
-    return output, m, states
+
+    out = tf.concat(outputs, axis=0)
+    out = tf.reshape(out, shape=[SEQ_LEN,-1,num_nodes,GRU_UNITS])
+    out = tf.transpose(out, perm=[1,0,2,3])
+
+    last_output,alpha = self_attention1(out, weight_att, bias_att)
+
+    output = tf.reshape(last_output,shape=[-1,SEQ_LEN])
+    output = tf.matmul(output, weights['out']) + biases['out']
+    output = tf.reshape(output,shape=[-1,num_nodes,PRE_LEN])
+    output = tf.transpose(output, perm=[0,2,1])
+    output = tf.reshape(output, shape=[-1,num_nodes])
+
+    return output, outputs, states, alpha
 
 
 ########## Prepares to feed input to model: includes inputs and labels, this also includes the feed_dict in the train_and_eval()
@@ -130,8 +173,16 @@ weights = {
 }
 biases = {"out": tf.Variable(tf.random.normal([PRE_LEN]), name="bias_o")}
 
+### For Attention
+weight_att={
+    'w1':tf.Variable(tf.random_normal([GRU_UNITS,1], stddev=0.1),name='att_w1'),
+    'w2':tf.Variable(tf.random_normal([num_nodes,1], stddev=0.1),name='att_w2')}
+bias_att = {
+    'b1': tf.Variable(tf.random_normal([1]),name='att_b1'),
+    'b2': tf.Variable(tf.random_normal([1]),name='att_b2')}
+
 ########## Define TGCN model
-y_pred, _, _ = TGCN(inputs, weights, biases)
+y_pred,_,_,alpha = TGCN(inputs, weights, biases)
 
 ########## Optimizer
 lambda_loss = 0.0015
@@ -214,10 +265,12 @@ def train_and_eval():
         for m in range(total_clean_batch):
             mini_batch = train_X_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
             mini_label = train_Y_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
-            _, loss1, rmse1, train_output = sess.run(
-                [optimizer, loss, error, y_pred],
-                feed_dict={inputs: mini_batch, labels: mini_label},
-            )
+            # _, loss1, rmse1, train_output = sess.run(
+            #     [optimizer, loss, error, y_pred],
+            #     feed_dict={inputs: mini_batch, labels: mini_label},
+            # )
+            _, loss1, rmse1, train_output, alpha1 = sess.run([optimizer, loss, error, y_pred, alpha],
+                                                 feed_dict = {inputs:mini_batch, labels:mini_label})
             batch_loss.append(loss1)
             batch_rmse.append(rmse1 * max_value)
 
@@ -287,6 +340,17 @@ def train_and_eval():
     var.to_csv(path + "/eval_result.csv", index=False, header=False)
     plot_result_tank(eval_result, eval_label1, path)
     plot_error(train_rmse, train_loss, eval_rmse, eval_acc, eval_mae, path)
+
+    fig1 = plt.figure(figsize=(7,3))
+    ax1 = fig1.add_subplot(1,1,1)
+    plt.plot(np.sum(alpha1,0))
+    plt.savefig(path+'/alpha.png',dpi=500)
+    plt.show()
+
+
+    plt.imshow(np.mat(np.sum(alpha1,0)))
+    plt.savefig(path+'/alpha11.png',dpi=500)
+    plt.show()
 
     print("-----------------------------------------------\nEvaluation Metrics:")
     print("min_rmse: %r" % (np.min(eval_rmse)))
