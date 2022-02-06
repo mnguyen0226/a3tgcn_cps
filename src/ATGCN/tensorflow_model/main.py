@@ -20,9 +20,9 @@ import matplotlib.pyplot as plt
 local_time = time.asctime(time.localtime(time.time()))
 
 ########## Global variables for Optimization (Ashita) - ideal: 0.01 51 16 128 => 83%;
-OP_LR = 0.001  # learning rate
+OP_LR = 0.0015  # learning rate
 OP_EPOCH = 101  # number of epochs / iteration (TGCN: 20)
-OP_BATCH_SIZE = 64 # 64  # 24 hours (1 days)  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
+OP_BATCH_SIZE = 32 # 64  # 24 hours (1 days)  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
 OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
 ########## Parses settings from command line
@@ -51,7 +51,7 @@ GRU_UNITS = FLAGS.gru_units
 MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
 SAVING_STEP = 50
-LAMBDA_LOSS = 0.002 #0.0015
+LAMBDA_LOSS = 0.0015 #0.0015
 
 ########## Preprocess clean dataset for train and evaluation
 clean_data, adj = load_scada_data(dataset="train_eval_clean")
@@ -394,13 +394,30 @@ def load_and_keep_train_clean_dataset():
     sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
     sess.run(init)
 
+    out = "out/%s" % (MODEL_NAME)
+    path1 = "%s_%s_lr%r_batch%r_unit%r_seq%r_pre%r_epoch%r" % (
+        MODEL_NAME,
+        DATA_NAME,
+        LR,
+        BATCH_SIZE,
+        GRU_UNITS,
+        SEQ_LEN,
+        PRE_LEN,
+        TRAINING_EPOCH,
+    )
+
+    path = os.path.join(out, path1)
+    if not os.path.exists(path):
+        os.makedirs(path)
+
     # Chooses trained model path (CHANGE)
-    saved_path = "out/tgcn/tgcn_scada_wds_lr0.001_batch64_unit100_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.001_batch64_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"
 
     # Loads model from trained path
     load_path = saver.restore(sess, saved_path)
 
     # Initializes the array for evaluating results
+    batch_loss, batch_rmse = [], []
     eval_loss, eval_rmse, eval_mae, eval_acc, eval_r2, eval_var, eval_pred = (
         [],
         [],
@@ -411,53 +428,110 @@ def load_and_keep_train_clean_dataset():
         [],
     )
 
-    # Evals completely at every epoch
-    loss2, rmse2, eval_output = sess.run(
-        [loss, error, y_pred], feed_dict={inputs: eval_X_clean, labels: eval_Y_clean}
+    print(
+        "-----------------------------------------------\nResults of training and evaluating results:"
+    )
+    result_file = open(path + "/summary.txt", "a")
+
+    # Logs in time
+    result_file.write(
+        "----------------------------------------------------------------------------------------------\n"
+    )
+    result_file.write("TIME LOG ----------------\n")
+    result_file.write(local_time + "\n")
+
+    # Writes results to files
+    result_file.write(
+        "-----------------------------------------------\n\nResults of training and evaluating results:\n"
     )
 
-    # Provides evaluating results
-    eval_label = np.reshape(eval_Y_clean, [-1, num_nodes])
+    for epoch in range(TRAINING_EPOCH):
+        for m in range(total_clean_batch):
+            mini_batch = train_X_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
+            mini_label = train_Y_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
+            _, loss1, rmse1, train_output, alpha1 = sess.run([optimizer, loss, error, y_pred, alpha],
+                                                 feed_dict = {inputs:mini_batch, labels:mini_label})
+            batch_loss.append(loss1)
+            batch_rmse.append(rmse1 * max_value)
 
-    rmse, mae, acc, r2_score, var_score = evaluation(eval_label, eval_output)
-    eval_label1 = eval_label * max_value
-    eval_output1 = eval_output * max_value
-    eval_loss.append(loss2)
-    eval_rmse.append(rmse * max_value)
-    eval_mae.append(mae * max_value)
-    eval_acc.append(acc)
-    eval_r2.append(r2_score)
-    eval_var.append(var_score)
-    eval_pred.append(eval_output1)
+        # Evaluates completely at every epoch
+        loss2, rmse2, eval_output = sess.run(
+            [loss, error, y_pred],
+            feed_dict={inputs: eval_X_clean, labels: eval_Y_clean},
+        )
 
-    # Sets index and provides eval results
+        eval_label = np.reshape(eval_Y_clean, [-1, num_nodes])
+        rmse, mae, acc, r2_score, var_score = evaluation(eval_label, eval_output)
+        eval_label1 = eval_label * max_value
+        eval_output1 = eval_output * max_value
+        eval_loss.append(loss2)
+        eval_rmse.append(rmse * max_value)
+        eval_mae.append(mae * max_value)
+        eval_acc.append(acc)
+        eval_r2.append(r2_score)
+        eval_var.append(var_score)
+        eval_pred.append(eval_output1)
+
+        print("-------------------------\nIter/Epoch #: {}".format(epoch))
+        print("Train_rmse: {:.4}".format(batch_rmse[-1]))
+        print("Eval_loss: {:.4}".format(loss2))
+        print("Eval_rmse: {:.4}".format(rmse))
+        print("Eval_acc: {:.4}\n".format(acc))
+
+        # Writes results to files
+        result_file.write("-------------------------\nIter/Epoch #: {}\n".format(epoch))
+        result_file.write("Train_rmse: {:.4}\n".format(batch_rmse[-1]))
+        result_file.write("Eval_loss: {:.4}\n".format(loss2))
+        result_file.write("Eval_rmse: {:.4}\n".format(rmse))
+        result_file.write("Eval_acc: {:.4}\n\n".format(acc))
+
+        if epoch % SAVING_STEP == 0:
+            # Saves model every SAVING_STEP epoch
+            saver.save(sess, path + "/model_100/TGCN_pre_%r" % epoch, global_step=epoch)
+
+    time_end = time.time()
+    print(f"Training Time: {time_end - time_start} sec")
+
+    # Writes results to files
+    result_file.write(f"Training Time: {time_end - time_start} sec.\n")
+
+    # Visualization
+    b = int(len(batch_rmse) / total_clean_batch)
+    batch_rmse1 = [i for i in batch_rmse]
+    train_rmse = [
+        (
+            sum(batch_rmse1[i * total_clean_batch : (i + 1) * total_clean_batch])
+            / total_clean_batch
+        )
+        for i in range(b)
+    ]
+    batch_loss1 = [i for i in batch_loss]
+    train_loss = [
+        (
+            sum(batch_loss1[i * total_clean_batch : (i + 1) * total_clean_batch])
+            / total_clean_batch
+        )
+        for i in range(b)
+    ]
+
     index = eval_rmse.index(np.min(eval_rmse))
     eval_result = eval_pred[index]
+    var = pd.DataFrame(eval_result)  # gets the prediction to unnormalized result
+    var.to_csv(path + "/eval_result.csv", index=False, header=False)
+    plot_result_tank(eval_result, eval_label1, path)
+    plot_error(train_rmse, train_loss, eval_rmse, eval_acc, eval_mae, path)
 
-    # Create a evaluation path
-    eval_path = (
-        "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_clean"
-    )
+    fig1 = plt.figure(figsize=(7,3))
+    ax1 = fig1.add_subplot(1,1,1)
+    plt.plot(np.sum(alpha1,0))
+    plt.savefig(path+'/alpha1.png',dpi=500)
+    plt.show()
 
-    var_eval_output = pd.DataFrame(
-        eval_output * max_value
-    )  # eval_result, make this unnormalize
-    var_eval_output.to_csv(
-        eval_path + "/eval_clean_output.csv", index=False, header=False
-    )
 
-    var_eval_label = pd.DataFrame(eval_label * max_value)
-    var_eval_label.to_csv(
-        eval_path + "/eval_clean_labels.csv", index=False, header=False
-    )
+    plt.imshow(np.mat(np.sum(alpha1,0)))
+    plt.savefig(path+'/alpha2.png',dpi=500)
+    plt.show()
 
-    # Plots results
-    plot_result_tank(eval_result, eval_label1, eval_path, hour=168)
-    plot_result_pump(eval_result, eval_label1, eval_path, hour=168)
-    plot_result_valve(eval_result, eval_label1, eval_path, hour=168)
-    plot_result_junction(eval_result, eval_label1, eval_path, hour=168)
-
-    # Prints out evaluates results
     print("-----------------------------------------------\nEvaluation Metrics:")
     print("min_rmse: %r" % (np.min(eval_rmse)))
     print("min_mae: %r" % (eval_mae[index]))
@@ -465,8 +539,17 @@ def load_and_keep_train_clean_dataset():
     print("r2: %r" % (eval_r2[index]))
     print("var: %r" % eval_var[index])
 
-    time_end = time.time()
-    print(f"Training Time: {time_end - time_start} sec")
+    # Writes results to files
+    result_file.write(
+        "-----------------------------------------------\nEvaluation Metrics:"
+    )
+    result_file.write("min_rmse: %r\n" % (np.min(eval_rmse)))
+    result_file.write("min_mae: %r\n" % (eval_mae[index]))
+    result_file.write("max_acc: %r\n" % (eval_acc[index]))
+    result_file.write("r2: %r\n" % (eval_r2[index]))
+    result_file.write("var: %r\n" % eval_var[index])
+
+    result_file.close()
 
 
 def load_and_eval_clean_dataset():
@@ -649,6 +732,7 @@ def load_and_eval_poisoned_dataset():
 def main():
     """User Interface"""
     train_and_eval()
+    # load_and_keep_train_clean_dataset()
     # load_and_eval_clean_dataset()
     # load_and_eval_poisoned_dataset()
 
