@@ -1438,3 +1438,289 @@ min_mae: 3.0306556
 max_acc: 0.8464397341012955
 r2: -0.6874440908432007
 var: 0.9583199955523014
+----------------------------------------------------------------------------------------------
+TIME LOG ----------------
+Sat Feb  5 23:45:10 2022
+-----------------------------------------------
+
+Results of training and evaluating results:
+-------------------------
+Iter/Epoch #: 0
+Train_rmse: 6.331
+Eval_loss: 75.44
+Eval_rmse: 0.05274
+Eval_acc: 0.8464
+
+-------------------------
+Iter/Epoch #: 1
+Train_rmse: 6.334
+Eval_loss: 75.37
+Eval_rmse: 0.05271
+Eval_acc: 0.8465
+
+-------------------------
+Iter/Epoch #: 2
+Train_rmse: 6.328
+Eval_loss: 75.37
+Eval_rmse: 0.05272
+Eval_acc: 0.8465
+
+-------------------------
+Iter/Epoch #: 3
+Train_rmse: 6.33
+Eval_loss: 75.39
+Eval_rmse: 0.05272
+Eval_acc: 0.8465
+
+-------------------------
+Iter/Epoch #: 4
+Train_rmse: 6.32
+Eval_loss: 75.36
+Eval_rmse: 0.05271
+Eval_acc: 0.8465
+
+-------------------------
+Iter/Epoch #: 5
+Train_rmse: 6.315
+Eval_loss: 75.44
+Eval_rmse: 0.05274
+Eval_acc: 0.8464
+
+-------------------------
+Iter/Epoch #: 6
+Train_rmse: 6.307
+Eval_loss: 75.43
+Eval_rmse: 0.05273
+Eval_acc: 0.8465
+
+-------------------------
+Iter/Epoch #: 7
+Train_rmse: 6.309
+Eval_loss: 75.41
+Eval_rmse: 0.05273
+Eval_acc: 0.8465
+
+-------------------------
+Iter/Epoch #: 8
+Train_rmse: 6.303
+Eval_loss: 75.4
+Eval_rmse: 0.05273
+Eval_acc: 0.8465
+
+-------------------------
+Iter/Epoch #: 9
+Train_rmse: 6.302
+Eval_loss: 75.45
+Eval_rmse: 0.05274
+Eval_acc: 0.8464
+
+-------------------------
+Iter/Epoch #: 10
+Train_rmse: 6.281
+Eval_loss: 75.61
+Eval_rmse: 0.0528
+Eval_acc: 0.8463
+
+-------------------------
+Iter/Epoch #: 11
+Train_rmse: 6.267
+Eval_loss: 75.68
+Eval_rmse: 0.05282
+Eval_acc: 0.8462
+
+-------------------------
+Iter/Epoch #: 12
+Train_rmse: 6.266
+Eval_loss: 75.74
+Eval_rmse: 0.05284
+Eval_acc: 0.8461
+
+-------------------------
+Iter/Epoch #: 13
+Train_rmse: 6.285
+Eval_loss: 75.41
+Eval_rmse: 0.05273
+Eval_acc: 0.8465
+
+-------------------------
+Iter/Epoch #: 14
+Train_rmse: 6.269
+Eval_loss: 75.6
+Eval_rmse: 0.05279
+Eval_acc: 0.8463
+
+-------------------------
+Iter/Epoch #: 15
+Train_rmse: 6.253
+Eval_loss: 75.88
+Eval_rmse: 0.05289
+Eval_acc: 0.846
+
+-------------------------
+Iter/Epoch #: 16
+Train_rmse: 6.242
+Eval_loss: 75.86
+Eval_rmse: 0.05289
+Eval_acc: 0.846
+
+-------------------------
+Iter/Epoch #: 17
+Train_rmse: 6.23
+Eval_loss: 75.77
+Eval_rmse: 0.05286
+Eval_acc: 0.8461
+
+-------------------------
+Iter/Epoch #: 18
+Train_rmse: 6.257
+Eval_loss: 75.85
+Eval_rmse: 0.05288
+Eval_acc: 0.846
+
+-------------------------
+Iter/Epoch #: 19
+Train_rmse: 6.25
+Eval_loss: 75.59
+Eval_rmse: 0.05279
+Eval_acc: 0.8463
+
+-------------------------
+Iter/Epoch #: 20
+Train_rmse: 6.266
+Eval_loss: 75.74
+Eval_rmse: 0.05284
+Eval_acc: 0.8461
+
+-------------------------
+Iter/Epoch #: 21
+Train_rmse: 6.287
+Eval_loss: 75.75
+Eval_rmse: 0.05285
+Eval_acc: 0.8461
+
+-------------------------
+Iter/Epoch #: 22
+Train_rmse: 6.248
+Eval_loss: 75.52
+Eval_rmse: 0.05277
+Eval_acc: 0.8464
+
+-------------------------
+Iter/Epoch #: 23
+Train_rmse: 6.284
+Eval_loss: 75.71
+Eval_rmse: 0.05283
+Eval_acc: 0.8462
+
+-------------------------
+Iter/Epoch #: 24
+Train_rmse: 6.248
+Eval_loss: 75.52
+Eval_rmse: 0.05277
+Eval_acc: 0.8464
+
+-------------------------
+Iter/Epoch #: 25
+Train_rmse: 6.263
+Eval_loss: 75.56
+Eval_rmse: 0.05278
+Eval_acc: 0.8463
+
+-------------------------
+Iter/Epoch #: 26
+Train_rmse: 6.283
+Eval_loss: 75.77
+Eval_rmse: 0.05285
+Eval_acc: 0.8461
+
+-------------------------
+Iter/Epoch #: 27
+Train_rmse: 6.256
+Eval_loss: 75.59
+Eval_rmse: 0.05279
+Eval_acc: 0.8463
+
+-------------------------
+Iter/Epoch #: 28
+Train_rmse: 6.256
+Eval_loss: 75.57
+Eval_rmse: 0.05278
+Eval_acc: 0.8463
+
+-------------------------
+Iter/Epoch #: 29
+Train_rmse: 6.257
+Eval_loss: 75.49
+Eval_rmse: 0.05276
+Eval_acc: 0.8464
+
+-------------------------
+Iter/Epoch #: 30
+Train_rmse: 6.274
+Eval_loss: 75.69
+Eval_rmse: 0.05282
+Eval_acc: 0.8462
+
+-------------------------
+Iter/Epoch #: 31
+Train_rmse: 6.268
+Eval_loss: 75.56
+Eval_rmse: 0.05278
+Eval_acc: 0.8463
+
+-------------------------
+Iter/Epoch #: 32
+Train_rmse: 6.259
+Eval_loss: 75.54
+Eval_rmse: 0.05277
+Eval_acc: 0.8464
+
+-------------------------
+Iter/Epoch #: 33
+Train_rmse: 6.259
+Eval_loss: 75.52
+Eval_rmse: 0.05277
+Eval_acc: 0.8464
+
+-------------------------
+Iter/Epoch #: 34
+Train_rmse: 6.265
+Eval_loss: 75.59
+Eval_rmse: 0.05279
+Eval_acc: 0.8463
+
+-------------------------
+Iter/Epoch #: 35
+Train_rmse: 6.258
+Eval_loss: 75.51
+Eval_rmse: 0.05276
+Eval_acc: 0.8464
+
+-------------------------
+Iter/Epoch #: 36
+Train_rmse: 6.245
+Eval_loss: 75.47
+Eval_rmse: 0.05275
+Eval_acc: 0.8464
+
+-------------------------
+Iter/Epoch #: 37
+Train_rmse: 6.267
+Eval_loss: 75.53
+Eval_rmse: 0.05277
+Eval_acc: 0.8464
+
+-------------------------
+Iter/Epoch #: 38
+Train_rmse: 6.262
+Eval_loss: 75.47
+Eval_rmse: 0.05275
+Eval_acc: 0.8464
+
+-------------------------
+Iter/Epoch #: 39
+Train_rmse: 6.253
+Eval_loss: 75.56
+Eval_rmse: 0.05278
+Eval_acc: 0.8463
+

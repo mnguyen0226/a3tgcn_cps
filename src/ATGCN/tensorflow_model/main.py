@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 local_time = time.asctime(time.localtime(time.time()))
 
 ########## Global variables for Optimization (Ashita) - ideal: 0.01 51 16 128 => 83%;
-OP_LR = 0.005  # learning rate
+OP_LR = 0.01  # learning rate
 OP_EPOCH = 101  # number of epochs / iteration (TGCN: 20)
 OP_BATCH_SIZE = 32 # 64  # 24 hours (1 days)  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
 OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
