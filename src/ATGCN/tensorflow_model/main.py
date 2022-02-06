@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 local_time = time.asctime(time.localtime(time.time()))
 
 ########## Global variables for Optimization (Ashita) - ideal: 0.01 51 16 128 => 83%;
-OP_LR = 0.0015  # learning rate
+OP_LR = 0.005  # learning rate
 OP_EPOCH = 101  # number of epochs / iteration (TGCN: 20)
 OP_BATCH_SIZE = 32 # 64  # 24 hours (1 days)  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
 OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
@@ -51,7 +51,7 @@ GRU_UNITS = FLAGS.gru_units
 MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
 SAVING_STEP = 50
-LAMBDA_LOSS = 0.0015 #0.0015
+LAMBDA_LOSS = 0.0015 
 
 ########## Preprocess clean dataset for train and evaluation
 clean_data, adj = load_scada_data(dataset="train_eval_clean")
@@ -140,7 +140,7 @@ def self_attention(x, weight_att, bias_att):
     print('s',s)
 
     beta = tf.nn.softmax(s, dim=-1)  # attention map
-    print('bata',beta)
+    print('beta',beta)
     context = tf.expand_dims(beta,2) * tf.reshape(x,[-1,SEQ_LEN,num_nodes])
 
     context = tf.transpose(context,perm=[0,2,1])
