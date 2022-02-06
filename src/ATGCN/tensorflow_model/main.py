@@ -411,7 +411,7 @@ def load_and_keep_train_clean_dataset():
         os.makedirs(path)
 
     # Chooses trained model path (CHANGE)
-    saved_path = "out/tgcn/tgcn_scada_wds_lr0.01_batch128_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"
 
     # Loads model from trained path
     load_path = saver.restore(sess, saved_path)
@@ -731,8 +731,8 @@ def load_and_eval_poisoned_dataset():
 
 def main():
     """User Interface"""
-    train_and_eval()
-    # load_and_keep_train_clean_dataset()
+    # train_and_eval()
+    load_and_keep_train_clean_dataset()
     # load_and_eval_clean_dataset()
     # load_and_eval_poisoned_dataset()
 
