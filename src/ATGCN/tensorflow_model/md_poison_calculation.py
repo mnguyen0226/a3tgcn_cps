@@ -12,9 +12,9 @@ import pandas as pd
 # Before any attacks there will be a 17 hour time stamps
 EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_labels.csv"
 EVAL_POISON_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_output.csv"
-EVAL_POISON_LINE_NUM = 964 # change for each different eval_poisoned_output.csv
+EVAL_POISON_LINE_NUM = 4168 # CHANGE for each different eval_poisoned_output.csv
 
-dataset04 = pd.read_csv(r"data/processed/dataset04_origin_no_binary_60_split.csv")
+dataset04 = pd.read_csv(r"data/processed/processed_dataset04_origin_binary.csv") # CHANGE for each different poisoned dataset.csv
 
 binary_arr = dataset04["ATT_FLAG"].to_list()
 binary_arr = binary_arr[(L + 8) : -1]  # use 8 for prediction + L for first window size

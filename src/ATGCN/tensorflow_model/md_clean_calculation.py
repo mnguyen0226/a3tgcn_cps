@@ -8,6 +8,7 @@
 
 
 import numpy as np
+from pandas import cut
 from scipy.stats import chi2
 import csv
 import matplotlib.pyplot as plt
@@ -15,7 +16,7 @@ import matplotlib.pyplot as plt
 EVAL_CLEAN_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_labels.csv"
 EVAL_CLEAN_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_output.csv"
 L = 25
-TH = 40
+TH = 43.5
 GLOBAL_ME = np.array(  # Recall calculate everytime retrained model
     [
         0.470392,
@@ -152,14 +153,17 @@ def calculate_md_clean():
         # batch_cutoff = chi2.pff(0.95, 31)
         cutoff_arr.append(mean_batch_squared_md)
     print(len(cutoff_arr))
+    print(f"The Average Mean Squared Mahalanobis Distance {np.average(cutoff_arr)}")
+    
+    threshold_line_clean = [TH for x in range(len(cutoff_arr))] 
 
-    plt.plot(cutoff_arr)
+    plt.plot(cutoff_arr, label = "mean batch squared md")
+    plt.plot(threshold_line_clean, label = "attacks threshold")
     plt.title(
         "Mean Squared Mahalanobis Distance Every L Hours TimeStamp - Clean Dataset"
     )
     plt.xlabel("Every L hours")
     plt.ylabel("Mean Squared Mahalanobis Distance - To Calibrate Max Threshold")
-    print(f"The Average Mean Squared Mahalanobis Distance {np.average(cutoff_arr)}")
     plt.show()
 
     # # Check if there is any negative number in the mahalanobis distance
