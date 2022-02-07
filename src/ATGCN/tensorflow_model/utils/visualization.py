@@ -37,7 +37,7 @@ import matplotlib.pyplot as plt
 #     plt.show()
 
 
-def plot_result_tank(test_result, test_label, path, hour=24*7):
+def plot_result_tank(test_result, test_label, path, hour=24 * 7):
     """Plots test datasets ground truth labels vs predictions on ground truth features
 
     Args:
@@ -130,7 +130,7 @@ def plot_result_tank(test_result, test_label, path, hour=24*7):
     plt.show()
 
 
-def plot_result_pump(test_result, test_label, path, hour=24*7):
+def plot_result_pump(test_result, test_label, path, hour=24 * 7):
     """Plots test datasets ground truth labels vs predictions on ground truth features
 
     Args:
@@ -260,7 +260,7 @@ def plot_result_pump(test_result, test_label, path, hour=24*7):
     plt.show()
 
 
-def plot_result_valve(test_result, test_label, path, hour=24*7):
+def plot_result_valve(test_result, test_label, path, hour=24 * 7):
     """Plots test datasets ground truth labels vs predictions on ground truth features
 
     Args:
@@ -287,7 +287,7 @@ def plot_result_valve(test_result, test_label, path, hour=24*7):
     plt.show()
 
 
-def plot_result_junction(test_result, test_label, path, hour=24*7):
+def plot_result_junction(test_result, test_label, path, hour=24 * 7):
     """Plots test datasets ground truth labels vs predictions on ground truth features
 
     Args:

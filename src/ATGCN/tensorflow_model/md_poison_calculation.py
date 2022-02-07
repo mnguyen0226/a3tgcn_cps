@@ -4,21 +4,19 @@ import csv
 from md_clean_calculation import data_preprocessing
 import matplotlib.pyplot as plt
 from md_clean_calculation import GLOBAL_ME
+from md_clean_calculation import L
 import pandas as pd
 
 # Before any attacks there will be a 17 hour time stamps
 EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_labels.csv"
 EVAL_POISON_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_output.csv"
-L = 25
 TH = 0
 EVAL_POISON_LINE_NUM = 728
 
-dataset04 = pd.read_csv(
-    r"data/processed/dataset04_origin_no_binary_30_split.csv"
-)
+dataset04 = pd.read_csv(r"data/processed/dataset04_origin_no_binary_30_split.csv")
 
-binary_arr = dataset04['ATT_FLAG'].to_list()
-binary_arr = binary_arr[(L+8):-1] # use 8 for prediction + L for first window size
+binary_arr = dataset04["ATT_FLAG"].to_list()
+binary_arr = binary_arr[(L + 8) : -1]  # use 8 for prediction + L for first window size
 print((binary_arr))
 
 ##########

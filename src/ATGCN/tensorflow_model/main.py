@@ -22,7 +22,7 @@ local_time = time.asctime(time.localtime(time.time()))
 ########## Global variables for Optimization (Ashita) - ideal: 0.01 51 16 128 => 83%;
 OP_LR = 0.005  # learning rate 0.005
 OP_EPOCH = 101  # number of epochs / iteration (TGCN: 20)
-OP_BATCH_SIZE = 128 # 100  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
+OP_BATCH_SIZE = 128  # 100  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
 OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
 ########## Parses settings from command line
@@ -51,7 +51,7 @@ GRU_UNITS = FLAGS.gru_units
 MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
 SAVING_STEP = 50
-LAMBDA_LOSS = 0.0015 
+LAMBDA_LOSS = 0.0015
 
 ########## Preprocess clean dataset for train and evaluation
 clean_data, adj = load_scada_data(dataset="train_eval_clean")
@@ -119,6 +119,7 @@ _, _, eval_X_poison, eval_Y_poison = preprocess_data(
 #     )  # name for restoration
 #     return output, m, states
 
+
 def self_attention(x, weight_att, bias_att):
     """Constructs self-attention mechanism
 
@@ -127,25 +128,26 @@ def self_attention(x, weight_att, bias_att):
         weight_att: Weights attribute.
         bias_att: Biases attribute.
     """
-    x = tf.matmul(tf.reshape(x,[-1,GRU_UNITS]),weight_att['w1']) + bias_att['b1']
-#    f = tf.layers.conv2d(x, ch // 8, kernel_size=1, kernel_initializer=tf.variance_scaling_initializer())
-    f = tf.matmul(tf.reshape(x, [-1, num_nodes]), weight_att['w2']) + bias_att['b2']
-    g = tf.matmul(tf.reshape(x, [-1, num_nodes]), weight_att['w2']) + bias_att['b2']
-    h = tf.matmul(tf.reshape(x, [-1, num_nodes]), weight_att['w2']) + bias_att['b2']
+    x = tf.matmul(tf.reshape(x, [-1, GRU_UNITS]), weight_att["w1"]) + bias_att["b1"]
+    #    f = tf.layers.conv2d(x, ch // 8, kernel_size=1, kernel_initializer=tf.variance_scaling_initializer())
+    f = tf.matmul(tf.reshape(x, [-1, num_nodes]), weight_att["w2"]) + bias_att["b2"]
+    g = tf.matmul(tf.reshape(x, [-1, num_nodes]), weight_att["w2"]) + bias_att["b2"]
+    h = tf.matmul(tf.reshape(x, [-1, num_nodes]), weight_att["w2"]) + bias_att["b2"]
 
-    f1 = tf.reshape(f, [-1,SEQ_LEN])
-    g1 = tf.reshape(g, [-1,SEQ_LEN])
-    h1 = tf.reshape(h, [-1,SEQ_LEN])
+    f1 = tf.reshape(f, [-1, SEQ_LEN])
+    g1 = tf.reshape(g, [-1, SEQ_LEN])
+    h1 = tf.reshape(h, [-1, SEQ_LEN])
     s = g1 * f1
-    print('s',s)
+    print("s", s)
 
     beta = tf.nn.softmax(s, dim=-1)  # attention map
-    print('beta',beta)
-    context = tf.expand_dims(beta,2) * tf.reshape(x,[-1,SEQ_LEN,num_nodes])
+    print("beta", beta)
+    context = tf.expand_dims(beta, 2) * tf.reshape(x, [-1, SEQ_LEN, num_nodes])
 
-    context = tf.transpose(context,perm=[0,2,1])
-    print('context', context)
-    return context, beta 
+    context = tf.transpose(context, perm=[0, 2, 1])
+    print("context", context)
+    return context, beta
+
 
 def TGCN(_X, weights, biases):
     """TGCN model for scada batadal datasets, including multiple TGCNCell(s)
@@ -161,16 +163,16 @@ def TGCN(_X, weights, biases):
     outputs, states = tf.nn.static_rnn(cell, _X, dtype=tf.float32)
 
     out = tf.concat(outputs, axis=0)
-    out = tf.reshape(out, shape=[SEQ_LEN,-1,num_nodes,GRU_UNITS])
-    out = tf.transpose(out, perm=[1,0,2,3])
+    out = tf.reshape(out, shape=[SEQ_LEN, -1, num_nodes, GRU_UNITS])
+    out = tf.transpose(out, perm=[1, 0, 2, 3])
 
-    last_output,alpha = self_attention(out, weight_att, bias_att)
+    last_output, alpha = self_attention(out, weight_att, bias_att)
 
-    output = tf.reshape(last_output,shape=[-1,SEQ_LEN])
-    output = tf.matmul(output, weights['out']) + biases['out']
-    output = tf.reshape(output,shape=[-1,num_nodes,PRE_LEN])
-    output = tf.transpose(output, perm=[0,2,1])
-    output = tf.reshape(output, shape=[-1,num_nodes])
+    output = tf.reshape(last_output, shape=[-1, SEQ_LEN])
+    output = tf.matmul(output, weights["out"]) + biases["out"]
+    output = tf.reshape(output, shape=[-1, num_nodes, PRE_LEN])
+    output = tf.transpose(output, perm=[0, 2, 1])
+    output = tf.reshape(output, shape=[-1, num_nodes])
 
     return output, outputs, states, alpha
 
@@ -181,22 +183,22 @@ labels = tf.compat.v1.placeholder(tf.float32, shape=[None, PRE_LEN, num_nodes])
 
 ########## Graph weights and biases initialization of all neurons and layers
 weights = {
-    "out": tf.Variable(
-        tf.random.normal([SEQ_LEN, PRE_LEN], mean=1.0), name="weight_o"
-    )
+    "out": tf.Variable(tf.random.normal([SEQ_LEN, PRE_LEN], mean=1.0), name="weight_o")
 }
 biases = {"out": tf.Variable(tf.random.normal([PRE_LEN]), name="bias_o")}
 
 ### For Attention
-weight_att={
-    'w1':tf.Variable(tf.random_normal([GRU_UNITS,1], stddev=0.1),name='att_w1'),
-    'w2':tf.Variable(tf.random_normal([num_nodes,1], stddev=0.1),name='att_w2')}
+weight_att = {
+    "w1": tf.Variable(tf.random_normal([GRU_UNITS, 1], stddev=0.1), name="att_w1"),
+    "w2": tf.Variable(tf.random_normal([num_nodes, 1], stddev=0.1), name="att_w2"),
+}
 bias_att = {
-    'b1': tf.Variable(tf.random_normal([1]),name='att_b1'),
-    'b2': tf.Variable(tf.random_normal([1]),name='att_b2')}
+    "b1": tf.Variable(tf.random_normal([1]), name="att_b1"),
+    "b2": tf.Variable(tf.random_normal([1]), name="att_b2"),
+}
 
 ########## Define TGCN model
-y_pred,_,_,alpha = TGCN(inputs, weights, biases)
+y_pred, _, _, alpha = TGCN(inputs, weights, biases)
 
 ########## Optimizer
 lambda_loss = LAMBDA_LOSS
@@ -279,8 +281,10 @@ def train_and_eval():
         for m in range(total_clean_batch):
             mini_batch = train_X_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
             mini_label = train_Y_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
-            _, loss1, rmse1, train_output, alpha1 = sess.run([optimizer, loss, error, y_pred, alpha],
-                                                 feed_dict = {inputs:mini_batch, labels:mini_label})
+            _, loss1, rmse1, train_output, alpha1 = sess.run(
+                [optimizer, loss, error, y_pred, alpha],
+                feed_dict={inputs: mini_batch, labels: mini_label},
+            )
             batch_loss.append(loss1)
             batch_rmse.append(rmse1 * max_value)
 
@@ -351,15 +355,14 @@ def train_and_eval():
     plot_result_tank(eval_result, eval_label1, path)
     plot_error(train_rmse, train_loss, eval_rmse, eval_acc, eval_mae, path)
 
-    fig1 = plt.figure(figsize=(7,3))
-    ax1 = fig1.add_subplot(1,1,1)
-    plt.plot(np.sum(alpha1,0))
-    plt.savefig(path+'/alpha1.png',dpi=500)
+    fig1 = plt.figure(figsize=(7, 3))
+    ax1 = fig1.add_subplot(1, 1, 1)
+    plt.plot(np.sum(alpha1, 0))
+    plt.savefig(path + "/alpha1.png", dpi=500)
     plt.show()
 
-
-    plt.imshow(np.mat(np.sum(alpha1,0)))
-    plt.savefig(path+'/alpha2.png',dpi=500)
+    plt.imshow(np.mat(np.sum(alpha1, 0)))
+    plt.savefig(path + "/alpha2.png", dpi=500)
     plt.show()
 
     print("-----------------------------------------------\nEvaluation Metrics:")
@@ -380,6 +383,7 @@ def train_and_eval():
     result_file.write("var: %r\n" % eval_var[index])
 
     result_file.close()
+
 
 def load_and_keep_train_clean_dataset():
     """Loads and evaluates trained model clean dataset"""
@@ -449,8 +453,10 @@ def load_and_keep_train_clean_dataset():
         for m in range(total_clean_batch):
             mini_batch = train_X_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
             mini_label = train_Y_clean[m * BATCH_SIZE : (m + 1) * BATCH_SIZE]
-            _, loss1, rmse1, train_output, alpha1 = sess.run([optimizer, loss, error, y_pred, alpha],
-                                                 feed_dict = {inputs:mini_batch, labels:mini_label})
+            _, loss1, rmse1, train_output, alpha1 = sess.run(
+                [optimizer, loss, error, y_pred, alpha],
+                feed_dict={inputs: mini_batch, labels: mini_label},
+            )
             batch_loss.append(loss1)
             batch_rmse.append(rmse1 * max_value)
 
@@ -521,15 +527,14 @@ def load_and_keep_train_clean_dataset():
     plot_result_tank(eval_result, eval_label1, path)
     plot_error(train_rmse, train_loss, eval_rmse, eval_acc, eval_mae, path)
 
-    fig1 = plt.figure(figsize=(7,3))
-    ax1 = fig1.add_subplot(1,1,1)
-    plt.plot(np.sum(alpha1,0))
-    plt.savefig(path+'/alpha1.png',dpi=500)
+    fig1 = plt.figure(figsize=(7, 3))
+    ax1 = fig1.add_subplot(1, 1, 1)
+    plt.plot(np.sum(alpha1, 0))
+    plt.savefig(path + "/alpha1.png", dpi=500)
     plt.show()
 
-
-    plt.imshow(np.mat(np.sum(alpha1,0)))
-    plt.savefig(path+'/alpha2.png',dpi=500)
+    plt.imshow(np.mat(np.sum(alpha1, 0)))
+    plt.savefig(path + "/alpha2.png", dpi=500)
     plt.show()
 
     print("-----------------------------------------------\nEvaluation Metrics:")
@@ -566,7 +571,7 @@ def load_and_eval_clean_dataset():
     sess.run(init)
 
     # Chooses trained model path (CHANGE)
-    saved_path = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100" # atgcn 
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"  # atgcn
 
     # Loads model from trained path
     load_path = saver.restore(sess, saved_path)
