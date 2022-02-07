@@ -22,7 +22,8 @@ def load_scada_data(dataset="train_eval_clean"):
     elif dataset == "eval_poison":
         time_series_data = pd.read_csv(
             # r"data/processed/processed_poisoned_scada_dataset.csv"
-            r"data/processed/processed_dataset04_origin_no_binary_60_split.csv"
+            # r"data/processed/processed_dataset04_origin_no_binary_60_split.csv"
+            r"data/processed/processed_dataset04_origin_no_binary.csv"
         )
         # time_series_data = pd.read_csv(r"data/processed/sz_speed.csv")
     elif dataset == "test_mix":
