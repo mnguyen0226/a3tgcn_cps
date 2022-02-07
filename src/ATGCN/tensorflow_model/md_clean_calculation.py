@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 EVAL_CLEAN_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_labels.csv"
 EVAL_CLEAN_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_output.csv"
 L = 25
-TH = 0
+TH = 40
 GLOBAL_ME = np.array(  # Recall calculate everytime retrained model
     [
         0.470392,

@@ -1,3 +1,4 @@
+from cProfile import label
 import numpy as np
 from scipy.stats import chi2
 import csv
@@ -5,19 +6,22 @@ from md_clean_calculation import data_preprocessing
 import matplotlib.pyplot as plt
 from md_clean_calculation import GLOBAL_ME
 from md_clean_calculation import L
+from md_clean_calculation import TH
 import pandas as pd
 
 # Before any attacks there will be a 17 hour time stamps
-EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_labels.csv"
-EVAL_POISON_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_output.csv"
-TH = 0
-EVAL_POISON_LINE_NUM = 728
+EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_labels.csv"
+EVAL_POISON_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_output.csv"
+EVAL_POISON_LINE_NUM = 964 # change for each different eval_poisoned_output.csv
 
-dataset04 = pd.read_csv(r"data/processed/dataset04_origin_no_binary_30_split.csv")
+dataset04 = pd.read_csv(r"data/processed/dataset04_origin_no_binary_60_split.csv")
 
 binary_arr = dataset04["ATT_FLAG"].to_list()
 binary_arr = binary_arr[(L + 8) : -1]  # use 8 for prediction + L for first window size
-print((binary_arr))
+print(len(binary_arr))
+
+convert_th_binary_arr = [20 if x == 0 else TH for x in binary_arr]
+print(len(convert_th_binary_arr))
 
 ##########
 def calculate_md_poison():
@@ -63,14 +67,16 @@ def calculate_md_poison():
         # batch_cutoff = chi2.pff(0.95, 31)
         cutoff_arr.append(mean_batch_squared_md)
     print(len(cutoff_arr))
+    print(f"The Average Mean Squared Mahalanobis Distance {np.average(cutoff_arr)}")
 
-    plt.plot(cutoff_arr)
+    plt.plot(cutoff_arr, label = "mean batch squared md")
+    plt.plot(convert_th_binary_arr, label = "attacks threshold")
     plt.title(
         "Mean Squared Mahalanobis Distance Every L Hours TimeStamp - Poisoned Dataset"
     )
     plt.xlabel("Every L hours")
     plt.ylabel("Mean Squared Mahalanobis Distance - To Calibrate Max Threshold")
-    print(f"The Average Mean Squared Mahalanobis Distance {np.average(cutoff_arr)}")
+    plt.legend()
     plt.show()
 
     # # Check if there is any negative number in the mahalanobis distance
