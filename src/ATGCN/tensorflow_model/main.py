@@ -566,7 +566,7 @@ def load_and_eval_clean_dataset():
     sess.run(init)
 
     # Chooses trained model path (CHANGE)
-    saved_path = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100" # atgcn 
 
     # Loads model from trained path
     load_path = saver.restore(sess, saved_path)
@@ -607,7 +607,7 @@ def load_and_eval_clean_dataset():
 
     # Create a evaluation path
     eval_path = (
-        "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_clean"
+        "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_clean"
     )
 
     var_eval_output = pd.DataFrame(
@@ -654,7 +654,7 @@ def load_and_eval_poisoned_dataset():
     sess.run(init)
 
     # Chooses trained model path (CHANGE)
-    saved_path = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"
 
     # Loads model from trained path
     load_path = saver.restore(sess, saved_path)
@@ -696,7 +696,7 @@ def load_and_eval_poisoned_dataset():
     # Create a evaluation path
     eval_path = (
         # "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned"
-        "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned"
+        "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_poisoned"
     )
 
     var_eval_output = pd.DataFrame(
@@ -732,9 +732,9 @@ def load_and_eval_poisoned_dataset():
 def main():
     """User Interface"""
     # train_and_eval()
-    load_and_keep_train_clean_dataset()
+    # load_and_keep_train_clean_dataset()
     # load_and_eval_clean_dataset()
-    # load_and_eval_poisoned_dataset()
+    load_and_eval_poisoned_dataset()
 
 
 if __name__ == "__main__":

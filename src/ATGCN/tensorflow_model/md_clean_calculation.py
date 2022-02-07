@@ -12,11 +12,11 @@ from scipy.stats import chi2
 import csv
 import matplotlib.pyplot as plt
 
-EVAL_CLEAN_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_labels.csv"
-EVAL_CLEAN_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_output.csv"
+EVAL_CLEAN_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_labels.csv"
+EVAL_CLEAN_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_output.csv"
 L = 25
 TH = 0
-GLOBAL_ME = np.array(
+GLOBAL_ME = np.array( # Recall calculate everytime retrained model
     [
         0.25263925,
         1.72064805,
@@ -125,7 +125,7 @@ def calculate_md_clean():
 
     # 3. Calculate the global mean error arrayy
     global_mean_error = np.mean(df_error, axis=0)
-    print(global_mean_error)
+    print(f"GLOBAL MEAN ERROR IS: {global_mean_error}")
 
     # 4. Calculate the mahalanobis distance
     distances = []
