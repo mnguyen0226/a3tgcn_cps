@@ -80,7 +80,7 @@ def calculate_md_test():
     plt.plot(mean_batch_squared_md_arr, label="mean squared batch squared md")
     plt.plot(convert_th_binary_arr, label="attacks labels")
     plt.title(
-        "Mean Squared Mahalanobis Distance Every L Hours TimeStamp - Poisoned Dataset"
+        "Mean Squared Mahalanobis Distance Every L Hours TimeStamp - Testing Dataset"
     )
     plt.xlabel("Every L hours")
     plt.ylabel("Mean Squared Mahalanobis Distance")
@@ -88,8 +88,13 @@ def calculate_md_test():
     plt.show()
 
     fig1 = plt.figure(figsize=(5, 3))
+    plt.title(
+        "Attacks Predictions vs. Labels - Testing Dataset"
+    )
     plt.plot(convert_th_binary_arr, label="attacks labels")
     plt.plot(outliers, label="attacks predictions")
+    plt.xlabel("Every L hours")
+    plt.ylabel("Binary Classification")
     plt.legend()
     plt.show()
 
@@ -159,7 +164,7 @@ def calculate_rmd_test():
     plt.plot(convert_th_binary_arr, label="attacks labels")
     plt.plot(thresholds, label="threshold")
     plt.title(
-        "Mean Squared Robust Mahalanobis Distance Every L Hours TimeStamp - Poisoned Dataset"
+        "Mean Squared Robust Mahalanobis Distance Every L Hours TimeStamp - Testing Dataset"
     )
     plt.xlabel("Every L hours")
     plt.ylabel("Mean Squared Robust Mahalanobis Distance")
@@ -167,8 +172,13 @@ def calculate_rmd_test():
     plt.show()
 
     fig1 = plt.figure(figsize=(5, 3))
+    plt.title(
+        "Attacks Predictions vs. Labels - Testing Dataset"
+    )
     plt.plot(convert_th_binary_arr, label="attacks labels")
     plt.plot(outliers, label="attacks predictions")
+    plt.xlabel("Every L hours")
+    plt.ylabel("Binary Classification")
     plt.legend()
     plt.show()
 

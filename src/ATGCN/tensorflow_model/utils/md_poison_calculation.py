@@ -78,17 +78,28 @@ def calculate_md_poison():
         f"The Average Mean Squared Mahalanobis Distance {np.average(mean_batch_squared_md_arr)}"
     )
 
-    plt.plot(mean_batch_squared_md_arr, label="mean batch squared md")
-    plt.plot(convert_th_binary_arr, label="attacks threshold")
+    fig1 = plt.figure(figsize=(5, 3))
+    plt.plot(mean_batch_squared_md_arr, label="mean squared batch robust md")
+    plt.plot(convert_th_binary_arr, label="attacks labels")
     plt.plot(thresholds, label="threshold")
     plt.title(
-        "Mean Squared Mahalanobis Distance Every L Hours TimeStamp - Poisoned Dataset"
+        "Mean Squared Robust Mahalanobis Distance Every L Hours TimeStamp - Poisoned Dataset"
     )
     plt.xlabel("Every L hours")
-    plt.ylabel("Mean Squared Mahalanobis Distance")
+    plt.ylabel("Mean Squared Robust Mahalanobis Distance")
     plt.legend()
     plt.show()
 
+    fig1 = plt.figure(figsize=(5, 3))
+    plt.title(
+        "Attacks Predictions vs. Labels - Poisoned Dataset"
+    )
+    plt.plot(convert_th_binary_arr, label="attacks labels")
+    plt.plot(outliers, label="attacks predictions")
+    plt.xlabel("Every L hours")
+    plt.ylabel("Binary Classification")
+    plt.legend()
+    plt.show()
 
 def calculate_rmd_poison():
     """Calculates the Robust Mahalanobis Distance for poisoned dataset"""
@@ -131,7 +142,7 @@ def calculate_rmd_poison():
         distances.append(distance)
     distances = np.array(distances)
 
-    mean_batch_squared_md_arr = []
+    mean_batch_squared_rmd_arr = []
 
     outliers = []
 
@@ -139,19 +150,19 @@ def calculate_rmd_poison():
 
     for i in range(L, (len(distances))):
         batch_squared_md = distances[i - L : i]  # take the first L batches
-        mean_batch_squared_md = np.average(batch_squared_md)
-        mean_batch_squared_md_arr.append(mean_batch_squared_md)
-        if mean_batch_squared_md >= UPPER_TH:
+        mean_batch_squared_rmd = np.average(batch_squared_md)
+        mean_batch_squared_rmd_arr.append(mean_batch_squared_rmd)
+        if mean_batch_squared_rmd >= UPPER_TH:
             outliers.append(UPPER_PLOT)
         else:
             outliers.append(LOWER_PLOT)
 
     print(
-        f"The Average Mean Squared Robust Mahalanobis Distance {np.average(mean_batch_squared_md_arr)}"
+        f"The Average Mean Squared Robust Mahalanobis Distance {np.average(mean_batch_squared_rmd_arr)}"
     )
 
     fig1 = plt.figure(figsize=(5, 3))
-    plt.plot(mean_batch_squared_md_arr, label="mean squared batch robust md")
+    plt.plot(mean_batch_squared_rmd_arr, label="mean squared batch robust md")
     plt.plot(convert_th_binary_arr, label="attacks labels")
     plt.plot(thresholds, label="threshold")
     plt.title(
@@ -163,8 +174,13 @@ def calculate_rmd_poison():
     plt.show()
 
     fig1 = plt.figure(figsize=(5, 3))
+    plt.title(
+        "Attacks Predictions vs. Labels - Poisoned Dataset"
+    )
     plt.plot(convert_th_binary_arr, label="attacks labels")
     plt.plot(outliers, label="attacks predictions")
+    plt.xlabel("Every L hours")
+    plt.ylabel("Binary Classification")
     plt.legend()
     plt.show()
 
