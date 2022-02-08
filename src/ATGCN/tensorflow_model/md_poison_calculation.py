@@ -24,7 +24,7 @@ dataset04 = pd.read_csv(
 
 binary_arr = dataset04["ATT_FLAG"].to_list()
 binary_arr = binary_arr[(L + 8) : -1]  # use 8 for prediction + L for first window size
-# 
+#
 convert_th_binary_arr = [LOWER_TH if x == 0 else UPPER_TH for x in binary_arr]
 
 ##########
@@ -159,12 +159,14 @@ def calculate_rmd_poison():
         batch_squared_md = distances[i - L : i]  # take the first L batches
         mean_batch_squared_md = np.average(batch_squared_md)
         mean_batch_squared_md_arr.append(mean_batch_squared_md)
-        if(mean_batch_squared_md >= UPPER_TH):
+        if mean_batch_squared_md >= UPPER_TH:
             outliers.append(UPPER_TH)
         else:
             outliers.append(LOWER_TH)
-        
-    print(f"The Average Mean Squared Mahalanobis Distance {np.average(mean_batch_squared_md_arr)}")
+
+    print(
+        f"The Average Mean Squared Mahalanobis Distance {np.average(mean_batch_squared_md_arr)}"
+    )
 
     fig1 = plt.figure(figsize=(5, 3))
     plt.plot(mean_batch_squared_md_arr, label="mean squared batch squared md")
@@ -176,12 +178,13 @@ def calculate_rmd_poison():
     plt.ylabel("Mean Squared Robust Mahalanobis Distance - To Calibrate Max Threshold")
     plt.legend()
     plt.show()
-    
+
     fig1 = plt.figure(figsize=(5, 3))
     plt.plot(convert_th_binary_arr, label="attacks labels")
     plt.plot(outliers, label="attacks predictions")
     plt.legend()
     plt.show()
+
 
 if __name__ == "__main__":
     # calculate_md_poison()

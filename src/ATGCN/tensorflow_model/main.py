@@ -92,34 +92,6 @@ _, _, eval_X_poison, eval_Y_poison = preprocess_data(
     pre_len=PRE_LEN,
 )
 
-########## TGCN
-# def TGCN(_X, _weights, _biases, reuse=None):
-#     """TGCN model for scada batadal datasets, including multiple TGCNCell(s)
-
-#     Args:
-#         _X: Adjacency matrix, time series.
-#         _weights: Weights.
-#         _biases: Biases.
-#     """
-#     cell_1 = TGCNCell(num_units=GRU_UNITS, adj=adj, num_nodes=num_nodes, reuse=reuse)
-#     cell = tf.nn.rnn_cell.MultiRNNCell([cell_1], state_is_tuple=True)
-#     _X = tf.unstack(_X, axis=1)
-#     outputs, states = tf.nn.static_rnn(cell, _X, dtype=tf.float32)
-#     m = []
-#     for i in outputs:
-#         o = tf.reshape(i, shape=[-1, num_nodes, GRU_UNITS])
-#         o = tf.reshape(o, shape=[-1, GRU_UNITS])
-#         m.append(o)
-#     last_output = m[-1]
-#     output = tf.matmul(last_output, _weights["out"]) + _biases["out"]
-#     output = tf.reshape(output, shape=[-1, num_nodes, PRE_LEN])
-#     output = tf.transpose(output, perm=[0, 2, 1])
-#     output = tf.reshape(
-#         output, shape=[-1, num_nodes], name="op_to_restore"
-#     )  # name for restoration
-#     return output, m, states
-
-
 def self_attention(x, weight_att, bias_att):
     """Constructs self-attention mechanism
 

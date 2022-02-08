@@ -22,7 +22,7 @@ EVAL_CLEAN_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre
 # L = 30 #25
 # UPPER_TH = 40.5
 
-L = 30 #25
+L = 30  # 25
 UPPER_TH = 40.5
 LOWER_TH = 16
 GLOBAL_MEAN_ERROR = np.array(  # Recall calculate everytime retrained model
@@ -208,30 +208,6 @@ def calculate_md_clean():
     plt.xlabel("Every L hours")
     plt.ylabel("Mean Squared Mahalanobis Distance - To Calibrate Max Threshold")
     plt.show()
-
-    # # Check if there is any negative number in the mahalanobis distance
-    # nega = [distances[i] for i in range(len(distances)) if distances[i] <= 0.0]
-    # print(f"\nList of negative Mahalanobis Distance: {nega}")
-
-    # # Calculate the average Mahalanobis Distance (not useful)
-    # avg_md = np.average(distances)
-
-    # print(f"\nThe average of the Mahalanobis Distance: {avg_md}")
-
-    # # 5. Find the cut-off Chi-Square values. The points outside of 0.95 will be considered as outliers
-    # # Note, we also set the degree of freedom values for Chi-Square. This number is equal to the number of variables in our dataset, 31
-    # cutoff = chi2.ppf(
-    #     0.99999999999999999, df_error.shape[1]
-    # )  # THRESHOLD = 0.99999999999999999
-
-    # # Index of outliers
-    # outlier_index = np.where(distances > cutoff)
-
-    # print("\nTIME SERIES INDEX OF OUTLIERS:")
-    # print(outlier_index)
-
-    # # print("OUTLIERS DETAILS\n")
-    # # print(df_error[ distances > cutoff , :])
 
 
 ##########
