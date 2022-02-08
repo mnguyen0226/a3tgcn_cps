@@ -1,12 +1,3 @@
-# Scripts takes in the labels and prediction dataset to calculate the mahalanobis distance
-# Test calculate the first 10 rows
-# Test calculate the first 20 rows
-# Calculate and return if there is any negative numbers
-# Concatenate the poison datasets in to this, the calibrate to outlier all the poison data points
-# Calculate the mean distance of the poison dataset
-# Check the math for robust mahalanobis distance
-
-
 import numpy as np
 from pandas import cut
 from scipy.stats import chi2
@@ -19,18 +10,20 @@ from sklearn.covariance import MinCovDet
 EVAL_CLEAN_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_labels.csv"
 EVAL_CLEAN_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_output.csv"
 ### Poisoned Dataset
-# L = 30 #25
+# L = 30
 # UPPER_TH = 40.5
+
+### Test Dataset
 # 17 34.5
 # 20 34.9
 # 25 34.9
 
-L = 25  # 22
+L = 25
 UPPER_TH = 34.9
 UPPER_PLOT = 320
 LOWER_PLOT = 16
 GLOBAL_MEAN_ERROR = np.array(  # Recall calculate everytime retrained model
-    # [
+    # [ # MD Mean Error
     #     0.470392,
     #     0.46830426,
     #     1.33373831,
@@ -63,7 +56,7 @@ GLOBAL_MEAN_ERROR = np.array(  # Recall calculate everytime retrained model
     #     0.47024836,
     #     2.40034568,
     # ]
-    [
+    [  # Robust MD Mean Error
         0.52865503,
         0.45958133,
         1.25685963,
@@ -98,14 +91,14 @@ GLOBAL_MEAN_ERROR = np.array(  # Recall calculate everytime retrained model
     ]
 )
 
-##########
+
 def data_preprocessing(
     num_line=9, label_dataset=EVAL_CLEAN_LABEL_DIR, preds_dataset=EVAL_CLEAN_PREDS_DIR
 ):
     """Takes in the test_labels.csv, and test_output.csv, converts values from string to float and return the two arrays
 
     Args:
-        num_line (int, optional): Number of array. Defaults to 9.
+        num_line: Number of array. Defaults to 9.
 
     Returns:
         Two arrays
@@ -150,7 +143,6 @@ def data_preprocessing(
     return df_eval_labels, df_eval_preds
 
 
-##########
 def calculate_md_clean():
     """Calculates the Mahalanobis Distance clean dataset"""
     # Get lists
@@ -163,13 +155,13 @@ def calculate_md_clean():
     # Get error array between all labels and all predictions
     df_error = df_eval_labels - df_eval_preds
 
-    # 1. Calculate the covariance matrix
+    # Calculate the covariance matrix
     cov = np.cov(df_error, rowvar=False)
 
-    # 2. Calculate cov^-1
+    # Calculate cov^-1
     covariance_pm1 = np.linalg.matrix_power(cov, -1)
 
-    # 3. Calculate the global mean error arrayy
+    # Calculate the global mean error arrayy
     global_mean_error = np.mean(df_error, axis=0)
 
     # Save the global mean error
@@ -180,7 +172,7 @@ def calculate_md_clean():
     f.write(np.array2string(global_mean_error, separator=","))
     f.close()
 
-    # 4. Calculate the mahalanobis distance
+    # Calculate the mahalanobis distance
     distances = []
     for i, val in enumerate(df_error):
         p1 = val
@@ -189,32 +181,31 @@ def calculate_md_clean():
             (p1 - p2).T.dot(covariance_pm1).dot(p1 - p2)
         )  # squared mahalanobis distance
         distances.append(distance)
-        # print(f"Distance: {distance}")
-    distances = np.array(distances)  # 1744 values
+    distances = np.array(distances)
 
-    cutoff_arr = []
+    mean_batch_squared_md_arr = []
 
     for i in range(L, (len(distances))):
         batch_squared_md = distances[i - L : i]  # take the first L batches
         mean_batch_squared_md = np.average(batch_squared_md)
-        # batch_cutoff = chi2.pff(0.95, 31)
-        cutoff_arr.append(mean_batch_squared_md)
-    print(len(cutoff_arr))
-    print(f"The Average Mean Squared Mahalanobis Distance {np.average(cutoff_arr)}")
+        mean_batch_squared_md_arr.append(mean_batch_squared_md)
 
-    threshold_line_clean = [UPPER_TH for x in range(len(cutoff_arr))]
+    print(
+        f"The Average Mean Squared Mahalanobis Distance {np.average(mean_batch_squared_md_arr)}"
+    )
 
-    plt.plot(cutoff_arr, label="mean batch squared md")
+    threshold_line_clean = [UPPER_TH for x in range(len(mean_batch_squared_md_arr))]
+
+    plt.plot(mean_batch_squared_md_arr, label="mean batch squared md")
     plt.plot(threshold_line_clean, label="attacks threshold")
     plt.title(
         "Mean Squared Mahalanobis Distance Every L Hours TimeStamp - Clean Dataset"
     )
     plt.xlabel("Every L hours")
-    plt.ylabel("Mean Squared Mahalanobis Distance - To Calibrate Max Threshold")
+    plt.ylabel("Mean Squared Mahalanobis Distance")
     plt.show()
 
 
-##########
 def calculate_rmd_clean():
     """Calculates Robust Mahalanobus Distance clean dataset"""
     df_eval_labels, df_eval_preds = data_preprocessing(num_line=1744)
@@ -226,20 +217,20 @@ def calculate_rmd_clean():
     # Get error array between all labels and all predictions
     df_error = df_eval_labels - df_eval_preds
 
-    # 1. Calculate Minimum Covariance Determinant
+    # Calculate Minimum Covariance Determinant
     rng = np.random.RandomState(0)
 
-    # 2. Calculate the covariance matrix
+    # Calculate the covariance matrix
     real_cov = np.cov(df_error, rowvar=False)
 
-    # 3. Get multivariate values
+    # Get multivariate values
     X = rng.multivariate_normal(mean=np.mean(df_error, axis=0), cov=real_cov, size=506)
 
-    # 4. Get MCD values
+    # Get MCD values
     cov = MinCovDet(random_state=0).fit(X)
     mcd = cov.covariance_  # robust covariance metrics
 
-    # 5. Calculate the global mean error
+    # Calculate the global mean error
     global_mean_error = cov.location_
 
     # Save the global mean error
@@ -251,10 +242,10 @@ def calculate_rmd_clean():
     f.write(np.array2string(global_mean_error, separator=","))
     f.close()
 
-    # 6. Calculate the invert covariance matrix
+    # Calculate the invert covariance matrix
     inv_covmat = sp.linalg.inv(mcd)
 
-    # 4. Calculate the mahalanobis distance
+    # Calculate the mahalanobis distance
     distances = []
     for i, val in enumerate(df_error):
         p1 = val
@@ -263,28 +254,28 @@ def calculate_rmd_clean():
             (p1 - p2).T.dot(inv_covmat).dot(p1 - p2)
         )  # squared mahalanobis distance
         distances.append(distance)
-        # print(f"Distance: {distance}")
-    distances = np.array(distances)  # 1744 values
+    distances = np.array(distances)
 
-    cutoff_arr = []
+    mean_batch_squared_rmd_arr = []
 
     for i in range(L, (len(distances))):
         batch_squared_md = distances[i - L : i]  # take the first L batches
         mean_batch_squared_md = np.average(batch_squared_md)
-        # batch_cutoff = chi2.pff(0.95, 31)
-        cutoff_arr.append(mean_batch_squared_md)
-    print(len(cutoff_arr))
-    print(f"The Average Mean Squared Mahalanobis Distance {np.average(cutoff_arr)}")
+        mean_batch_squared_rmd_arr.append(mean_batch_squared_md)
 
-    threshold_line_clean = [UPPER_TH for x in range(len(cutoff_arr))]
+    print(
+        f"The Average Mean Squared Robust Mahalanobis Distance {np.average(mean_batch_squared_rmd_arr)}"
+    )
 
-    plt.plot(cutoff_arr, label="mean batch squared md")
+    threshold_line_clean = [UPPER_TH for x in range(len(mean_batch_squared_rmd_arr))]
+
+    plt.plot(mean_batch_squared_rmd_arr, label="mean batch squared robust md")
     plt.plot(threshold_line_clean, label="attacks threshold")
     plt.title(
-        "Mean Squared Mahalanobis Distance Every L Hours TimeStamp - Clean Dataset"
+        "Mean Squared Robust Mahalanobis Distance Every L Hours TimeStamp - Clean Dataset"
     )
     plt.xlabel("Every L hours")
-    plt.ylabel("Mean Squared Mahalanobis Distance - To Calibrate Max Threshold")
+    plt.ylabel("Mean Squared Robust Mahalanobis Distance")
     plt.show()
 
 

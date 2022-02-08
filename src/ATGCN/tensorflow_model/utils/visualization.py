@@ -3,40 +3,6 @@
 import matplotlib.pyplot as plt
 
 
-# def plot_result(test_result, test_label, path):
-#     """Plots test datasets ground truth labels vs predictions on ground truth features
-
-#     Args:
-#         test_result: Predictions on testing features.
-#         test_label: Testing labels.
-#         path: Saving image results in path.
-#     """
-#     # all test result visualization
-#     # fig1 = plt.figure(figsize=(7, 1.5))
-#     fig1 = plt.figure()
-
-#     #    ax1 = fig1.add_subplot(1,1,1)
-#     a_pred = test_result[:, 0] # all rows of the first cols
-#     a_true = test_label[:, 0]  # all rows of the first cols
-#     plt.plot(a_pred, "r-", label="prediction")
-#     plt.plot(a_true, "b-", label="true")
-#     plt.legend(loc="best", fontsize=10)
-#     plt.savefig(path + "/test_all.png")
-#     plt.show()
-
-#     # oneday test result visualization
-#     fig1 = plt.figure(figsize=(7, 1.5))
-
-#     #    ax1 = fig1.add_subplot(1,1,1)
-#     a_pred = test_result[0:96, 0] # 1 days for 1 cols
-#     a_true = test_label[0:96, 0]  # 1 days for 1 cols
-#     plt.plot(a_pred, "r-", label="prediction")
-#     plt.plot(a_true, "b-", label="true")
-#     plt.legend(loc="best", fontsize=10)
-#     plt.savefig(path + "/test_oneday.png")
-#     plt.show()
-
-
 def plot_result_tank(test_result, test_label, path, hour=24 * 7):
     """Plots test datasets ground truth labels vs predictions on ground truth features
 

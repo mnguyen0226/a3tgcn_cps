@@ -2,7 +2,6 @@
 
 import numpy as np
 import pandas as pd
-import pickle as pkl
 
 
 def load_scada_data(dataset="train_eval_clean"):
