@@ -21,10 +21,14 @@ EVAL_CLEAN_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre
 ### Poisoned Dataset
 # L = 30 #25
 # UPPER_TH = 40.5
+#17 34.5
+# 20 34.9
+# 25 34.9
 
-L = 30  # 25
-UPPER_TH = 40.5
-LOWER_TH = 16
+L = 25  # 22
+UPPER_TH = 34.9
+UPPER_PLOT = 320
+LOWER_PLOT = 16
 GLOBAL_MEAN_ERROR = np.array(  # Recall calculate everytime retrained model
     # [
     #     0.470392,

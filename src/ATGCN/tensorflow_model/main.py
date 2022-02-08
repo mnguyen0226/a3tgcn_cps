@@ -40,7 +40,7 @@ flags.DEFINE_float("poison_eval_rate", 0, "100% of evaluation rate.")
 flags.DEFINE_integer("batch_size", OP_BATCH_SIZE, "batch size.")
 
 ########## Global variables
-POISON_EVAL_RATE = FLAGS.poison_eval_rate
+EVAL_RATE = FLAGS.poison_eval_rate
 TRAIN_RATE = FLAGS.train_rate
 SEQ_LEN = FLAGS.seq_len
 OUTPUT_DIM = PRE_LEN = FLAGS.pre_len
@@ -75,7 +75,7 @@ train_X_clean, train_Y_clean, eval_X_clean, eval_Y_clean = preprocess_data(
 total_clean_batch = int(train_X_clean.shape[0] / BATCH_SIZE)
 # training_data_count = len(train_X_clean)
 
-########## Preprocess poisoned dataset for train and evaluation
+########## Preprocess poisoned dataset for evaluation
 poisoned_data, _ = load_scada_data(dataset="eval_poison")
 
 p_time_len = poisoned_data.shape[0]
@@ -87,10 +87,28 @@ p_data_maxtrix = p_data_maxtrix / p_max_value
 _, _, eval_X_poison, eval_Y_poison = preprocess_data(
     data=p_data_maxtrix,
     time_len=p_time_len,
-    rate=POISON_EVAL_RATE,
+    rate=EVAL_RATE,
     seq_len=SEQ_LEN,
     pre_len=PRE_LEN,
 )
+
+########## Preprocess test dataset
+test_data, _ = load_scada_data(dataset="test")
+
+t_time_len = test_data.shape[0]
+t_data_maxtrix = np.mat(test_data, dtype=np.float32)
+
+# Normalizes data
+t_max_value = np.max(t_data_maxtrix)
+t_data_maxtrix = t_data_maxtrix / t_max_value
+_, _, test_X, test_Y = preprocess_data(
+    data=t_data_maxtrix,
+    time_len=t_time_len,
+    rate=EVAL_RATE,
+    seq_len=SEQ_LEN,
+    pre_len=PRE_LEN,
+)
+
 
 def self_attention(x, weight_att, bias_att):
     """Constructs self-attention mechanism
@@ -671,10 +689,7 @@ def load_and_eval_poisoned_dataset():
     eval_result = eval_pred[index]
 
     # Create a evaluation path
-    eval_path = (
-        # "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned"
-        "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_poisoned"
-    )
+    eval_path = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_poisoned"
 
     var_eval_output = pd.DataFrame(
         eval_output * p_max_value
@@ -689,10 +704,98 @@ def load_and_eval_poisoned_dataset():
     )
 
     # Plots results
-    plot_result_tank(eval_result, eval_label1, eval_path, hour=738)
-    plot_result_pump(eval_result, eval_label1, eval_path, hour=738)
-    plot_result_valve(eval_result, eval_label1, eval_path, hour=738)
-    plot_result_junction(eval_result, eval_label1, eval_path, hour=738)
+    plot_result_tank(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_pump(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_valve(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_junction(eval_result, eval_label1, eval_path, hour=720)
+
+    # Prints out evaluates results
+    print("-----------------------------------------------\nEvaluation Metrics:")
+    print("min_rmse: %r" % (np.min(eval_rmse)))
+    print("min_mae: %r" % (eval_mae[index]))
+    print("max_acc: %r" % (eval_acc[index]))
+    print("r2: %r" % (eval_r2[index]))
+    print("var: %r" % eval_var[index])
+
+    time_end = time.time()
+    print(f"Training Time: {time_end - time_start} sec")
+
+
+def load_and_eval_test_dataset():
+    """Loads and evaluates trained model poisoned dataset"""
+
+    print("Start the loading and evaluating process")
+    time_start = time.time()
+
+    # Checks for GPU
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
+
+    # Setups traininng session
+    sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
+    sess.run(init)
+
+    # Chooses trained model path (CHANGE)
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"
+
+    # Loads model from trained path
+    load_path = saver.restore(sess, saved_path)
+
+    # Initializes the array for evaluating results
+    eval_loss, eval_rmse, eval_mae, eval_acc, eval_r2, eval_var, eval_pred = (
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+    )
+
+    # Evals completely at every epoch
+    loss2, rmse2, eval_output = sess.run(
+        [loss, error, y_pred], feed_dict={inputs: test_X, labels: test_Y}
+    )
+
+    # Provides evaluating results
+    eval_label = np.reshape(test_Y, [-1, num_nodes])
+
+    rmse, mae, acc, r2_score, var_score = evaluation(eval_label, eval_output)
+    eval_label1 = eval_label * p_max_value
+    eval_output1 = eval_output * p_max_value
+    eval_loss.append(loss2)
+    eval_rmse.append(rmse * p_max_value)
+    eval_mae.append(mae * p_max_value)
+    eval_acc.append(acc)
+    eval_r2.append(r2_score)
+    eval_var.append(var_score)
+    eval_pred.append(eval_output1)
+
+    # Sets index and provides eval results
+    index = eval_rmse.index(np.min(eval_rmse))
+    eval_result = eval_pred[index]
+
+    # Create a evaluation path
+    eval_path = (
+        "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test"
+    )
+
+    var_eval_output = pd.DataFrame(
+        eval_output * p_max_value
+    )  # eval_result, make this unnormalize
+    var_eval_output.to_csv(
+        eval_path + "/eval_test_output.csv", index=False, header=False
+    )
+
+    var_eval_label = pd.DataFrame(eval_label * p_max_value)
+    var_eval_label.to_csv(
+        eval_path + "/eval_test_labels.csv", index=False, header=False
+    )
+
+    # Plots results
+    plot_result_tank(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_pump(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_valve(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_junction(eval_result, eval_label1, eval_path, hour=720)
 
     # Prints out evaluates results
     print("-----------------------------------------------\nEvaluation Metrics:")
@@ -711,7 +814,8 @@ def main():
     # train_and_eval()
     # load_and_keep_train_clean_dataset()
     # load_and_eval_clean_dataset()
-    load_and_eval_poisoned_dataset()
+    # load_and_eval_poisoned_dataset()
+    load_and_eval_test_dataset()
 
 
 if __name__ == "__main__":

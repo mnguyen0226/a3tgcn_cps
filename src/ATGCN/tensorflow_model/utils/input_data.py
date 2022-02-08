@@ -21,7 +21,7 @@ def load_scada_data(dataset="train_eval_clean"):
         time_series_data = pd.read_csv(
             r"data/processed/processed_dataset04_origin_no_binary.csv"
         )
-    elif dataset == "test_mix":
+    elif dataset == "test":
         time_series_data = pd.read_csv(
             r"data/processed/processed_test_scada_dataset.csv"
         )
