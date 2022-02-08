@@ -1,18 +1,15 @@
-from cProfile import label
 import numpy as np
-from scipy.stats import chi2
-import csv
-from md_clean_calculation import data_preprocessing
 import matplotlib.pyplot as plt
-from md_clean_calculation import GLOBAL_MEAN_ERROR
-from md_clean_calculation import L
-from md_clean_calculation import UPPER_TH
-from md_clean_calculation import LOWER_PLOT
-from md_clean_calculation import UPPER_PLOT
 import pandas as pd
-import seaborn as sns
 import scipy as sp
 from sklearn.covariance import MinCovDet
+from utils.md_clean_calculation import data_preprocessing
+from utils.md_clean_calculation import GLOBAL_MEAN_ERROR
+from utils.md_clean_calculation import L
+from utils.md_clean_calculation import UPPER_TH
+from utils.md_clean_calculation import LOWER_PLOT
+from utils.md_clean_calculation import UPPER_PLOT
+
 
 # Before any attacks there will be a 17 hour time stamps
 EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_labels.csv"
@@ -132,6 +129,8 @@ def calculate_rmd_poison():
 
     outliers = []
 
+    thresholds = [UPPER_TH for _ in range(len(binary_arr))]
+
     for i in range(L, (len(distances))):
         batch_squared_md = distances[i - L : i]  # take the first L batches
         mean_batch_squared_md = np.average(batch_squared_md)
@@ -148,6 +147,7 @@ def calculate_rmd_poison():
     fig1 = plt.figure(figsize=(5, 3))
     plt.plot(mean_batch_squared_md_arr, label="mean squared batch squared md")
     plt.plot(convert_th_binary_arr, label="attacks labels")
+    plt.plot(thresholds, label="threshold")
     plt.title(
         "Mean Squared Robust Mahalanobis Distance Every L Hours TimeStamp - Poisoned Dataset"
     )

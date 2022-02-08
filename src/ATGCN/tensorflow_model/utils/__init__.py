@@ -8,3 +8,6 @@ from utils.visualization import plot_result_pump
 from utils.visualization import plot_result_valve
 from utils.visualization import plot_result_junction
 from utils.helper_functions import evaluation
+from utils.md_clean_calculation import calculate_rmd_clean
+from utils.md_poison_calculation import calculate_rmd_poison
+from utils.md_test_calculation import calculate_rmd_test

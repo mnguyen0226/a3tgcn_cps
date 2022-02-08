@@ -2,17 +2,20 @@ import tensorflow as tf
 import pandas as pd
 import numpy as np
 import os
+import time
+import matplotlib.pyplot as plt
+from models import TGCNCell
 from utils import preprocess_data
 from utils import load_scada_data
-from models import TGCNCell
 from utils import plot_error
 from utils import plot_result_tank
 from utils import plot_result_pump
 from utils import plot_result_valve
 from utils import plot_result_junction
 from utils import evaluation
-import time
-import matplotlib.pyplot as plt
+from utils import calculate_rmd_clean
+from utils import calculate_rmd_poison
+from utils import calculate_rmd_test
 
 # Sets time for saving different trained time model
 local_time = time.asctime(time.localtime(time.time()))
@@ -100,6 +103,7 @@ _, _, test_X, test_Y = preprocess_data(
     seq_len=SEQ_LEN,
     pre_len=PRE_LEN,
 )
+
 
 def self_attention(x, weight_att, bias_att):
     """Constructs self-attention mechanism for TGCN
@@ -723,7 +727,7 @@ def load_and_eval_test_dataset():
     sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
     sess.run(init)
 
-    # Chooses trained model path 
+    # Chooses trained model path
     saved_path = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"
 
     # Loads model from trained path
@@ -804,7 +808,10 @@ def main():
     # load_and_keep_train_clean_dataset()
     # load_and_eval_clean_dataset()
     # load_and_eval_poisoned_dataset()
-    load_and_eval_test_dataset()
+    # load_and_eval_test_dataset()
+    calculate_rmd_clean()
+    calculate_rmd_poison()
+    calculate_rmd_test()
 
 
 if __name__ == "__main__":
