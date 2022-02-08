@@ -76,8 +76,10 @@ def calculate_md_test():
             outliers.append(UPPER_PLOT)
         else:
             outliers.append(LOWER_PLOT)
-            
-    print(f"The Average Mean Squared Mahalanobis Distance {np.average(mean_batch_squared_md_arr)}")
+
+    print(
+        f"The Average Mean Squared Mahalanobis Distance {np.average(mean_batch_squared_md_arr)}"
+    )
 
     fig1 = plt.figure(figsize=(5, 3))
     plt.plot(mean_batch_squared_md_arr, label="mean squared batch squared md")
