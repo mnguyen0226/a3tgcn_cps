@@ -107,6 +107,7 @@ _, _, test_X, test_Y = preprocess_data(
 
 def self_attention(x, weight_att, bias_att):
     """Constructs self-attention mechanism for TGCN
+    # Reference: https://github.com/lehaifeng/T-GCN/blob/master/A3T-GCN/A3T-GCN.py
 
     Args:
         x: Input.
@@ -135,7 +136,8 @@ def self_attention(x, weight_att, bias_att):
 
 def ATGCN(_X, weights, biases):
     """Attention - TGCN model for scada batadal datasets, including multiple TGCNCell(s)
-
+    # Reference: https://github.com/lehaifeng/T-GCN/blob/master/A3T-GCN/A3T-GCN.py
+    
     Args:
         _X: Adjacency matrix, time series.
         weights: Weights.
