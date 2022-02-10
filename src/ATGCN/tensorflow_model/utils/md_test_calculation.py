@@ -21,6 +21,7 @@ dataset04 = pd.read_csv(
 )  # change for each different poisoned dataset.csv
 
 binary_arr = dataset04["ATT_FLAG"].to_list()
+testing_attack_labels = binary_arr
 binary_arr = binary_arr[(L + 8) : -1]  # use 8 for prediction + L for first window size
 convert_th_binary_arr = [LOWER_PLOT if x == 0 else UPPER_PLOT for x in binary_arr]
 
@@ -101,6 +102,8 @@ def calculate_md_test():
 
 def calculate_rmd_test():
     """Calculates the Robust Mahalanobis Distance for poisoned dataset"""
+    testing_attack_preds = []
+    
     # Get lists
     df_eval_labels, df_eval_preds = data_preprocessing(
         num_line=EVAL_POISON_LINE_NUM,
@@ -152,8 +155,10 @@ def calculate_rmd_test():
         mean_batch_squared_rmd_arr.append(mean_batch_squared_rmd)
         if mean_batch_squared_rmd >= UPPER_TH:
             outliers.append(UPPER_PLOT)
+            testing_attack_preds.append(1)
         else:
             outliers.append(LOWER_PLOT)
+            testing_attack_preds.append(0)
 
     print(
         f"The Average Mean Squared Robust Mahalanobis Distance {np.average(mean_batch_squared_rmd_arr)}"
@@ -181,6 +186,9 @@ def calculate_rmd_test():
     plt.ylabel("Binary Classification")
     plt.legend()
     plt.show()
+    
+    print(f"TESTING: {len(testing_attack_preds)}")
+    print(f"TESTING: {len(testing_attack_labels)}")
 
 
 if __name__ == "__main__":

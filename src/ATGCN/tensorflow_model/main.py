@@ -811,8 +811,8 @@ def main():
     # load_and_eval_clean_dataset()
     # load_and_eval_poisoned_dataset()
     # load_and_eval_test_dataset()
-    calculate_rmd_clean()
-    calculate_rmd_poison()
+    # calculate_rmd_clean()
+    # calculate_rmd_poison()
     calculate_rmd_test()
 
 
