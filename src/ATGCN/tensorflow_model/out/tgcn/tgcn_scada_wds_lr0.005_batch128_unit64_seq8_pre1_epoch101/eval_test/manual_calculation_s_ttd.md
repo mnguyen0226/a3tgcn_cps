@@ -16,19 +16,19 @@
 - Rate_3 = 8/30
 
 ### Attack 4
-- TTD = 4, Delta_t = 30
+- TTD = 1, Delta_t = 30
 - Rate_4 = 1/30
 
 ### Attack 5
-- TTD = 9, Delta_t = 99
-- Rate_5 = 9/99
+- TTD = 7, Delta_t = 99
+- Rate_5 = 7/99
 
 ### Attack 6
-- TTD = 18, Delta_t = 79
-- Rate_6 = 17/79
+- TTD = 15, Delta_t = 79
+- Rate_6 = 15/79
 
 ### Attack 7
 - TTD = 9, Delta_t = 29
 - Rate_7 = 9/29
 
-Thus S_ttd = 1 - 1/7(avg(Rate_1 + Rate_2 + Rate_3 + Rate_4 + Rate_5 + Rate_6 + Rate_7)) = 0.832
+Thus S_ttd = 1 - 1/7(avg(Rate_1 + Rate_2 + Rate_3 + Rate_4 + Rate_5 + Rate_6 + Rate_7)) = 0.8389
