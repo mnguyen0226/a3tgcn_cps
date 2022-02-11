@@ -183,7 +183,7 @@ def calculate_md_clean():
         distance = (
             (p1 - p2).T.dot(covariance_pm1).dot(p1 - p2)
         )  # squared mahalanobis distance
-        distances.append(distance)
+        distances.append(distance ** 1.5)
     distances = np.array(distances)
 
     mean_batch_squared_md_arr = []
@@ -193,19 +193,20 @@ def calculate_md_clean():
         mean_batch_squared_md = np.average(batch_squared_md)
         mean_batch_squared_md_arr.append(mean_batch_squared_md)
 
-    print(
-        f"The Average Mean Squared Mahalanobis Distance {np.average(mean_batch_squared_md_arr)}"
-    )
+    print(f"The Average Mahalanobis Distance {np.average(mean_batch_squared_md_arr)}")
 
+    # MD Plot
+    fig1 = plt.figure(figsize=(20, 8))
     threshold_line_clean = [UPPER_TH for x in range(len(mean_batch_squared_md_arr))]
 
-    plt.plot(mean_batch_squared_md_arr, label="mean batch squared md")
-    plt.plot(threshold_line_clean, label="attacks threshold")
-    plt.title(
-        "Mean Squared Mahalanobis Distance Every L Hours TimeStamp - Clean Dataset"
-    )
-    plt.xlabel("Every L hours")
-    plt.ylabel("Mean Squared Mahalanobis Distance")
+    plt.title("Mahalanobis Distance Every Hour On Clean Dataset")
+    plt.plot(mean_batch_squared_md_arr, color="black", lw=2, label="MD")
+    plt.plot(threshold_line_clean, color="red", label="Threshold")
+    plt.xlabel("t (h)")
+    plt.ylabel("Mahalanobis Distance")
+    plt.figtext(0.16, 0.24, "L = " + str(L))
+    plt.figtext(0.16, 0.22, "TH = " + str(UPPER_TH))
+    plt.legend(loc=2, fancybox=True, shadow=True)
     plt.show()
 
 
@@ -256,7 +257,7 @@ def calculate_rmd_clean():
         distance = (
             (p1 - p2).T.dot(inv_covmat).dot(p1 - p2)
         )  # squared mahalanobis distance
-        distances.append(distance)
+        distances.append(distance ** 1.5)
     distances = np.array(distances)
 
     mean_batch_squared_rmd_arr = []
@@ -267,20 +268,21 @@ def calculate_rmd_clean():
         mean_batch_squared_rmd_arr.append(mean_batch_squared_md)
 
     print(
-        f"The Average Mean Squared Robust Mahalanobis Distance {np.average(mean_batch_squared_rmd_arr)}"
+        f"The Average Robust Mahalanobis Distance: {np.average(mean_batch_squared_rmd_arr)}"
     )
-
+    # Robust MD Plot
+    fig1 = plt.figure(figsize=(20, 8))
     threshold_line_clean = [UPPER_TH for x in range(len(mean_batch_squared_rmd_arr))]
 
-    plt.plot(mean_batch_squared_rmd_arr, label="mean batch squared robust md")
-    plt.plot(threshold_line_clean, label="attacks threshold")
-    plt.title(
-        "Mean Squared Robust Mahalanobis Distance Every L Hours TimeStamp - Clean Dataset"
-    )
-    plt.xlabel("Every L hours")
-    plt.ylabel("Mean Squared Robust Mahalanobis Distance")
+    plt.title("Robust Mahalanobis Distance Every Hour On Clean Dataset")
+    plt.plot(mean_batch_squared_rmd_arr, color="black", lw=2, label="MD")
+    plt.plot(threshold_line_clean, color="red", label="Threshold")
+    plt.xlabel("t (h)")
+    plt.ylabel("Robust Mahalanobis Distance")
+    plt.figtext(0.16, 0.24, "L = " + str(L))
+    plt.figtext(0.16, 0.22, "TH = " + str(UPPER_TH))
+    plt.legend(loc=2, fancybox=True, shadow=True)
     plt.show()
-
 
 if __name__ == "__main__":
     calculate_md_clean()

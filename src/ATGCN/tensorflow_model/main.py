@@ -16,6 +16,9 @@ from utils import evaluation
 from utils import calculate_rmd_clean
 from utils import calculate_rmd_poison
 from utils import calculate_rmd_test
+from utils import calculate_md_clean
+from utils import calculate_md_poison
+from utils import calculate_md_test
 
 # Sets time for saving different trained time model
 local_time = time.asctime(time.localtime(time.time()))
@@ -811,6 +814,13 @@ def main():
     # load_and_eval_clean_dataset()
     # load_and_eval_poisoned_dataset()
     # load_and_eval_test_dataset()
+
+    # Traditional Mahalanobis Distance
+    # calculate_md_clean()
+    # calculate_md_poison()
+    # calculate_md_test()
+
+    # Robust Mahalanobis Distance
     # calculate_rmd_clean()
     # calculate_rmd_poison()
     calculate_rmd_test()

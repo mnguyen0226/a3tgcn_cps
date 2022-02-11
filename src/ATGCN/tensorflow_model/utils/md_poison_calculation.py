@@ -15,6 +15,8 @@ from utils.md_clean_calculation import UPPER_PLOT
 EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_labels.csv"
 EVAL_POISON_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_poisoned/eval_poisoned_output.csv"
 EVAL_POISON_LINE_NUM = 4168  # CHANGE for each different eval_poisoned_output.csv
+shade_of_gray = "0.75"
+shade_of_blue = "lightsteelblue"
 
 dataset04 = pd.read_csv(
     r"data/processed/processed_dataset04_origin_binary.csv"
@@ -22,7 +24,9 @@ dataset04 = pd.read_csv(
 
 binary_arr = dataset04["ATT_FLAG"].to_list()
 binary_arr = binary_arr[(L + 8) : -1]  # use 8 for prediction + L for first window size
+testing_attack_labels = binary_arr  # collect binary labels
 convert_th_binary_arr = [LOWER_PLOT if x == 0 else UPPER_PLOT for x in binary_arr]
+thresholds = [UPPER_TH for _ in range(len(binary_arr))]
 
 
 def calculate_md_poison():
@@ -56,14 +60,14 @@ def calculate_md_poison():
         p1 = val
         p2 = global_mean_error
         distance = (p1 - p2).T.dot(covariance_pm1).dot(p1 - p2)
-        distances.append(distance)
+        distances.append(distance ** 1.5)
     distances = np.array(distances)
 
     mean_batch_squared_md_arr = []
 
     outliers = []
 
-    thresholds = [UPPER_TH for _ in range(len(binary_arr))]
+    testing_attack_preds = []
 
     for i in range(L, (len(distances))):
         batch_squared_md = distances[i - L : i]  # take the first L batches
@@ -71,32 +75,61 @@ def calculate_md_poison():
         mean_batch_squared_md_arr.append(mean_batch_squared_md)
         if mean_batch_squared_md >= UPPER_TH:
             outliers.append(UPPER_PLOT)
+            testing_attack_preds.append(1.0)
         else:
             outliers.append(LOWER_PLOT)
+            testing_attack_preds.append(0.0)
 
-    print(
-        f"The Average Mean Squared Mahalanobis Distance {np.average(mean_batch_squared_md_arr)}"
-    )
+    print(f"The Average Mahalanobis Distance {np.average(mean_batch_squared_md_arr)}")
 
-    fig1 = plt.figure(figsize=(5, 3))
-    plt.plot(mean_batch_squared_md_arr, label="mean squared batch robust md")
-    plt.plot(convert_th_binary_arr, label="attacks labels")
-    plt.plot(thresholds, label="threshold")
-    plt.title(
-        "Mean Squared Robust Mahalanobis Distance Every L Hours TimeStamp - Poisoned Dataset"
+    # MD Plot
+    fig1 = plt.figure(figsize=(20, 8))
+    plt.title("Mahalanobis Distance Of Every Hour On Poisoned Dataset")
+    df_plot_labels = pd.Series((i for i in convert_th_binary_arr))
+    plt.plot(convert_th_binary_arr, label="Attacks Labels")
+    plt.fill_between(
+        df_plot_labels.index,
+        df_plot_labels.values,
+        where=df_plot_labels.values <= UPPER_PLOT,
+        interpolate=True,
+        color=shade_of_blue,
     )
-    plt.xlabel("Every L hours")
-    plt.ylabel("Mean Squared Robust Mahalanobis Distance")
-    plt.legend()
+    plt.plot(mean_batch_squared_md_arr, color="black", lw=2, label="MD")
+    plt.plot(thresholds, color="red", label="Threshold")
+
+    plt.xlabel("t (h)")
+    plt.ylabel("Mahalanobis Distance")
+    plt.figtext(0.16, 0.24, "L = " + str(L))
+    plt.figtext(0.16, 0.22, "TH = " + str(UPPER_TH))
+    plt.legend(loc=2, fancybox=True, shadow=True)
     plt.show()
 
-    fig1 = plt.figure(figsize=(5, 3))
-    plt.title("Attacks Predictions vs. Labels - Poisoned Dataset")
-    plt.plot(convert_th_binary_arr, label="attacks labels")
-    plt.plot(outliers, label="attacks predictions")
-    plt.xlabel("Every L hours")
-    plt.ylabel("Binary Classification")
-    plt.legend()
+    # Binary Classification Plot
+    fig1 = plt.figure(figsize=(20, 8))
+    plt.title("Attacks Predictions vs. Ground-Truths On Poisoned Dataset")
+
+    # Convert binary prediction to Series
+    df_plot_prediction = pd.Series((i for i in testing_attack_preds))
+    plt.fill_between(
+        df_plot_prediction.index,
+        df_plot_prediction.values,
+        where=df_plot_prediction.values <= 1.0,
+        interpolate=True,
+        color=shade_of_gray,
+    )
+    plt.plot(testing_attack_preds, color=shade_of_gray, label="Attacks Predictions")
+    plt.plot(
+        testing_attack_labels,
+        color="royalblue",
+        alpha=0.85,
+        lw=2,
+        label="Attacks Labels",
+    )
+    plt.xlabel("t (h)")
+    # plt.ylabel("Binary Classification")
+    y_tick = ["UNDER ATTACK" if i == 1.0 else "SAFE" for i in testing_attack_preds]
+    plt.yticks(testing_attack_preds, y_tick)
+    plt.legend(loc=2, fancybox=True, shadow=True)
     plt.show()
 
 
@@ -138,14 +171,14 @@ def calculate_rmd_poison():
         p1 = val  # Ozone and Temp of the ith row
         p2 = GLOBAL_MEAN_ERROR
         distance = (p1 - p2).T.dot(inv_covmat).dot(p1 - p2)
-        distances.append(distance)
+        distances.append(distance ** 1.5)
     distances = np.array(distances)
 
     mean_batch_squared_rmd_arr = []
 
     outliers = []
 
-    thresholds = [UPPER_TH for _ in range(len(binary_arr))]
+    testing_attack_preds = []
 
     for i in range(L, (len(distances))):
         batch_squared_md = distances[i - L : i]  # take the first L batches
@@ -153,32 +186,64 @@ def calculate_rmd_poison():
         mean_batch_squared_rmd_arr.append(mean_batch_squared_rmd)
         if mean_batch_squared_rmd >= UPPER_TH:
             outliers.append(UPPER_PLOT)
+            testing_attack_preds.append(1.0)
         else:
             outliers.append(LOWER_PLOT)
+            testing_attack_preds.append(0.0)
 
     print(
-        f"The Average Mean Squared Robust Mahalanobis Distance {np.average(mean_batch_squared_rmd_arr)}"
+        f"The Average Robust Mahalanobis Distance: {np.average(mean_batch_squared_rmd_arr)}"
     )
 
-    fig1 = plt.figure(figsize=(5, 3))
-    plt.plot(mean_batch_squared_rmd_arr, label="mean squared batch robust md")
-    plt.plot(convert_th_binary_arr, label="attacks labels")
-    plt.plot(thresholds, label="threshold")
-    plt.title(
-        "Mean Squared Robust Mahalanobis Distance Every L Hours TimeStamp - Poisoned Dataset"
+    # Robust MD Plot
+    fig1 = plt.figure(figsize=(20, 8))
+    plt.title("Robust Mahalanobis Distance Of Every Hour On Testing Dataset")
+    df_plot_labels = pd.Series((i for i in convert_th_binary_arr))
+    plt.plot(convert_th_binary_arr, label="Attacks Labels")
+    plt.fill_between(
+        df_plot_labels.index,
+        df_plot_labels.values,
+        where=df_plot_labels.values <= UPPER_PLOT,
+        interpolate=True,
+        color=shade_of_blue,
     )
-    plt.xlabel("Every L hours")
-    plt.ylabel("Mean Squared Robust Mahalanobis Distance")
-    plt.legend()
+    plt.plot(mean_batch_squared_rmd_arr, color="black", lw=2, label="Robust MD")
+    # plt.plot(first_column_dynamic_th, label="dynamic threshold")
+    plt.plot(thresholds, color="red", label="Threshold")
+
+    plt.xlabel("t (h)")
+    plt.ylabel("Robust Mahalanobis Distance")
+    plt.figtext(0.16, 0.24, "L = " + str(L))
+    plt.figtext(0.16, 0.22, "TH = " + str(UPPER_TH))
+    plt.legend(loc=2, fancybox=True, shadow=True)
     plt.show()
 
-    fig1 = plt.figure(figsize=(5, 3))
-    plt.title("Attacks Predictions vs. Labels - Poisoned Dataset")
-    plt.plot(convert_th_binary_arr, label="attacks labels")
-    plt.plot(outliers, label="attacks predictions")
-    plt.xlabel("Every L hours")
-    plt.ylabel("Binary Classification")
-    plt.legend()
+    # Binary Classification Plot
+    fig1 = plt.figure(figsize=(20, 8))
+    plt.title("Attacks Predictions vs. Ground-Truths On Testing Dataset")
+
+    # Convert binary prediction to Series
+    df_plot_prediction = pd.Series((i for i in testing_attack_preds))
+    plt.fill_between(
+        df_plot_prediction.index,
+        df_plot_prediction.values,
+        where=df_plot_prediction.values <= 1.0,
+        interpolate=True,
+        color=shade_of_gray,
+    )
+    plt.plot(testing_attack_preds, color=shade_of_gray, label="Attacks Predictions")
+    plt.plot(
+        testing_attack_labels,
+        color="royalblue",
+        alpha=0.85,
+        lw=2,
+        label="Attacks Labels",
+    )
+    plt.xlabel("t (h)")
+    # plt.ylabel("Binary Classification")
+    y_tick = ["UNDER ATTACK" if i == 1.0 else "SAFE" for i in testing_attack_preds]
+    plt.yticks(testing_attack_preds, y_tick)
+    plt.legend(loc=2, fancybox=True, shadow=True)
     plt.show()
 
 
