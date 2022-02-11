@@ -3,13 +3,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import scipy as sp
 from sklearn.covariance import MinCovDet
+from utils.helper_functions import classification_metrics
 from utils.md_clean_calculation import data_preprocessing
 from utils.md_clean_calculation import GLOBAL_MEAN_ERROR
 from utils.md_clean_calculation import L
 from utils.md_clean_calculation import UPPER_TH
 from utils.md_clean_calculation import LOWER_PLOT
 from utils.md_clean_calculation import UPPER_PLOT
-
+from sklearn.metrics import confusion_matrix
+import sklearn
 
 # Before any attacks there will be a 17 hour time stamps
 EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/eval_test_labels.csv"
@@ -21,8 +23,8 @@ dataset04 = pd.read_csv(
 )  # change for each different poisoned dataset.csv
 
 binary_arr = dataset04["ATT_FLAG"].to_list()
-testing_attack_labels = binary_arr
 binary_arr = binary_arr[(L + 8) : -1]  # use 8 for prediction + L for first window size
+testing_attack_labels = binary_arr  # collect binary labels
 convert_th_binary_arr = [LOWER_PLOT if x == 0 else UPPER_PLOT for x in binary_arr]
 
 
@@ -44,8 +46,6 @@ def calculate_md_test():
 
     # Calculate the covariance matrix
     cov = np.cov(df_error, rowvar=False)
-
-    # Calculate cov^-1
     covariance_pm1 = np.linalg.matrix_power(cov, -1)
 
     # Calculate the mean error arrayy
@@ -89,9 +89,7 @@ def calculate_md_test():
     plt.show()
 
     fig1 = plt.figure(figsize=(5, 3))
-    plt.title(
-        "Attacks Predictions vs. Labels - Testing Dataset"
-    )
+    plt.title("Attacks Predictions vs. Labels - Testing Dataset")
     plt.plot(convert_th_binary_arr, label="attacks labels")
     plt.plot(outliers, label="attacks predictions")
     plt.xlabel("Every L hours")
@@ -103,7 +101,7 @@ def calculate_md_test():
 def calculate_rmd_test():
     """Calculates the Robust Mahalanobis Distance for poisoned dataset"""
     testing_attack_preds = []
-    
+
     # Get lists
     df_eval_labels, df_eval_preds = data_preprocessing(
         num_line=EVAL_POISON_LINE_NUM,
@@ -125,7 +123,7 @@ def calculate_rmd_test():
     real_cov = np.cov(df_error, rowvar=False)
 
     # Get multivariate values
-    X = rng.multivariate_normal(mean=np.mean(df_error, axis=0), cov=real_cov, size=506)
+    X = rng.multivariate_normal(mean=np.mean(df_error, axis=0), cov=real_cov, size=1000) # 506 2080 1000
 
     # Get MCD values
     cov = MinCovDet(random_state=0).fit(X)
@@ -140,7 +138,7 @@ def calculate_rmd_test():
         p1 = val  # Ozone and Temp of the ith row
         p2 = GLOBAL_MEAN_ERROR
         distance = (p1 - p2).T.dot(inv_covmat).dot(p1 - p2)
-        distances.append(distance)
+        distances.append(distance**1.5)
     distances = np.array(distances)
 
     mean_batch_squared_rmd_arr = []
@@ -155,18 +153,23 @@ def calculate_rmd_test():
         mean_batch_squared_rmd_arr.append(mean_batch_squared_rmd)
         if mean_batch_squared_rmd >= UPPER_TH:
             outliers.append(UPPER_PLOT)
-            testing_attack_preds.append(1)
+            testing_attack_preds.append(1.0)
         else:
             outliers.append(LOWER_PLOT)
-            testing_attack_preds.append(0)
+            testing_attack_preds.append(0.0)
 
     print(
-        f"The Average Mean Squared Robust Mahalanobis Distance {np.average(mean_batch_squared_rmd_arr)}"
+        f"The Average Mean Squared Robust Mahalanobis Distance: {np.average(mean_batch_squared_rmd_arr)}"
     )
+
+    dynamic_th = pd.DataFrame(mean_batch_squared_rmd_arr).ewm(alpha=0.005, adjust=False).mean()
+    first_column_dynamic_th = dynamic_th. iloc[:, 0]
+    first_column_dynamic_th = (first_column_dynamic_th.to_numpy())
 
     fig1 = plt.figure(figsize=(5, 3))
     plt.plot(mean_batch_squared_rmd_arr, label="mean squared batch robust md")
     plt.plot(convert_th_binary_arr, label="attacks labels")
+    # plt.plot(first_column_dynamic_th, label="dynamic threshold")
     plt.plot(thresholds, label="threshold")
     plt.title(
         "Mean Squared Robust Mahalanobis Distance Every L Hours TimeStamp - Testing Dataset"
@@ -177,18 +180,23 @@ def calculate_rmd_test():
     plt.show()
 
     fig1 = plt.figure(figsize=(5, 3))
-    plt.title(
-        "Attacks Predictions vs. Labels - Testing Dataset"
-    )
+    plt.title("Attacks Predictions vs. Labels - Testing Dataset")
     plt.plot(convert_th_binary_arr, label="attacks labels")
     plt.plot(outliers, label="attacks predictions")
     plt.xlabel("Every L hours")
     plt.ylabel("Binary Classification")
     plt.legend()
     plt.show()
-    
-    print(f"TESTING: {len(testing_attack_preds)}")
-    print(f"TESTING: {len(testing_attack_labels)}")
+
+    precision, recall, f1, accuracy, specificity = classification_metrics(
+        np.array(testing_attack_labels), np.array(testing_attack_preds)
+    )
+
+    print(f"Precision: {precision}")
+    print(f"Recall / True Positive: {recall}")
+    print(f"F1 Score: {f1}")
+    print(f"Accuracy: {accuracy}")
+    print(f"Specificity / True Negative: {specificity}")
 
 
 if __name__ == "__main__":

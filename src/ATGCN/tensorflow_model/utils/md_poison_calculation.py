@@ -91,15 +91,14 @@ def calculate_md_poison():
     plt.show()
 
     fig1 = plt.figure(figsize=(5, 3))
-    plt.title(
-        "Attacks Predictions vs. Labels - Poisoned Dataset"
-    )
+    plt.title("Attacks Predictions vs. Labels - Poisoned Dataset")
     plt.plot(convert_th_binary_arr, label="attacks labels")
     plt.plot(outliers, label="attacks predictions")
     plt.xlabel("Every L hours")
     plt.ylabel("Binary Classification")
     plt.legend()
     plt.show()
+
 
 def calculate_rmd_poison():
     """Calculates the Robust Mahalanobis Distance for poisoned dataset"""
@@ -174,9 +173,7 @@ def calculate_rmd_poison():
     plt.show()
 
     fig1 = plt.figure(figsize=(5, 3))
-    plt.title(
-        "Attacks Predictions vs. Labels - Poisoned Dataset"
-    )
+    plt.title("Attacks Predictions vs. Labels - Poisoned Dataset")
     plt.plot(convert_th_binary_arr, label="attacks labels")
     plt.plot(outliers, label="attacks predictions")
     plt.xlabel("Every L hours")

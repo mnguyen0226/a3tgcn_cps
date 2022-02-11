@@ -18,10 +18,13 @@ EVAL_CLEAN_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre
 # 20 34.9
 # 25 34.9
 
-L = 25
-UPPER_TH = 42.5 # 34.9 
-UPPER_PLOT = 320
-LOWER_PLOT = 16
+# distances.append(distance**1.25) L = 8, UPPER_TH = 86
+
+L = 12 
+UPPER_TH = 209 #42.5  # 34.9
+
+UPPER_PLOT = 7700
+LOWER_PLOT = 20
 GLOBAL_MEAN_ERROR = np.array(  # Recall calculate everytime retrained model
     # [ # MD Mean Error
     #     0.470392,

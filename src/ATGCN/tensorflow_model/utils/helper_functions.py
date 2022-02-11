@@ -7,6 +7,7 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import mean_squared_error
 import numpy.linalg as la
 import math
+from sklearn.metrics import confusion_matrix
 
 
 def normalized_adj(adj):
@@ -106,3 +107,23 @@ def evaluation(pred, label):
     var = 1 - (np.var(pred - label)) / np.var(pred)
 
     return rmse, mae, 1 - F_norm, r2, var
+
+
+def classification_metrics(label_arr, pred_arr):
+    """Return evaluation metrics for binary classification
+
+    Args:
+        label_arr: array stored the binary labels
+        pred_arr: array stored the binary predictions
+
+    Returns:
+        [type]: [description]
+    """
+    tn, fp, fn, tp = confusion_matrix(np.array(label_arr), np.array(pred_arr)).ravel()
+    precision = tp / (tp + fp)
+    recall = tp / (tp + fn)  # true positive
+    f1 = (2 * precision * recall) / (precision + recall)
+    accuracy = (tp + tn) / (tp + fn + tn + fp)
+    specificity = tn / (tn + fp)  # true negative
+
+    return precision, recall, f1, accuracy, specificity
