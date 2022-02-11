@@ -20,8 +20,8 @@ EVAL_CLEAN_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre
 
 # distances.append(distance**1.25) L = 8, UPPER_TH = 86
 
-L = 12 
-UPPER_TH = 209 #42.5  # 34.9
+L = 12
+UPPER_TH = 209  # 42.5  # 34.9
 
 UPPER_PLOT = 7700
 LOWER_PLOT = 20

@@ -11,12 +11,13 @@ from utils.md_clean_calculation import UPPER_TH
 from utils.md_clean_calculation import LOWER_PLOT
 from utils.md_clean_calculation import UPPER_PLOT
 from sklearn.metrics import confusion_matrix
-import sklearn
+import csv
 
 # Before any attacks there will be a 17 hour time stamps
 EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/eval_test_labels.csv"
 EVAL_POISON_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/eval_test_output.csv"
 EVAL_POISON_LINE_NUM = 2080  # change for each different eval_poisoned_output.csv
+PATH = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/classification_results.csv"
 
 dataset04 = pd.read_csv(
     r"data/processed/test_scada_dataset.csv"
@@ -123,7 +124,9 @@ def calculate_rmd_test():
     real_cov = np.cov(df_error, rowvar=False)
 
     # Get multivariate values
-    X = rng.multivariate_normal(mean=np.mean(df_error, axis=0), cov=real_cov, size=1000) # 506 2080 1000
+    X = rng.multivariate_normal(
+        mean=np.mean(df_error, axis=0), cov=real_cov, size=1000
+    )  # 506 2080 1000
 
     # Get MCD values
     cov = MinCovDet(random_state=0).fit(X)
@@ -138,7 +141,7 @@ def calculate_rmd_test():
         p1 = val  # Ozone and Temp of the ith row
         p2 = GLOBAL_MEAN_ERROR
         distance = (p1 - p2).T.dot(inv_covmat).dot(p1 - p2)
-        distances.append(distance**1.5)
+        distances.append(distance ** 1.5)
     distances = np.array(distances)
 
     mean_batch_squared_rmd_arr = []
@@ -162,9 +165,11 @@ def calculate_rmd_test():
         f"The Average Mean Squared Robust Mahalanobis Distance: {np.average(mean_batch_squared_rmd_arr)}"
     )
 
-    dynamic_th = pd.DataFrame(mean_batch_squared_rmd_arr).ewm(alpha=0.005, adjust=False).mean()
-    first_column_dynamic_th = dynamic_th. iloc[:, 0]
-    first_column_dynamic_th = (first_column_dynamic_th.to_numpy())
+    dynamic_th = (
+        pd.DataFrame(mean_batch_squared_rmd_arr).ewm(alpha=0.005, adjust=False).mean()
+    )
+    first_column_dynamic_th = dynamic_th.iloc[:, 0]
+    first_column_dynamic_th = first_column_dynamic_th.to_numpy()
 
     fig1 = plt.figure(figsize=(5, 3))
     plt.plot(mean_batch_squared_rmd_arr, label="mean squared batch robust md")
@@ -188,16 +193,23 @@ def calculate_rmd_test():
     plt.legend()
     plt.show()
 
+    # Get Results
     precision, recall, f1, accuracy, specificity = classification_metrics(
         np.array(testing_attack_labels), np.array(testing_attack_preds)
     )
 
     print(f"Precision: {precision}")
-    print(f"Recall / True Positive: {recall}")
+    print(f"Recall / True Positive Rate: {recall}")
     print(f"F1 Score: {f1}")
     print(f"Accuracy: {accuracy}")
-    print(f"Specificity / True Negative: {specificity}")
+    print(f"Specificity / True Negative Rate: {specificity}")
 
+    rows = zip(testing_attack_labels, testing_attack_preds)
+
+    with open(PATH, 'w') as f:
+        write = csv.writer(f)
+        for row in rows:
+            write.writerow(row)
 
 if __name__ == "__main__":
     calculate_md_test()
