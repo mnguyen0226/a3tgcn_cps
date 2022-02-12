@@ -20,6 +20,7 @@ EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pr
 EVAL_POISON_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/eval_test_output.csv"
 EVAL_POISON_LINE_NUM = 2080  # change for each different eval_poisoned_output.csv
 PATH = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/classification_results.csv"
+CLASSIFICATION_PATH = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/detection_results.csv"
 shade_of_gray = "0.75"
 shade_of_blue = "lightsteelblue"
 
@@ -275,6 +276,12 @@ def calculate_rmd_test():
         write = csv.writer(f)
         for row in rows:
             write.writerow(row)
+
+    row = zip(testing_attack_preds)
+    with open(CLASSIFICATION_PATH, "w") as f:
+        write = csv.writer(f)
+        for r in row:
+            write.writerow(r)
 
 
 if __name__ == "__main__":

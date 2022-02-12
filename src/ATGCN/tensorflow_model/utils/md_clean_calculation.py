@@ -284,6 +284,7 @@ def calculate_rmd_clean():
     plt.legend(loc=2, fancybox=True, shadow=True)
     plt.show()
 
+
 if __name__ == "__main__":
     calculate_md_clean()
     calculate_rmd_clean()
