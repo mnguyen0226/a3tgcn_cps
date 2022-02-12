@@ -10,28 +10,24 @@ EVAL_TEST_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1
 EVAL_TEST_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/eval_test_output.csv"
 LINE_COLOR = "lightgray"
 
-# attack_detection_file = pd.read_csv(
-#     r"out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/detection_results.csv", header=None
-# )  # change for each different poisoned dataset.csv
-
-# testing_attack_labels = attack_detection_file[0].to_list()
-
-dataset04 = pd.read_csv(
-    r"data/processed/test_scada_dataset.csv"
+attack_detection_file = pd.read_csv(
+    r"out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/detection_results.csv",
+    header=None,
 )  # change for each different poisoned dataset.csv
 
-binary_arr = dataset04["ATT_FLAG"].to_list()
-testing_attack_labels = binary_arr[
-    8:-1
-]  # use 8 for prediction + L for first window size
+testing_attack_labels = attack_detection_file[0].to_list()
+
+# dataset04 = pd.read_csv(
+#     r"data/processed/test_scada_dataset.csv"
+# )  # change for each different poisoned dataset.csv
+
+# binary_arr = dataset04["ATT_FLAG"].to_list()
+# testing_attack_labels = binary_arr[
+#     8:-1
+# ]  # use 8 for prediction + L for first window size
 
 
 def localization():
-    # Take in evaluation table of labels and outputs, then calculate the mean square error between columns.
-    # Then return the max mean square error at each column. Use that max as threshold
-    # Similarly, take in the test eval labels and outputs, calculate mean square error, plot True if which one higher than the corresponding threshold
-    # Return True at which one is compromised
-
     # Return index of the attacks detection => Return to which one has higher than threshold plot
 
     clean_eval_labels = pd.read_csv(
@@ -104,7 +100,7 @@ def localization():
         ],
         header=None,
     )
-    # clean_eval_labels = clean_eval_labels[(L) : -1]
+    clean_eval_labels = clean_eval_labels[(L):-1]
     clean_eval_preds = pd.read_csv(
         EVAL_CLEAN_PREDS_DIR,
         usecols=[
@@ -175,7 +171,7 @@ def localization():
         ],
         header=None,
     )
-    # clean_eval_preds = clean_eval_preds[(L) : -1]
+    clean_eval_preds = clean_eval_preds[(L):-1]
     test_eval_labels = pd.read_csv(
         EVAL_TEST_LABEL_DIR,
         usecols=[
@@ -246,7 +242,7 @@ def localization():
         ],
         header=None,
     )
-    # test_eval_labels = test_eval_labels[(L) : -1]
+    test_eval_labels = test_eval_labels[(L):-1]
     test_eval_preds = pd.read_csv(
         EVAL_TEST_PREDS_DIR,
         usecols=[
@@ -317,8 +313,7 @@ def localization():
         ],
         header=None,
     )
-    # test_eval_preds = test_eval_preds[(L) : -1]
-
+    test_eval_preds = test_eval_preds[(L):-1]
     # Extract data from clean labels and predictions
     clean_L_T1_label = (clean_eval_labels["L_T1"]).values
     clean_L_T2_label = (clean_eval_labels["L_T2"]).values
