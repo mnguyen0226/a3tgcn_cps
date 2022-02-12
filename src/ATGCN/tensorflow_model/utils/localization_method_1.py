@@ -412,38 +412,6 @@ def localization():
     max_error_P_J14 = np.amax(np.abs(clean_P_J14_label - clean_P_J14_pred))
     max_error_P_J422 = np.amax(np.abs(clean_P_J422_label - clean_P_J422_pred))
 
-    # max_error_L_T1 = (np.amax(np.abs(clean_L_T1_label - clean_L_T1_pred)))**2
-    # max_error_L_T2 = (np.amax(np.abs(clean_L_T2_label - clean_L_T2_pred)))**2
-    # max_error_L_T3 = (np.amax(np.abs(clean_L_T3_label - clean_L_T3_pred)))**2
-    # max_error_L_T4 = (np.amax(np.abs(clean_L_T4_label - clean_L_T4_pred)))**2
-    # max_error_L_T5 = (np.amax(np.abs(clean_L_T5_label - clean_L_T5_pred)))**2
-    # max_error_L_T6 = (np.amax(np.abs(clean_L_T6_label - clean_L_T6_pred)))**2
-    # max_error_L_T7 = (np.amax(np.abs(clean_L_T7_label - clean_L_T7_pred)))**2
-    # max_error_F_PU1 = (np.amax(np.abs(clean_F_PU1_label - clean_F_PU1_pred)))**2
-    # max_error_F_PU2 = (np.amax(np.abs(clean_F_PU2_label - clean_F_PU2_pred)))**2
-    # max_error_F_PU3 = (np.amax(np.abs(clean_F_PU3_label - clean_F_PU3_pred)))**2
-    # max_error_F_PU4 = (np.amax(np.abs(clean_F_PU4_label - clean_F_PU4_pred)))**2
-    # max_error_F_PU5 = (np.amax(np.abs(clean_F_PU5_label - clean_F_PU5_pred)))**2
-    # max_error_F_PU6 = (np.amax(np.abs(clean_F_PU6_label - clean_F_PU6_pred)))**2
-    # max_error_F_PU7 = (np.amax(np.abs(clean_F_PU7_label - clean_F_PU7_pred)))**2
-    # max_error_F_PU8 = (np.amax(np.abs(clean_F_PU8_label - clean_F_PU8_pred)))**2
-    # max_error_F_PU9 = (np.amax(np.abs(clean_F_PU9_label - clean_F_PU9_pred)))**2
-    # max_error_F_PU10 = (np.amax(np.abs(clean_F_PU10_label - clean_F_PU10_pred)))**2
-    # max_error_F_PU11 = (np.amax(np.abs(clean_F_PU11_label - clean_F_PU11_pred)))**2
-    # max_error_F_V2 = (np.amax(np.abs(clean_F_V2_label - clean_F_V2_pred)))**2
-    # max_error_P_J280 = (np.amax(np.abs(clean_P_J280_label - clean_P_J280_pred)))**2
-    # max_error_P_J269 = (np.amax(np.abs(clean_P_J269_label - clean_P_J269_pred)))**2
-    # max_error_P_J300 = (np.amax(np.abs(clean_P_J300_label - clean_P_J300_pred)))**2
-    # max_error_P_J256 = (np.amax(np.abs(clean_P_J256_label - clean_P_J256_pred)))**2
-    # max_error_P_J289 = (np.amax(np.abs(clean_P_J289_label - clean_P_J289_pred)))**2
-    # max_error_P_J415 = (np.amax(np.abs(clean_P_J415_label - clean_P_J415_pred)))**2
-    # max_error_P_J302 = (np.amax(np.abs(clean_P_J302_label - clean_P_J302_pred)))**2
-    # max_error_P_J306 = (np.amax(np.abs(clean_P_J306_label - clean_P_J306_pred)))**2
-    # max_error_P_J307 = (np.amax(np.abs(clean_P_J307_label - clean_P_J307_pred)))**2
-    # max_error_P_J317 = (np.amax(np.abs(clean_P_J317_label - clean_P_J317_pred)))**2
-    # max_error_P_J14 = (np.amax(np.abs(clean_P_J14_label - clean_P_J14_pred)))**2
-    # max_error_P_J422 = (np.amax(np.abs(clean_P_J422_label - clean_P_J422_pred)))**2
-
     # Extract data from testing labels and predictions
     test_L_T1_label = (test_eval_labels["L_T1"]).values
     test_L_T2_label = (test_eval_labels["L_T2"]).values
@@ -541,38 +509,6 @@ def localization():
     test_error_P_J317 = np.abs(test_P_J317_label - test_P_J317_pred)
     test_error_P_J14 = np.abs(test_P_J14_label - test_P_J14_pred)
     test_error_P_J422 = np.abs(test_P_J422_label - test_P_J422_pred)
-
-    # test_error_L_T1 = (np.abs(test_L_T1_label - test_L_T1_pred))**2
-    # test_error_L_T2 = (np.abs(test_L_T2_label - test_L_T2_pred))**2
-    # test_error_L_T3 = (np.abs(test_L_T3_label - test_L_T3_pred))**2
-    # test_error_L_T4 = (np.abs(test_L_T4_label - test_L_T4_pred))**2
-    # test_error_L_T5 = (np.abs(test_L_T5_label - test_L_T5_pred))**2
-    # test_error_L_T6 = (np.abs(test_L_T6_label - test_L_T6_pred))**2
-    # test_error_L_T7 = (np.abs(test_L_T7_label - test_L_T7_pred))**2
-    # test_error_F_PU1 = (np.abs(test_F_PU1_label - test_F_PU1_pred))**2
-    # test_error_F_PU2 = (np.abs(test_F_PU2_label - test_F_PU2_pred))**2
-    # test_error_F_PU3 = (np.abs(test_F_PU3_label - test_F_PU3_pred))**2
-    # test_error_F_PU4 = (np.abs(test_F_PU4_label - test_F_PU4_pred))**2
-    # test_error_F_PU5 = (np.abs(test_F_PU5_label - test_F_PU5_pred))**2
-    # test_error_F_PU6 = (np.abs(test_F_PU6_label - test_F_PU6_pred))**2
-    # test_error_F_PU7 = (np.abs(test_F_PU7_label - test_F_PU7_pred))**2
-    # test_error_F_PU8 = (np.abs(test_F_PU8_label - test_F_PU8_pred))**2
-    # test_error_F_PU9 = (np.abs(test_F_PU9_label - test_F_PU9_pred))**2
-    # test_error_F_PU10 = (np.abs(test_F_PU10_label - test_F_PU10_pred))**2
-    # test_error_F_PU11 = (np.abs(test_F_PU11_label - test_F_PU11_pred))**2
-    # test_error_F_V2 = (np.abs(test_F_V2_label - test_F_V2_pred))**2
-    # test_error_P_J280 = (np.abs(test_P_J280_label - test_P_J280_pred))**2
-    # test_error_P_J269 = (np.abs(test_P_J269_label - test_P_J269_pred))**2
-    # test_error_P_J300 = (np.abs(test_P_J300_label - test_P_J300_pred))**2
-    # test_error_P_J256 = (np.abs(test_P_J256_label - test_P_J256_pred))**2
-    # test_error_P_J289 = (np.abs(test_P_J289_label - test_P_J289_pred))**2
-    # test_error_P_J415 = (np.abs(test_P_J415_label - test_P_J415_pred))**2
-    # test_error_P_J302 = (np.abs(test_P_J302_label - test_P_J302_pred))**2
-    # test_error_P_J306 = (np.abs(test_P_J306_label - test_P_J306_pred))**2
-    # test_error_P_J307 = (np.abs(test_P_J307_label - test_P_J307_pred))**2
-    # test_error_P_J317 = (np.abs(test_P_J317_label - test_P_J317_pred))**2
-    # test_error_P_J14 = (np.abs(test_P_J14_label - test_P_J14_pred))**2
-    # test_error_P_J422 = (np.abs(test_P_J422_label - test_P_J422_pred))**2
 
     # Detection for all note
     detection_L_T1 = test_error_L_T1 > max_error_L_T1

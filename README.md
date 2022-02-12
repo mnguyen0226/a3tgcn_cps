@@ -112,3 +112,12 @@ Run tensorboard `--logdir lightning_logs/version_0` to monitor the training prog
 ### References:
 
 - [TGCN: A Temporal Graph Convolutional Network for Traffic Prediction](Reference: https://github.com/lehaifeng/T-GCN/tree/master/T-GCN/T-GCN-PyTorch)
+
+### Localization
+- ATTACK 8 - Alteration of L_T3 thresholds leading to underflow: `L_T3`, F_PU2, F_PU4, F_PU5, F_PU6, F_PU8, F_PU10, F_V2, P_J256, P_J289, P_J415, P_J306, P_J317, P_J422.
+- ATTACK 9 - Alteration of L_T2 readings leading to overflow: L_T5, F_PU1, F_PU4, F_PU7, F_PU8, F_PU10, F_V2, P_J300, P_j289, P_J415, P_J302, P_J306, P_J307, P_J317, P_J422.
+- ATTACK 10 - Activation of PU3: L_T4, L_T6, L_T7, F_PU1, F_PU2, `F_PU3`, F_PU7, F_PU8, F_PU10, F_V2, P_J280, P_J269, P_J415, P_J306, P_J317, P_J422
+- ATTACK 11 - Activation of PU3: L_T4, L_T6, L_T7, F_PU1, F_PU2, `F_PU3`, F_PU4, F_PU6, F_PU7, F_PU8, F_PU10, F_V2, P_J280, P_J269, P_J256, P_J289, P_J415, P_J302 P_J306, P_J307 P_J317
+- ATTACK 12 - Alteration of L_T2 readings leading to overflow: F_PU1, F_PU2, F_PU4, F_PU7, F_PU8, F_PU10, F_V2, P_J300, P_J289, P_J415, P_J306, P_J317, P_J422
+- ATTACK 13 - Change the L_T7 thresholds: L_T5, F_PU2, F_PU4, F_PU7, F_PU8, F_V2, P_J415, P_J302, P_J306, P_J307, P_J317, P_J422
+- ATTACK 14 - Alteration of T4 signal: `L_T4`, L_T7, F_PU1, F_PU2, F_PU4, F_PU7, F_PU8, F_PU10, F_V2, P_J269, P_J256m P_J289, P_J415, P_J302, P_J3206, P_J307, P_J317

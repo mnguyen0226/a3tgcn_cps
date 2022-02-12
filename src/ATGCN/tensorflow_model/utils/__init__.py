@@ -15,3 +15,4 @@ from utils.md_test_calculation import calculate_rmd_test
 from utils.md_clean_calculation import calculate_md_clean
 from utils.md_poison_calculation import calculate_md_poison
 from utils.md_test_calculation import calculate_md_test
+from utils.localization_method_2 import localization
