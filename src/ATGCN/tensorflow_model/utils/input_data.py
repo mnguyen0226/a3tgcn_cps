@@ -24,7 +24,6 @@ def load_scada_data(dataset="train_eval_clean"):
         time_series_data = pd.read_csv(
             r"data/processed/processed_test_scada_dataset.csv"
         )
-
     return time_series_data, adj_matrix
 
 
