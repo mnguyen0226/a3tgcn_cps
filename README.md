@@ -1,17 +1,20 @@
 # Robust Cyber-Physical Attack Detection in WaterDistribution Systems with Supervised and UnsupervisedModels: A Comparison
-## Supervised Model: Attention Temporal Graph Convolutional Networks.
+- Supervised Model: Attention Temporal Graph Convolutional Networks.
 
 ## 1.Attacks Detection Scheme
 
 ![alt-text](https://github.com/mnguyen0226/xtgcn_wds_cps/blob/main/docs/imgs/attack_detection_scheme.png)
 
+## 2. Requirements
 
-## Baseline models:
-
-- SVM
-- AE
-- GCN
-- GRU
+- tensorflow == 1.14 (conda install -c conda-forge tensorflow=1.14)
+- python == 3.7 
+- scipy (conda install -c anaconda scipy)
+- numpy (conda install -c anaconda numpy)
+- matplotlib (conda install -c conda-forge matplotlib)
+- pandas (conda install -c anaconda pandas)
+- math
+- sklearn (conda install -c anaconda scikit-learn)
 
 ## 4. Explain TGCN:
 
@@ -31,60 +34,12 @@
     - OP_EPOCH = 3000 # number of epochs / iteration > 0
     - OP_HIDDEN_DIM = 64 # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
-## 5.Tensorflow TGCN
+## Results:
+### Temporal Data Forecasting
 
-- Note: interval option: 15 minutes, 30 minutes, 45 miutes, 60 minutes
+### Attack Detection
 
-### Requirements
-
-- tensorflow == 1.14 (conda install -c conda-forge tensorflow=1.14)
-- python == 3.7 
-- scipy (conda install -c anaconda scipy)
-- numpy (conda install -c anaconda numpy)
-- matplotlib (conda install -c conda-forge matplotlib)
-- pandas (conda install -c anaconda pandas)
-- math
-- sklearn (conda install -c anaconda scikit-learn)
-
-### Model Training
-
-```
-nguye@DESKTOP-OBHI23I MINGW64 ~/OneDrive/Desktop/Senior/ECE 4994 A3 Research/xtgcn_wds_cps/src/tensorflow_model (main)
-$ python ./main.py
-```
-
-## 6.Pytorch TGCN (Ignore this)
-
-### Requirements
-
-- numpy
-- numpy
-- matplotlib
-- pandas
-- torch
-- pytorch-lightning>=1.3.0
-- torchmetrics>=0.3.0
-- python-dotenv
-
-### Model Training
-
-```python
-python train_main.py --model_name TGCN --max_epochs 1 --learning_rate 0.001 --weight_decay 0 --batch_size 32 --hidden_dim 64 --loss mse_with_regularizer --settings supervised
-
-python test_main.py --model_name TGCN --max_epoch 1 --batch_size 32 --loss mse_with_regularizer --settings supervised
-
-python main.py --model_name TGCN --max_epochs 3000 --learning_rate 0.001 --weight_decay 0 --batch_size 32 --hidden_dim 64 --loss mse_with_regularizer --settings supervised --gpus 1
-```
-
-You can also adjust the `--data`, `--seq_len` and `--pre_len` parameters.
-
-Run tensorboard `--logdir lightning_logs/version_0` to monitor the training progress and view the prediction results.
-
-### References:
-
-- [TGCN: A Temporal Graph Convolutional Network for Traffic Prediction](Reference: https://github.com/lehaifeng/T-GCN/tree/master/T-GCN/T-GCN-PyTorch)
-
-### Localization
+### Attack Localization 
 - ATTACK 8 - Alteration of L_T3 thresholds leading to underflow: `L_T3`, F_PU2, F_PU4, F_PU5, F_PU6, F_PU8, F_PU10, F_V2, P_J256, P_J289, P_J415, P_J306, P_J317, P_J422.
 - ATTACK 9 - Alteration of L_T2 readings leading to overflow: L_T5, F_PU1, F_PU4, F_PU7, F_PU8, F_PU10, F_V2, P_J300, P_j289, P_J415, P_J302, P_J306, P_J307, P_J317, P_J422.
 - ATTACK 10 - Activation of PU3: L_T4, L_T6, L_T7, F_PU1, F_PU2, `F_PU3`, F_PU7, F_PU8, F_PU10, F_V2, P_J280, P_J269, P_J415, P_J306, P_J317, P_J422
@@ -92,3 +47,11 @@ Run tensorboard `--logdir lightning_logs/version_0` to monitor the training prog
 - ATTACK 12 - Alteration of L_T2 readings leading to overflow: F_PU1, F_PU2, F_PU4, F_PU7, F_PU8, F_PU10, F_V2, P_J300, P_J289, P_J415, P_J306, P_J317, P_J422
 - ATTACK 13 - Change the L_T7 thresholds: L_T5, F_PU2, F_PU4, F_PU7, F_PU8, F_V2, P_J415, P_J302, P_J306, P_J307, P_J317, P_J422
 - ATTACK 14 - Alteration of T4 signal: L_T4, L_T7, F_PU1, F_PU2, F_PU4, F_PU7, F_PU8, F_PU10, F_V2, P_J269, P_J256m P_J289, P_J415, P_J302, P_J3206, P_J307, P_J317
+
+### Robustness
+
+
+## References:
+
+- [TGCN: A Temporal Graph Convolutional Network for Traffic Prediction](https://github.com/lehaifeng/T-GCN)
+- [A3T_GCN: Attention Temporal Graph Convolutional Network for Traffic Forecasting](https://github.com/lehaifeng/T-GCN)
