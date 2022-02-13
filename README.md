@@ -1,8 +1,8 @@
 # Robust Cyber-Physical Attack Detection in WaterDistribution Systems with Supervised and UnsupervisedModels: A Comparison
-- Code Implementation for "Robust Cyber-Physical Attack Detection in WaterDistribution Systems with Supervised and UnsupervisedModels: A Comparison"
+- Code Implementation for "Robust Cyber-Physical Attack Detection in WaterDistribution Systems with Supervised and UnsupervisedModels: A Comparison".
 - Supervised Model: Attention Temporal Graph Convolutional Networks.
 
-## 1.Attacks Detection Scheme
+## 1. Attacks Detection Scheme
 
 ![alt-text](https://github.com/mnguyen0226/xtgcn_wds_cps/blob/main/docs/imgs/attack_detection_scheme.png)
 
@@ -17,7 +17,7 @@
 - math
 - sklearn (conda install -c anaconda scikit-learn)
 
-## 3. ATGCN Architecture Explained:
+## 3. ATGCN Architecture Explained
 
 - Temporal Graph Convolutional Network (TGCN) model is a combination between Graph Convolutional Networks and Gated Recurrent Unit (GRU).
 - The baseline TGCN calculate the value of at each node in the next T modments: `[Xt+1, · · · , Xt+T ] = f (G; (Xt−n, · · · , Xt−1, Xt))`.
@@ -35,7 +35,8 @@
     - OP_EPOCH = 3000 # number of epochs / iteration > 0
     - OP_HIDDEN_DIM = 64 # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
-## 4. Results:
+## 4. Results
+
 ### Temporal Data Forecasting
 
 ### Attack Detection
@@ -52,7 +53,7 @@
 ### Robustness
 
 
-## 5. References:
+## 5. References
 
 - [TGCN: A Temporal Graph Convolutional Network for Traffic Prediction](https://github.com/lehaifeng/T-GCN)
 - [A3T_GCN: Attention Temporal Graph Convolutional Network for Traffic Forecasting](https://github.com/lehaifeng/T-GCN)
