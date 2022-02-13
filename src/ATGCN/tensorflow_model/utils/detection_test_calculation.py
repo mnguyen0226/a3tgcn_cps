@@ -135,6 +135,19 @@ def calculate_md_test():
     plt.yticks(testing_attack_preds, y_tick)
     plt.legend(loc=2, fancybox=True, shadow=True)
     plt.show()
+    
+    
+    # Get Results
+    precision, recall, f1, accuracy, specificity = classification_metrics(
+        np.array(testing_attack_labels), np.array(testing_attack_preds)
+    )
+
+    print(f"Precision: {precision}")
+    print(f"Recall / True Positive Rate: {recall}")
+    print(f"F1 Score: {f1}")
+    print(f"Accuracy: {accuracy}")
+    print(f"Specificity / True Negative Rate: {specificity}")
+
 
 
 def calculate_rmd_test():

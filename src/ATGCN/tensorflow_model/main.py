@@ -827,7 +827,7 @@ def main():
     calculate_rmd_test()
 
     ### Localization
-    localization()
+    # localization()
 
 
 if __name__ == "__main__":
