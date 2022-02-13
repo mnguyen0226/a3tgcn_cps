@@ -3,7 +3,7 @@
 
 ## 1.Attacks Detection Scheme
 
-![alt-text](https://github.com/mnguyen0226/xtgcn_wds_cps/blob/main/docs/imgs/tgcn_train_pipeline.png)
+![alt-text](https://github.com/mnguyen0226/xtgcn_wds_cps/blob/main/docs/imgs/attack_detection_scheme.png)
 
 
 ## Baseline models:
