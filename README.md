@@ -16,7 +16,7 @@
 - math
 - sklearn (conda install -c anaconda scikit-learn)
 
-## 4. Explain TGCN:
+## 3. ATGCN Architecture Explained:
 
 - Temporal Graph Convolutional Network (TGCN) model is a combination between Graph Convolutional Networks and Gated Recurrent Unit (GRU).
 - The baseline TGCN calculate the value of at each node in the next T modments: `[Xt+1, · · · , Xt+T ] = f (G; (Xt−n, · · · , Xt−1, Xt))`.
@@ -34,7 +34,7 @@
     - OP_EPOCH = 3000 # number of epochs / iteration > 0
     - OP_HIDDEN_DIM = 64 # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
-## Results:
+## 4. Results:
 ### Temporal Data Forecasting
 
 ### Attack Detection
@@ -51,7 +51,7 @@
 ### Robustness
 
 
-## References:
+## 5. References:
 
 - [TGCN: A Temporal Graph Convolutional Network for Traffic Prediction](https://github.com/lehaifeng/T-GCN)
 - [A3T_GCN: Attention Temporal Graph Convolutional Network for Traffic Forecasting](https://github.com/lehaifeng/T-GCN)
