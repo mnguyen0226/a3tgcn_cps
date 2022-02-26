@@ -6,7 +6,7 @@
 
 ![alt-text](https://github.com/mnguyen0226/xtgcn_wds_cps/blob/main/docs/imgs/attack_detection_scheme.png)
 
-## 2. Requirements
+## 2. Reproducibility
 
 - tensorflow == 1.14 (conda install -c conda-forge tensorflow=1.14)
 - python == 3.7 

@@ -617,10 +617,10 @@ def load_and_eval_clean_dataset():
     )
 
     # Plots results
-    plot_result_tank(eval_result, eval_label1, eval_path, hour=720)
-    plot_result_pump(eval_result, eval_label1, eval_path, hour=720)
-    plot_result_valve(eval_result, eval_label1, eval_path, hour=720)
-    plot_result_junction(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_tank(eval_result, eval_label1, eval_path, hour=168)
+    plot_result_pump(eval_result, eval_label1, eval_path, hour=168)
+    plot_result_valve(eval_result, eval_label1, eval_path, hour=168)
+    plot_result_junction(eval_result, eval_label1, eval_path, hour=168)
 
     # Prints out evaluates results
     print("-----------------------------------------------\nEvaluation Metrics:")
@@ -824,10 +824,10 @@ def main():
     ### Robust Mahalanobis Distance
     # calculate_rmd_clean()
     # calculate_rmd_poison()
-    # calculate_rmd_test()
+    calculate_rmd_test()
 
     ### Localization
-    localization()
+    # localization()
 
 
 if __name__ == "__main__":
