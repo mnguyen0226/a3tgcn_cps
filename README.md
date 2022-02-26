@@ -47,6 +47,8 @@
 | R2   | -0.6772449017        | -0.6805173159 |
 | Variance   | 0.9530872479        | 0.9646917097 |
 
+- [Result](https://github.com/mnguyen0226/atgcn_cps/tree/main/docs/imgs/results/forecasting).
+
 ### Attack Detection
 
 |             | Baseline Model | Robust Mahalanobis Distance, Attention |
