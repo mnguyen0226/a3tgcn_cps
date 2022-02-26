@@ -57,7 +57,9 @@
 | Accuracy   | 0.8496131528        | 0.8965183752 |
 | Specificity / True Negative   | 0.9223359422        | 0.9265502709 |
 
+![alt-text](https://github.com/mnguyen0226/atgcn_cps/blob/main/docs/imgs/results/attack_prediction/rmd_forecasting.png)
 
+![alt-text](https://github.com/mnguyen0226/atgcn_cps/blob/main/docs/imgs/results/attack_prediction/predictions_vs_labels.png)
 
 ### Attack Localization 
 | Attacks Labels | Attacks Description | Feature Localization of A3T-GCN | 
