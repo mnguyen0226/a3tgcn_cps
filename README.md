@@ -37,12 +37,16 @@
 
 ## 4. Results
 
-### Temporal Data Forecasting
+### Forecasting Performance on Normal Dataset
 
-| Syntax      | Description |
-| ----------- | ----------- |
-| Header      | Title       |
-| Paragraph   | Text        |
+|             | Baseline Model | Robust Mahalanobis Distance, Attention |
+| ----------- | ----------- | ----------- |
+| Minimum RMSE      | 6.858166163       | 5.960369429 | 
+| Minimum MAE   | 3.3477044        | 2.7673762 |
+| Maximum Accuracy   | 0.8372700512        | 0.8585200906 | 
+| R2   | -0.6772449017        | -0.6805173159 |
+| Variance   | 0.9530872479        | 0.9646917097 |
+
 
 ### Attack Detection
 
@@ -58,6 +62,8 @@
 | Chandy et al      | 7 | 0.802      | 0.835 | 0.768      | 0.857 | 0.678      | 
 | Pasha et al      | 7 | 0.773      | 0.885 | 0.66      | 0.329 | 0.992      | 
 | Aghashahi et al      | 3 | 0.534      | 0.429 | 0.64      | 0.396 | 0.884      | 
+
+
 
 
 ### Attack Localization 
