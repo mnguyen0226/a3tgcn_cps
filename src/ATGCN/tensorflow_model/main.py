@@ -824,10 +824,10 @@ def main():
     ### Robust Mahalanobis Distance
     # calculate_rmd_clean()
     # calculate_rmd_poison()
-    calculate_rmd_test()
+    # calculate_rmd_test()
 
     ### Localization
-    # localization()
+    localization()
 
 
 if __name__ == "__main__":
