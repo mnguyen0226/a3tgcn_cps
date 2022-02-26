@@ -1,5 +1,5 @@
-# Robust Cyber-Physical Attack Detection in WaterDistribution Systems with Supervised and UnsupervisedModels: A Comparison
-- Code Implementation for "Robust Cyber-Physical Attack Detection in WaterDistribution Systems with Supervised and UnsupervisedModels: A Comparison".
+# Attention Temporal Graph Convolutional Network for Cyber Physical Attacks Detection
+- Code Implementation for "Cyber-Physical Attack Detection in Water Distribution Systems with Robust Supervised and Unsupervised DeepLearning Models: A Comparison".
 - Supervised Model: Attention Temporal Graph Convolutional Networks.
 
 ## 1. Attacks Detection Scheme
@@ -17,23 +17,8 @@
 - math
 - sklearn (conda install -c anaconda scikit-learn)
 
-## 3. A3T-GCN Architecture Explained
+## 3. A3T-GCN Architecture
 
-- Temporal Graph Convolutional Network (TGCN) model is a combination between Graph Convolutional Networks and Gated Recurrent Unit (GRU).
-- The baseline TGCN calculate the value of at each node in the next T modments: `[Xt+1, · · · , Xt+T ] = f (G; (Xt−n, · · · , Xt−1, Xt))`.
-- Loss function is regular error + L2 regularization to avoid overfitting. We use Adam optimizer to reduce the loss function.
-- Metrics: 
-    - Root Mean Squared Error (RMSE): is used to measure the prediction error, the smaller the value, the better the prediction effect is.
-    - Mean Absolute Error (MAE): is used to measure the prediction error, the smaller the value, the better the prediction effect is.
-    - Accuracy: is used to detect the prediction precision. The larger the value, the better the prediction effect is.
-    - Coefficient of Determination (R2): is used to calculated the correlation coefficient, which measures the ability of the prediction result to represent the actual data. The larger the value is, the better the prediction effect is.
-    - Explained Variance Score (Var): is used to calculated the correlation coefficient, which measures the ability of the prediction result to represent the actual data. The larger the value is, the better the prediction effect is.
-
-- Hyperparameters (default, can be changed and optimized via Genetic Algorithms):
-    - OP_LR = 0.001 = learning rate [0.0, 1]
-    - OP_BATCH_SIZE = 32 # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time) [4, 8, 16, 32, 64, 128, 256, 450]
-    - OP_EPOCH = 3000 # number of epochs / iteration > 0
-    - OP_HIDDEN_DIM = 64 # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
 
 ## 4. Results
 
