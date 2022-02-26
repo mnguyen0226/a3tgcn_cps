@@ -19,6 +19,7 @@
 
 ## 3. A3T-GCN Architecture
 
+![alt-text](https://github.com/mnguyen0226/atgcn_cps/blob/main/docs/imgs/a3t_gcn/a3t_gcn.png)
 
 ## 4. Results
 
