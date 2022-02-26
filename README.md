@@ -37,18 +37,7 @@
 
 ## 4. Results
 
-### Forecasting Performance on Normal Dataset
-
-|             | Baseline Model | Robust Mahalanobis Distance, Attention |
-| ----------- | ----------- | ----------- |
-| Minimum RMSE      | 6.858166163       | 5.960369429 | 
-| Minimum MAE   | 3.3477044        | 2.7673762 |
-| Maximum Accuracy   | 0.8372700512        | 0.8585200906 | 
-| R2   | -0.6772449017        | -0.6805173159 |
-| Variance   | 0.9530872479        | 0.9646917097 |
-
-
-### Attack Detection
+### BATADAL Ranking
 
 | Author      | Number of Attacks Detected | S      | S_TTD | S_CM      | TPR | TNR      | 
 | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | 
@@ -63,6 +52,25 @@
 | Pasha et al      | 7 | 0.773      | 0.885 | 0.66      | 0.329 | 0.992      | 
 | Aghashahi et al      | 3 | 0.534      | 0.429 | 0.64      | 0.396 | 0.884      | 
 
+### Forecasting Performance on Normal Dataset
+
+|             | Baseline Model | Robust Mahalanobis Distance, Attention |
+| ----------- | ----------- | ----------- |
+| Minimum RMSE      | 6.858166163       | 5.960369429 | 
+| Minimum MAE   | 3.3477044        | 2.7673762 |
+| Maximum Accuracy   | 0.8372700512        | 0.8585200906 | 
+| R2   | -0.6772449017        | -0.6805173159 |
+| Variance   | 0.9530872479        | 0.9646917097 |
+
+### Attack Detection
+
+|             | Baseline Model | Robust Mahalanobis Distance, Attention |
+| ----------- | ----------- | ----------- |
+| Precision      | 0.6355932203       | 0.7208237986 | 
+| Recall / True Positive Rate   | 0.5528255528       | 0.773955774 |
+| F1 Score   | 0.5913272011      | 0.7464454976 | 
+| Accuracy   | 0.8496131528        | 0.8965183752 |
+| Specificity / True Negative   | 0.9223359422        | 0.9265502709 |
 
 
 
