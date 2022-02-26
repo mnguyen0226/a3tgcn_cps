@@ -17,7 +17,7 @@
 - math
 - sklearn (conda install -c anaconda scikit-learn)
 
-## 3. ATGCN Architecture Explained
+## 3. A3T-GCN Architecture Explained
 
 - Temporal Graph Convolutional Network (TGCN) model is a combination between Graph Convolutional Networks and Gated Recurrent Unit (GRU).
 - The baseline TGCN calculate the value of at each node in the next T modments: `[Xt+1, · · · , Xt+T ] = f (G; (Xt−n, · · · , Xt−1, Xt))`.
@@ -46,10 +46,19 @@
 
 ### Attack Detection
 
-| Syntax      | Description |
-| ----------- | ----------- |
-| Header      | Title       |
-| Paragraph   | Text        |
+| Author      | Number of Attacks Detected | S      | S_TTD | S_CM      | TPR | TNR      | 
+| ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | 
+| Housh and Ohar      | 7 | 0.97      | 0.965 | 0.975      | 0.953 | 0.997      | 
+| Abokifa et al      | 7 | 0.949      | 0.958 | 0.944      | 0.921 | 0.959      | 
+| HCAE      | 7 | 0.933      | 0.947 | 0.918      | 0.865 | 0.972      | 
+| Tsiami et al      | 7 | 0.931      | 0.934 | 0.928      | 0.885 | 0.971      | 
+| Giacomoni et al      | 7 | 0.927      | 0.936 | 0.917      | 0.838 | 0.997      | 
+| Brentan et al      | 6 | 0.894      | 0.857 | 0.931      | 0.889 | 0.973      | 
+| A3T-GCN      | 7 | 0.845      | 0.839 | 0.851      | 0.774 | 0.927      | 
+| Chandy et al      | 7 | 0.802      | 0.835 | 0.768      | 0.857 | 0.678      | 
+| Pasha et al      | 7 | 0.773      | 0.885 | 0.66      | 0.329 | 0.992      | 
+| Aghashahi et al      | 3 | 0.534      | 0.429 | 0.64      | 0.396 | 0.884      | 
+
 
 ### Attack Localization 
 | Attacks Labels | Attacks Description | Feature Localization of A3T-GCN | 
