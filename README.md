@@ -4,7 +4,7 @@
 
 ## 1. Attacks Detection Scheme
 
-![alt-text](https://github.com/mnguyen0226/xtgcn_wds_cps/blob/main/docs/imgs/attack_detection_scheme.png)
+![alt-text](https://github.com/mnguyen0226/xtgcn_wds_cps/blob/main/docs/imgs/framework/attack_detection_scheme.png)
 
 ## 2. Reproducibility
 
