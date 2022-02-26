@@ -16,11 +16,11 @@ from sklearn.metrics import confusion_matrix
 import csv
 
 # Before any attacks there will be a 17 hour time stamps
-EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/eval_test_labels.csv"
-EVAL_POISON_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/eval_test_output.csv"
+EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_test/eval_test_labels.csv"
+EVAL_POISON_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_test/eval_test_output.csv"
 EVAL_POISON_LINE_NUM = 2080  # change for each different eval_poisoned_output.csv
-PATH = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/classification_results.csv"
-CLASSIFICATION_PATH = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/detection_results.csv"
+PATH = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_test/classification_results.csv"
+CLASSIFICATION_PATH = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_test/detection_results.csv"
 shade_of_gray = "0.75"
 shade_of_blue = "lightsteelblue"
 
@@ -135,8 +135,7 @@ def calculate_md_test():
     plt.yticks(testing_attack_preds, y_tick)
     plt.legend(loc=2, fancybox=True, shadow=True)
     plt.show()
-    
-    
+
     # Get Results
     precision, recall, f1, accuracy, specificity = classification_metrics(
         np.array(testing_attack_labels), np.array(testing_attack_preds)
@@ -147,7 +146,6 @@ def calculate_md_test():
     print(f"F1 Score: {f1}")
     print(f"Accuracy: {accuracy}")
     print(f"Specificity / True Negative Rate: {specificity}")
-
 
 
 def calculate_rmd_test():

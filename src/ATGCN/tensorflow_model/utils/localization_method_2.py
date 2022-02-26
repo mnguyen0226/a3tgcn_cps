@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from utils.md_clean_calculation import L
+from utils.detection_clean_calculation import L
 from sklearn.metrics import mean_squared_error
 
 EVAL_CLEAN_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_clean/eval_clean_labels.csv"

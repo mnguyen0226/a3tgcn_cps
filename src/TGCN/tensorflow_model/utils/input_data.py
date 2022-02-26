@@ -12,25 +12,19 @@ def load_scada_data(dataset="train_eval_clean"):
         Loaded clean-time-series dataset and adjacency matrix
     """
     adj = pd.read_csv(r"data/processed/processed_scada_adj_matrix.csv", header=None)
-    # adj = pd.read_csv(r"data/processed/sz_adj.csv", header=None)
     adj_matrix = np.mat(adj)
     if dataset == "train_eval_clean":
         time_series_data = pd.read_csv(
             r"data/processed/processed_clean_scada_dataset.csv"
         )
-        # time_series_data = pd.read_csv(r"data/processed/sz_speed.csv")
     elif dataset == "eval_poison":
         time_series_data = pd.read_csv(
-            # r"data/processed/processed_poisoned_scada_dataset.csv"
-            r"data/processed/processed_dataset04_origin_no_binary_30_split.csv"
+            r"data/processed/processed_dataset04_origin_no_binary.csv"
         )
-        # time_series_data = pd.read_csv(r"data/processed/sz_speed.csv")
-    elif dataset == "test_mix":
+    elif dataset == "test":
         time_series_data = pd.read_csv(
             r"data/processed/processed_test_scada_dataset.csv"
         )
-        # time_series_data = pd.read_csv(r"data/processed/sz_speed.csv")
-
     return time_series_data, adj_matrix
 
 

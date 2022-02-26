@@ -1,45 +1,50 @@
-# Reference: https://github.com/lehaifeng/T-GCN/blob/master/T-GCN/T-GCN-TensorFlow/main.py
-
 import tensorflow as tf
 import pandas as pd
 import numpy as np
 import os
+import time
+import matplotlib.pyplot as plt
+from models import TGCNCell
 from utils import preprocess_data
 from utils import load_scada_data
-from models import TGCNCell
 from utils import plot_error
 from utils import plot_result_tank
 from utils import plot_result_pump
 from utils import plot_result_valve
 from utils import plot_result_junction
 from utils import evaluation
-import time
+from utils import calculate_rmd_clean
+from utils import calculate_rmd_poison
+from utils import calculate_rmd_test
+from utils import calculate_md_clean
+from utils import calculate_md_poison
+from utils import calculate_md_test
 
-########## Sets time for saving different trained time model
+# Sets time for saving different trained time model
 local_time = time.asctime(time.localtime(time.time()))
 
-########## Global variables for Optimization (Ashita) - ideal: 0.01 51 16 128 => 83%;
-OP_LR = 0.01  # learning rate
-OP_EPOCH = 101  # number of epochs / iteration (TGCN: 20)
-OP_BATCH_SIZE = 16  # 24 hours (1 days)  # (TGCN: 16, 32) # batch size is the number of samples that will be passed through to the network at one time (in this case, number of 12 rows/seq_len/time-series be fetched and trained in TGCN at 1 time)
-OP_HIDDEN_DIM = 64  # output dimension of the hidden_state in GRU. This is NOT number of GRU in 1 TGCN. [8, 16, 32, 64, 100, 128]
+# Global variables
+OP_LR = 0.01
+OP_EPOCH = 101
+OP_BATCH_SIZE = 16
+OP_HIDDEN_DIM = 64  # [8, 16, 32, 64, 100, 128]
+MODEL_NAME = "tgcn"
+DATA_NAME = "scada_wds"
 
-########## Parses settings from command line
+# Parses settings from command line
 flags = tf.app.flags
 FLAGS = flags.FLAGS
 flags.DEFINE_float("learning_rate", OP_LR, "Initial learning rate.")
 flags.DEFINE_integer("training_epoch", OP_EPOCH, "Number of epoch to train.")
 flags.DEFINE_integer("gru_units", OP_HIDDEN_DIM, "hidden_units of gru")
-flags.DEFINE_integer(
-    "seq_len", 8, "time length of inputs time series."
-)  # 12, (TGCN: 8) # 48
-flags.DEFINE_integer("pre_len", 1, "time length of prediction.")  # 24
+flags.DEFINE_integer("seq_len", 8, "time length of inputs time series.")
+flags.DEFINE_integer("pre_len", 1, "time length of prediction.")
 flags.DEFINE_float("train_rate", 0.8, "rate of training set: 80% train, 20% validate.")
 flags.DEFINE_float("poison_eval_rate", 0, "100% of evaluation rate.")
 flags.DEFINE_integer("batch_size", OP_BATCH_SIZE, "batch size.")
 
-########## Global variables
-POISON_EVAL_RATE = FLAGS.poison_eval_rate
+# Global variables set based on flags
+EVAL_RATE = FLAGS.poison_eval_rate
 TRAIN_RATE = FLAGS.train_rate
 SEQ_LEN = FLAGS.seq_len
 OUTPUT_DIM = PRE_LEN = FLAGS.pre_len
@@ -51,9 +56,8 @@ MODEL_NAME = "tgcn"
 DATA_NAME = "scada_wds"
 SAVING_STEP = 10
 
-########## Preprocess clean dataset for train and evaluation
+# Preprocess clean dataset for training and evaluating process
 clean_data, adj = load_scada_data(dataset="train_eval_clean")
-
 time_len = clean_data.shape[0]
 num_nodes = clean_data.shape[1]
 data_maxtrix = np.mat(clean_data, dtype=np.float32)
@@ -71,11 +75,9 @@ train_X_clean, train_Y_clean, eval_X_clean, eval_Y_clean = preprocess_data(
 
 # Gets number of batches of clean dataset
 total_clean_batch = int(train_X_clean.shape[0] / BATCH_SIZE)
-# training_data_count = len(train_X_clean)
 
-########## Preprocess poisoned dataset for train and evaluation
+# Preprocess poisoned dataset for evaluating process
 poisoned_data, _ = load_scada_data(dataset="eval_poison")
-
 p_time_len = poisoned_data.shape[0]
 p_data_maxtrix = np.mat(poisoned_data, dtype=np.float32)
 
@@ -85,7 +87,23 @@ p_data_maxtrix = p_data_maxtrix / p_max_value
 _, _, eval_X_poison, eval_Y_poison = preprocess_data(
     data=p_data_maxtrix,
     time_len=p_time_len,
-    rate=POISON_EVAL_RATE,
+    rate=EVAL_RATE,
+    seq_len=SEQ_LEN,
+    pre_len=PRE_LEN,
+)
+
+# Preprocess test dataset for testing process
+test_data, _ = load_scada_data(dataset="test")
+t_time_len = test_data.shape[0]
+t_data_maxtrix = np.mat(test_data, dtype=np.float32)
+
+# Normalizes data
+t_max_value = np.max(t_data_maxtrix)
+t_data_maxtrix = t_data_maxtrix / t_max_value
+_, _, test_X, test_Y = preprocess_data(
+    data=t_data_maxtrix,
+    time_len=t_time_len,
+    rate=EVAL_RATE,
     seq_len=SEQ_LEN,
     pre_len=PRE_LEN,
 )
@@ -118,11 +136,11 @@ def TGCN(_X, _weights, _biases, reuse=None):
     return output, m, states
 
 
-########## Prepares to feed input to model: includes inputs and labels, this also includes the feed_dict in the train_and_eval()
+# Prepares to feed input to model
 inputs = tf.compat.v1.placeholder(tf.float32, shape=[None, SEQ_LEN, num_nodes])
 labels = tf.compat.v1.placeholder(tf.float32, shape=[None, PRE_LEN, num_nodes])
 
-########## Graph weights and biases initialization of all neurons and layers
+# Graph weights and biases initialization of all neurons and layers
 weights = {
     "out": tf.Variable(
         tf.random.normal([GRU_UNITS, PRE_LEN], mean=1.0), name="weight_o"
@@ -130,27 +148,27 @@ weights = {
 }
 biases = {"out": tf.Variable(tf.random.normal([PRE_LEN]), name="bias_o")}
 
-########## Define TGCN model
+# Define TGCN model
 y_pred, _, _ = TGCN(inputs, weights, biases)
 
-########## Optimizer
+# Optimizer
 lambda_loss = 0.0015
 
-########## L2 regularization to avoid over fit
+# L2 regularization to avoid over fit
 L_reg = lambda_loss * sum(
     tf.nn.l2_loss(tf_var) for tf_var in tf.compat.v1.trainable_variables()
 )
 label = tf.reshape(labels, [-1, num_nodes])
 
-########## Losses
+# Initializes losses
 loss = tf.reduce_mean(tf.nn.l2_loss(y_pred - label) + L_reg)
 error = tf.sqrt(tf.reduce_mean(tf.square(y_pred - label)))
 optimizer = tf.compat.v1.train.AdamOptimizer(LR).minimize(loss)
 
-########## Initialize the variables
+# Initializes hyperparameter
 init = tf.global_variables_initializer()
 
-########## 'saver' op to save and restore all the variables
+# 'saver' op to save and restore all the variables
 saver = tf.train.Saver()
 
 
@@ -451,7 +469,6 @@ def load_and_eval_poisoned_dataset():
 
     # Create a evaluation path
     eval_path = (
-        # "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned"
         "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_poisoned"
     )
 
@@ -485,11 +502,110 @@ def load_and_eval_poisoned_dataset():
     print(f"Training Time: {time_end - time_start} sec")
 
 
+def load_and_eval_test_dataset():
+    """Loads and evaluates trained model testing dataset"""
+
+    print("Start the loading and evaluating process")
+    time_start = time.time()
+
+    # Checks for GPU
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
+
+    # Setups traininng session
+    sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
+    sess.run(init)
+
+    # Chooses trained model path
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"
+
+    # Loads model from trained path
+    load_path = saver.restore(sess, saved_path)
+
+    # Initializes the array for evaluating results
+    eval_loss, eval_rmse, eval_mae, eval_acc, eval_r2, eval_var, eval_pred = (
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+    )
+
+    # Evals completely at every epoch
+    loss2, rmse2, eval_output = sess.run(
+        [loss, error, y_pred], feed_dict={inputs: test_X, labels: test_Y}
+    )
+
+    # Provides evaluating results
+    eval_label = np.reshape(test_Y, [-1, num_nodes])
+
+    rmse, mae, acc, r2_score, var_score = evaluation(eval_label, eval_output)
+    eval_label1 = eval_label * p_max_value
+    eval_output1 = eval_output * p_max_value
+    eval_loss.append(loss2)
+    eval_rmse.append(rmse * p_max_value)
+    eval_mae.append(mae * p_max_value)
+    eval_acc.append(acc)
+    eval_r2.append(r2_score)
+    eval_var.append(var_score)
+    eval_pred.append(eval_output1)
+
+    # Sets index and provides eval results
+    index = eval_rmse.index(np.min(eval_rmse))
+    eval_result = eval_pred[index]
+
+    # Create a evaluation path
+    eval_path = (
+        "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/eval_test"
+    )
+
+    var_eval_output = pd.DataFrame(
+        eval_output * p_max_value
+    )  # eval_result, make this unnormalize
+    var_eval_output.to_csv(
+        eval_path + "/eval_test_output.csv", index=False, header=False
+    )
+
+    var_eval_label = pd.DataFrame(eval_label * p_max_value)
+    var_eval_label.to_csv(
+        eval_path + "/eval_test_labels.csv", index=False, header=False
+    )
+
+    # Plots results
+    plot_result_tank(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_pump(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_valve(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_junction(eval_result, eval_label1, eval_path, hour=720)
+
+    # Prints out evaluates results
+    print("-----------------------------------------------\nEvaluation Metrics:")
+    print("min_rmse: %r" % (np.min(eval_rmse)))
+    print("min_mae: %r" % (eval_mae[index]))
+    print("max_acc: %r" % (eval_acc[index]))
+    print("r2: %r" % (eval_r2[index]))
+    print("var: %r" % eval_var[index])
+
+    time_end = time.time()
+    print(f"Training Time: {time_end - time_start} sec")
+
+
 def main():
     """User Interface"""
     # train_and_eval()
     # load_and_eval_clean_dataset()
-    load_and_eval_poisoned_dataset()
+    # load_and_eval_poisoned_dataset()
+    # load_and_eval_test_dataset()
+
+    ### Traditional Mahalanobis Distance
+    # calculate_md_clean()
+    # calculate_md_poison()
+    calculate_md_test()
+
+    ### Robust Mahalanobis Distance
+    # calculate_rmd_clean()
+    # calculate_rmd_poison()
+    # calculate_rmd_test()
 
 
 if __name__ == "__main__":

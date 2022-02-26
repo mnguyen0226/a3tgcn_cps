@@ -29,10 +29,10 @@ OP_LR = 0.005
 OP_EPOCH = 101
 OP_BATCH_SIZE = 128
 OP_HIDDEN_DIM = 64  # [8, 16, 32, 64, 100, 128]
-MODEL_NAME = "tgcn"
-DATA_NAME = "scada_wds"
 SAVING_STEP = 50
 LAMBDA_LOSS = 0.0015
+MODEL_NAME = "tgcn"
+DATA_NAME = "scada_wds"
 
 # Parses settings from command line
 flags = tf.app.flags

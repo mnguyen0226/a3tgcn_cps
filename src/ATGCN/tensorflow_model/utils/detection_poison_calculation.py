@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import scipy as sp
 from sklearn.covariance import MinCovDet
-from utils.md_clean_calculation import data_preprocessing
-from utils.md_clean_calculation import GLOBAL_MEAN_ERROR
-from utils.md_clean_calculation import L
-from utils.md_clean_calculation import UPPER_TH
-from utils.md_clean_calculation import LOWER_PLOT
-from utils.md_clean_calculation import UPPER_PLOT
+from utils.detection_clean_calculation import data_preprocessing
+from utils.detection_clean_calculation import GLOBAL_MEAN_ERROR
+from utils.detection_clean_calculation import L
+from utils.detection_clean_calculation import UPPER_TH
+from utils.detection_clean_calculation import LOWER_PLOT
+from utils.detection_clean_calculation import UPPER_PLOT
 
 
 # Before any attacks there will be a 17 hour time stamps
