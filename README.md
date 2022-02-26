@@ -39,21 +39,32 @@
 
 ### Temporal Data Forecasting
 
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |
+
 ### Attack Detection
 
-### Attack Localization 
-- ATTACK 8 - Alteration of L_T3 thresholds leading to underflow: P_J256 = 11, `L_T3 = 3`, P_J289 = 2, L_T2 = 2.
-- ATTACK 9 - Alteration of L_T2 readings leading to overflow: P_J289 = 13, P_J422 = 13, P_J300 = 5, L_T7 = 2.
-- ATTACK 10 - Activation of PU3: `F_PU3 = 38`, P_J280 = 28, L_T7 = 23,  L_T4 = 6, P_J269 = 6, F_PU1 = 8, F_PU9 = 2.
-- ATTACK 11 - Activation of PU3: `F_PU3 = 36`,  P_J280 = 31, L_T7 = 23, F_PU1 = 22, L_T4 = 12, L_T6 = 11,  P_J307 = 7, P_J415 = 3, F_PU6 = 2, P_J289 = 2.
-- ATTACK 12 - Alteration of L_T2 readings leading to overflow: P_J289 = 7, P_J300 = 6, `L_T2 = 2`.
-- ATTACK 13 - Change the L_T7 thresholds: L_T6 = 2.
-- ATTACK 14 - Alteration of T4 signal: `L_T4 = 8`, L_T7 = 5, P_J415 = 4, L_T6 = 2
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |
 
-### Robustness
+### Attack Localization 
+| Attacks Labels | Attacks Description | Feature Localization of A3T-GCN | 
+| ----------- | ----------- | ----------- |
+| Attack 8      | Alteration of L_T3 thresholds leading to underflow | P_J256 = 11, `L_T3 = 3`, P_J289 = 2, L_T2 = 2 |
+| Attack 9   | Alteration of L_T2 | P_J289 = 13, P_J422 = 13, P_J300 = 5, L_T7 = 2 |
+| Attack 10   | Activation of PU3 | `F_PU3 = 38`, P_J280 = 28, L_T7 = 23,  L_T4 = 6, P_J269 = 6, F_PU1 = 8, F_PU9 = 2 |
+| Attack 11   | Activation of PU3 | `F_PU3 = 36`,  P_J280 = 31, L_T7 = 23, F_PU1 = 22, L_T4 = 12, L_T6 = 11,  P_J307 = 7, P_J415 = 3, F_PU6 = 2, P_J289 = 2 |
+| Attack 12   | Alteration of L_T2 readings leading to overflow | P_J289 = 7, P_J300 = 6, `L_T2 = 2` |
+| Attack 13   | Change the L_T7 thresholds | L_T6 = 2 |
+| Attacls 17   | Alteration of T4 signal | `L_T4 = 8`, L_T7 = 5, P_J415 = 4, L_T6 = 2 |
+
+### Robustness with GANs
 
 
 ## 5. References
-
 - [TGCN: A Temporal Graph Convolutional Network for Traffic Prediction](https://github.com/lehaifeng/T-GCN)
 - [A3T_GCN: Attention Temporal Graph Convolutional Network for Traffic Forecasting](https://github.com/lehaifeng/T-GCN)
