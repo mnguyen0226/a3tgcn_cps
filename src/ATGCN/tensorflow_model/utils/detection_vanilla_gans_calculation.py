@@ -16,17 +16,17 @@ from sklearn.metrics import confusion_matrix
 import csv
 
 # Before any attacks there will be a 17 hour time stamps
-EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/eval_test_labels.csv"
-EVAL_POISON_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/eval_test_output.csv"
-EVAL_POISON_LINE_NUM = 2080  # change for each different eval_poisoned_output.csv
-PATH = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/classification_results.csv"
-CLASSIFICATION_PATH = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_test/detection_results.csv"
+EVAL_POISON_LABEL_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_vanilla_gans/eval_vanilla_gans_labels.csv"
+EVAL_POISON_PREDS_DIR = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_vanilla_gans/eval_vanilla_gans_output.csv"
+EVAL_POISON_LINE_NUM = 1037  # change for each different eval_poisoned_output.csv
+PATH = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_vanilla_gans/classification_results.csv"
+CLASSIFICATION_PATH = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_vanilla_gans/detection_results.csv"
 shade_of_gray = "0.75"
 shade_of_blue = "lightsteelblue"
 
 # Used for extracting labels
 dataset04 = pd.read_csv(
-    r"data/processed/test_scada_dataset.csv"
+    r"data/processed/vanilla_gans_dataset.csv"
 )  # change for each different poisoned dataset.csv
 
 binary_arr = dataset04["ATT_FLAG"].to_list()
@@ -36,7 +36,7 @@ convert_th_binary_arr = [LOWER_PLOT if x == 0 else UPPER_PLOT for x in binary_ar
 thresholds = [UPPER_TH for _ in range(len(binary_arr))]
 
 
-def calculate_md_test():
+def calculate_md_vanilla_gans():
     """Calculates the Mahalanobis Distance for poisoned dataset"""
     # Get lists
     df_eval_labels, df_eval_preds = data_preprocessing(
@@ -149,7 +149,7 @@ def calculate_md_test():
     print(f"Specificity / True Negative Rate: {specificity}")
 
 
-def calculate_rmd_test():
+def calculate_rmd_vanilla_gans():
     """Calculates the Robust Mahalanobis Distance for poisoned dataset"""
     # Get lists
     df_eval_labels, df_eval_preds = data_preprocessing(
@@ -297,5 +297,5 @@ def calculate_rmd_test():
 
 
 if __name__ == "__main__":
-    calculate_md_test()
-    calculate_rmd_test()
+    calculate_md_vanilla_gans()
+    calculate_rmd_vanilla_gans()

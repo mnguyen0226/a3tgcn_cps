@@ -18,6 +18,7 @@ EVAL_POISON_LINE_NUM = 4168  # CHANGE for each different eval_poisoned_output.cs
 shade_of_gray = "0.75"
 shade_of_blue = "lightsteelblue"
 
+# Used for extracting labels
 dataset04 = pd.read_csv(
     r"data/processed/processed_dataset04_origin_binary.csv"
 )  # change for each different poisoned dataset.csv

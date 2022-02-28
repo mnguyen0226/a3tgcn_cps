@@ -15,4 +15,6 @@ from utils.detection_test_calculation import calculate_rmd_test
 from utils.detection_clean_calculation import calculate_md_clean
 from utils.detection_poison_calculation import calculate_md_poison
 from utils.detection_test_calculation import calculate_md_test
+from utils.detection_vanilla_gans_calculation import calculate_md_vanilla_gans
+from utils.detection_vanilla_gans_calculation import calculate_rmd_vanilla_gans
 from utils.localization_method_2 import localization

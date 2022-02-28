@@ -610,133 +610,218 @@ def localization():
     #     mean_squared_error(test_P_J422_label[285:355], test_P_J422_pred[285:355])
     #     > max_error_P_J422
     # )
-    
-    # Count the number of absolute abnormal error vs max normal error in attack 1    
-    check_L_T1_a1 = np.count_nonzero(
-        np.abs(test_L_T1_label[285:355] - test_L_T1_pred[285:355])
-        > max_error_L_T1
-    ) > APPEARANCE_TH
-    check_L_T2_a1 = np.count_nonzero(
-        np.abs(test_L_T2_label[285:355] - test_L_T2_pred[285:355])
-        > max_error_L_T2
-    ) > APPEARANCE_TH
-    check_L_T3_a1 = np.count_nonzero(
-        np.abs(test_L_T3_label[285:355] - test_L_T3_pred[285:355])
-        > max_error_L_T3
-    ) > APPEARANCE_TH
-    check_L_T4_a1 = np.count_nonzero(
-        np.abs(test_L_T4_label[285:355] - test_L_T4_pred[285:355])
-        > max_error_L_T4
-    ) > APPEARANCE_TH
-    check_L_T5_a1 = np.count_nonzero(
-        np.abs(test_L_T5_label[285:355] - test_L_T5_pred[285:355])
-        > max_error_L_T5
-    ) > APPEARANCE_TH
-    check_L_T6_a1 = np.count_nonzero(
-        np.abs(test_L_T6_label[285:355] - test_L_T6_pred[285:355])
-        > max_error_L_T6
-    ) > APPEARANCE_TH
-    check_L_T7_a1 = np.count_nonzero(
-        np.abs(test_L_T7_label[285:355] - test_L_T7_pred[285:355])
-        > max_error_L_T7
-    ) > APPEARANCE_TH
-    check_F_PU1_a1 = np.count_nonzero(
-        np.abs(test_F_PU1_label[285:355] - test_F_PU1_pred[285:355])
-        > max_error_F_PU1
-    ) > APPEARANCE_TH
-    check_F_PU2_a1 = np.count_nonzero(
-        np.abs(test_F_PU2_label[285:355] - test_F_PU2_pred[285:355])
-        > max_error_F_PU2
-    ) > APPEARANCE_TH
-    check_F_PU3_a1 = np.count_nonzero(
-        np.abs(test_F_PU3_label[285:355] - test_F_PU3_pred[285:355])
-        > max_error_F_PU3
-    ) > APPEARANCE_TH
-    check_F_PU4_a1 = np.count_nonzero(
-        np.abs(test_F_PU4_label[285:355] - test_F_PU4_pred[285:355])
-        > max_error_F_PU4
-    ) > APPEARANCE_TH
-    check_F_PU5_a1 = np.count_nonzero(
-        np.abs(test_F_PU5_label[285:355] - test_F_PU5_pred[285:355])
-        > max_error_F_PU5
-    ) > APPEARANCE_TH
-    check_F_PU6_a1 = np.count_nonzero(
-        np.abs(test_F_PU6_label[285:355] - test_F_PU6_pred[285:355])
-        > max_error_F_PU6
-    ) > APPEARANCE_TH
-    check_F_PU7_a1 = np.count_nonzero(
-        np.abs(test_F_PU7_label[285:355] - test_F_PU7_pred[285:355])
-        > max_error_F_PU7
-    ) > APPEARANCE_TH
-    check_F_PU8_a1 = np.count_nonzero(
-        np.abs(test_F_PU8_label[285:355] - test_F_PU8_pred[285:355])
-        > max_error_F_PU8
-    ) > APPEARANCE_TH
-    check_F_PU9_a1 = np.count_nonzero(
-        np.abs(test_F_PU9_label[285:355] - test_F_PU9_pred[285:355])
-        > max_error_F_PU9
-    ) > APPEARANCE_TH
-    check_F_PU10_a1 = np.count_nonzero(
-        np.abs(test_F_PU10_label[285:355] - test_F_PU10_pred[285:355])
-        > max_error_F_PU10
-    ) > APPEARANCE_TH
-    check_F_PU11_a1 = np.count_nonzero(
-        np.abs(test_F_PU11_label[285:355] - test_F_PU11_pred[285:355])
-        > max_error_F_PU11
-    ) > APPEARANCE_TH
-    check_F_V2_a1 = np.count_nonzero(
-        np.abs(test_F_V2_label[285:355] - test_F_V2_pred[285:355])
-        > max_error_F_V2
-    ) > APPEARANCE_TH
-    check_P_J280_a1 = np.count_nonzero(
-        np.abs(test_P_J280_label[285:355] - test_P_J280_pred[285:355])
-        > max_error_P_J280
-    ) > APPEARANCE_TH
-    check_P_J269_a1 = np.count_nonzero(
-        np.abs(test_P_J269_label[285:355] - test_P_J269_pred[285:355])
-        > max_error_P_J269
-    ) > APPEARANCE_TH
-    check_P_J300_a1 = np.count_nonzero(
-        np.abs(test_P_J300_label[285:355] - test_P_J300_pred[285:355])
-        > max_error_P_J300
-    ) > APPEARANCE_TH
-    check_P_J256_a1 = np.count_nonzero(
-        np.abs(test_P_J256_label[285:355] - test_P_J256_pred[285:355])
-        > max_error_P_J256
-    ) > APPEARANCE_TH
-    check_P_J289_a1 = np.count_nonzero(
-        np.abs(test_P_J289_label[285:355] - test_P_J289_pred[285:355])
-        > max_error_P_J289
-    ) > APPEARANCE_TH
-    check_P_J415_a1 = np.count_nonzero(
-        np.abs(test_P_J415_label[285:355] - test_P_J415_pred[285:355])
-        > max_error_P_J415
-    ) > APPEARANCE_TH
-    check_P_J302_a1 = np.count_nonzero(
-        np.abs(test_P_J302_label[285:355] - test_P_J302_pred[285:355])
-        > max_error_P_J302
-    ) > APPEARANCE_TH
-    check_P_J306_a1 = np.count_nonzero(
-        np.abs(test_P_J306_label[285:355] - test_P_J306_pred[285:355])
-        > max_error_P_J306
-    ) > APPEARANCE_TH
-    check_P_J307_a1 = np.count_nonzero(
-        np.abs(test_P_J307_label[285:355] - test_P_J307_pred[285:355])
-        > max_error_P_J307
-    ) > APPEARANCE_TH
-    check_P_J317_a1 = np.count_nonzero(
-        np.abs(test_P_J317_label[285:355] - test_P_J317_pred[285:355])
-        > max_error_P_J317
-    ) > APPEARANCE_TH
-    check_P_J14_a1 = np.count_nonzero(
-        np.abs(test_P_J14_label[285:355] - test_P_J14_pred[285:355])
-        > max_error_P_J14
-    ) > APPEARANCE_TH
-    check_P_J422_a1 = np.count_nonzero(
-        np.abs(test_P_J422_label[285:355] - test_P_J422_pred[285:355])
-        > max_error_P_J422
-    ) > APPEARANCE_TH
-    
+
+    # Count the number of absolute abnormal error vs max normal error in attack 1
+    check_L_T1_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T1_label[285:355] - test_L_T1_pred[285:355]) > max_error_L_T1
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T2_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T2_label[285:355] - test_L_T2_pred[285:355]) > max_error_L_T2
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T3_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T3_label[285:355] - test_L_T3_pred[285:355]) > max_error_L_T3
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T4_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T4_label[285:355] - test_L_T4_pred[285:355]) > max_error_L_T4
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T5_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T5_label[285:355] - test_L_T5_pred[285:355]) > max_error_L_T5
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T6_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T6_label[285:355] - test_L_T6_pred[285:355]) > max_error_L_T6
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T7_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T7_label[285:355] - test_L_T7_pred[285:355]) > max_error_L_T7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU1_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU1_label[285:355] - test_F_PU1_pred[285:355])
+            > max_error_F_PU1
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU2_label[285:355] - test_F_PU2_pred[285:355])
+            > max_error_F_PU2
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU3_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU3_label[285:355] - test_F_PU3_pred[285:355])
+            > max_error_F_PU3
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU4_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU4_label[285:355] - test_F_PU4_pred[285:355])
+            > max_error_F_PU4
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU5_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU5_label[285:355] - test_F_PU5_pred[285:355])
+            > max_error_F_PU5
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU6_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU6_label[285:355] - test_F_PU6_pred[285:355])
+            > max_error_F_PU6
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU7_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU7_label[285:355] - test_F_PU7_pred[285:355])
+            > max_error_F_PU7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU8_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU8_label[285:355] - test_F_PU8_pred[285:355])
+            > max_error_F_PU8
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU9_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU9_label[285:355] - test_F_PU9_pred[285:355])
+            > max_error_F_PU9
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU10_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU10_label[285:355] - test_F_PU10_pred[285:355])
+            > max_error_F_PU10
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU11_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU11_label[285:355] - test_F_PU11_pred[285:355])
+            > max_error_F_PU11
+        )
+        > APPEARANCE_TH
+    )
+    check_F_V2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_V2_label[285:355] - test_F_V2_pred[285:355]) > max_error_F_V2
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J280_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J280_label[285:355] - test_P_J280_pred[285:355])
+            > max_error_P_J280
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J269_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J269_label[285:355] - test_P_J269_pred[285:355])
+            > max_error_P_J269
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J300_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J300_label[285:355] - test_P_J300_pred[285:355])
+            > max_error_P_J300
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J256_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J256_label[285:355] - test_P_J256_pred[285:355])
+            > max_error_P_J256
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J289_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J289_label[285:355] - test_P_J289_pred[285:355])
+            > max_error_P_J289
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J415_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J415_label[285:355] - test_P_J415_pred[285:355])
+            > max_error_P_J415
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J302_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J302_label[285:355] - test_P_J302_pred[285:355])
+            > max_error_P_J302
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J306_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J306_label[285:355] - test_P_J306_pred[285:355])
+            > max_error_P_J306
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J307_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J307_label[285:355] - test_P_J307_pred[285:355])
+            > max_error_P_J307
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J317_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J317_label[285:355] - test_P_J317_pred[285:355])
+            > max_error_P_J317
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J14_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J14_label[285:355] - test_P_J14_pred[285:355])
+            > max_error_P_J14
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J422_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J422_label[285:355] - test_P_J422_pred[285:355])
+            > max_error_P_J422
+        )
+        > APPEARANCE_TH
+    )
+
     print("\n----------------------------------------------")
     print("ATTACK 1 COMPROMISED SENSORS DETECTION REPORT:")
     print(
@@ -751,130 +836,215 @@ def localization():
     )
 
     # Count the number of absolute abnormal error vs max normal error in attack 2
-    check_L_T1_a1 = np.count_nonzero(
-        np.abs(test_L_T1_label[612:690] - test_L_T1_pred[612:690])
-        > max_error_L_T1
-    ) > APPEARANCE_TH
-    check_L_T2_a1 = np.count_nonzero(
-        np.abs(test_L_T2_label[612:690] - test_L_T2_pred[612:690])
-        > max_error_L_T2
-    ) > APPEARANCE_TH
-    check_L_T3_a1 = np.count_nonzero(
-        np.abs(test_L_T3_label[612:690] - test_L_T3_pred[612:690])
-        > max_error_L_T3
-    ) > APPEARANCE_TH
-    check_L_T4_a1 = np.count_nonzero(
-        np.abs(test_L_T4_label[612:690] - test_L_T4_pred[612:690])
-        > max_error_L_T4
-    ) > APPEARANCE_TH
-    check_L_T5_a1 = np.count_nonzero(
-        np.abs(test_L_T5_label[612:690] - test_L_T5_pred[612:690])
-        > max_error_L_T5
-    ) > APPEARANCE_TH
-    check_L_T6_a1 = np.count_nonzero(
-        np.abs(test_L_T6_label[612:690] - test_L_T6_pred[612:690])
-        > max_error_L_T6
-    ) > APPEARANCE_TH
-    check_L_T7_a1 = np.count_nonzero(
-        np.abs(test_L_T7_label[612:690] - test_L_T7_pred[612:690])
-        > max_error_L_T7
-    ) > APPEARANCE_TH
-    check_F_PU1_a1 = np.count_nonzero(
-        np.abs(test_F_PU1_label[612:690] - test_F_PU1_pred[612:690])
-        > max_error_F_PU1
-    ) > APPEARANCE_TH
-    check_F_PU2_a1 = np.count_nonzero(
-        np.abs(test_F_PU2_label[612:690] - test_F_PU2_pred[612:690])
-        > max_error_F_PU2
-    ) > APPEARANCE_TH
-    check_F_PU3_a1 = np.count_nonzero(
-        np.abs(test_F_PU3_label[612:690] - test_F_PU3_pred[612:690])
-        > max_error_F_PU3
-    ) > APPEARANCE_TH
-    check_F_PU4_a1 = np.count_nonzero(
-        np.abs(test_F_PU4_label[612:690] - test_F_PU4_pred[612:690])
-        > max_error_F_PU4
-    ) > APPEARANCE_TH
-    check_F_PU5_a1 = np.count_nonzero(
-        np.abs(test_F_PU5_label[612:690] - test_F_PU5_pred[612:690])
-        > max_error_F_PU5
-    ) > APPEARANCE_TH
-    check_F_PU6_a1 = np.count_nonzero(
-        np.abs(test_F_PU6_label[612:690] - test_F_PU6_pred[612:690])
-        > max_error_F_PU6
-    ) > APPEARANCE_TH
-    check_F_PU7_a1 = np.count_nonzero(
-        np.abs(test_F_PU7_label[612:690] - test_F_PU7_pred[612:690])
-        > max_error_F_PU7
-    ) > APPEARANCE_TH
-    check_F_PU8_a1 = np.count_nonzero(
-        np.abs(test_F_PU8_label[612:690] - test_F_PU8_pred[612:690])
-        > max_error_F_PU8
-    ) > APPEARANCE_TH
-    check_F_PU9_a1 = np.count_nonzero(
-        np.abs(test_F_PU9_label[612:690] - test_F_PU9_pred[612:690])
-        > max_error_F_PU9
-    ) > APPEARANCE_TH
-    check_F_PU10_a1 = np.count_nonzero(
-        np.abs(test_F_PU10_label[612:690] - test_F_PU10_pred[612:690])
-        > max_error_F_PU10
-    ) > APPEARANCE_TH
-    check_F_PU11_a1 = np.count_nonzero(
-        np.abs(test_F_PU11_label[612:690] - test_F_PU11_pred[612:690])
-        > max_error_F_PU11
-    ) > APPEARANCE_TH
-    check_F_V2_a1 = np.count_nonzero(
-        np.abs(test_F_V2_label[612:690] - test_F_V2_pred[612:690])
-        > max_error_F_V2
-    ) > APPEARANCE_TH
-    check_P_J280_a1 = np.count_nonzero(
-        np.abs(test_P_J280_label[612:690] - test_P_J280_pred[612:690])
-        > max_error_P_J280
-    ) > APPEARANCE_TH
-    check_P_J269_a1 = np.count_nonzero(
-        np.abs(test_P_J269_label[612:690] - test_P_J269_pred[612:690])
-        > max_error_P_J269
-    ) > APPEARANCE_TH
-    check_P_J300_a1 = np.count_nonzero(
-        np.abs(test_P_J300_label[612:690] - test_P_J300_pred[612:690])
-        > max_error_P_J300
-    ) > APPEARANCE_TH
-    check_P_J256_a1 = np.count_nonzero(
-        np.abs(test_P_J256_label[612:690] - test_P_J256_pred[612:690])
-        > max_error_P_J256
-    ) > APPEARANCE_TH
-    check_P_J289_a1 = np.count_nonzero(
-        np.abs(test_P_J289_label[612:690] - test_P_J289_pred[612:690])
-        > max_error_P_J289
-    ) > APPEARANCE_TH
-    check_P_J415_a1 = np.count_nonzero(
-        np.abs(test_P_J415_label[612:690] - test_P_J415_pred[612:690])
-        > max_error_P_J415
-    ) > APPEARANCE_TH
-    check_P_J302_a1 = np.count_nonzero(
-        np.abs(test_P_J302_label[612:690] - test_P_J302_pred[612:690])
-        > max_error_P_J302
-    ) > APPEARANCE_TH
-    check_P_J306_a1 = np.count_nonzero(
-        np.abs(test_P_J306_label[612:690] - test_P_J306_pred[612:690])
-        > max_error_P_J306
-    ) > APPEARANCE_TH
-    check_P_J307_a1 = np.count_nonzero(
-        np.abs(test_P_J307_label[612:690] - test_P_J307_pred[612:690])
-        > max_error_P_J307
-    ) > APPEARANCE_TH
-    check_P_J317_a1 = np.count_nonzero(
-        np.abs(test_P_J317_label[612:690] - test_P_J317_pred[612:690])
-        > max_error_P_J317
-    ) > APPEARANCE_TH
-    check_P_J14_a1 = np.count_nonzero(
-        np.abs(test_P_J14_label[612:690] - test_P_J14_pred[612:690])
-        > max_error_P_J14
-    ) > APPEARANCE_TH
-    check_P_J422_a1 = np.count_nonzero(
-        np.abs(test_P_J422_label[612:690] - test_P_J422_pred[612:690])
-        > max_error_P_J422
-    ) > APPEARANCE_TH
+    check_L_T1_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T1_label[612:690] - test_L_T1_pred[612:690]) > max_error_L_T1
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T2_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T2_label[612:690] - test_L_T2_pred[612:690]) > max_error_L_T2
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T3_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T3_label[612:690] - test_L_T3_pred[612:690]) > max_error_L_T3
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T4_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T4_label[612:690] - test_L_T4_pred[612:690]) > max_error_L_T4
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T5_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T5_label[612:690] - test_L_T5_pred[612:690]) > max_error_L_T5
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T6_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T6_label[612:690] - test_L_T6_pred[612:690]) > max_error_L_T6
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T7_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T7_label[612:690] - test_L_T7_pred[612:690]) > max_error_L_T7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU1_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU1_label[612:690] - test_F_PU1_pred[612:690])
+            > max_error_F_PU1
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU2_label[612:690] - test_F_PU2_pred[612:690])
+            > max_error_F_PU2
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU3_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU3_label[612:690] - test_F_PU3_pred[612:690])
+            > max_error_F_PU3
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU4_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU4_label[612:690] - test_F_PU4_pred[612:690])
+            > max_error_F_PU4
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU5_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU5_label[612:690] - test_F_PU5_pred[612:690])
+            > max_error_F_PU5
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU6_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU6_label[612:690] - test_F_PU6_pred[612:690])
+            > max_error_F_PU6
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU7_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU7_label[612:690] - test_F_PU7_pred[612:690])
+            > max_error_F_PU7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU8_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU8_label[612:690] - test_F_PU8_pred[612:690])
+            > max_error_F_PU8
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU9_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU9_label[612:690] - test_F_PU9_pred[612:690])
+            > max_error_F_PU9
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU10_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU10_label[612:690] - test_F_PU10_pred[612:690])
+            > max_error_F_PU10
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU11_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU11_label[612:690] - test_F_PU11_pred[612:690])
+            > max_error_F_PU11
+        )
+        > APPEARANCE_TH
+    )
+    check_F_V2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_V2_label[612:690] - test_F_V2_pred[612:690]) > max_error_F_V2
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J280_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J280_label[612:690] - test_P_J280_pred[612:690])
+            > max_error_P_J280
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J269_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J269_label[612:690] - test_P_J269_pred[612:690])
+            > max_error_P_J269
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J300_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J300_label[612:690] - test_P_J300_pred[612:690])
+            > max_error_P_J300
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J256_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J256_label[612:690] - test_P_J256_pred[612:690])
+            > max_error_P_J256
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J289_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J289_label[612:690] - test_P_J289_pred[612:690])
+            > max_error_P_J289
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J415_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J415_label[612:690] - test_P_J415_pred[612:690])
+            > max_error_P_J415
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J302_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J302_label[612:690] - test_P_J302_pred[612:690])
+            > max_error_P_J302
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J306_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J306_label[612:690] - test_P_J306_pred[612:690])
+            > max_error_P_J306
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J307_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J307_label[612:690] - test_P_J307_pred[612:690])
+            > max_error_P_J307
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J317_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J317_label[612:690] - test_P_J317_pred[612:690])
+            > max_error_P_J317
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J14_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J14_label[612:690] - test_P_J14_pred[612:690])
+            > max_error_P_J14
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J422_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J422_label[612:690] - test_P_J422_pred[612:690])
+            > max_error_P_J422
+        )
+        > APPEARANCE_TH
+    )
 
     print("\n----------------------------------------------")
     print("ATTACK 2 COMPROMISED SENSORS DETECTION REPORT:")
@@ -890,130 +1060,215 @@ def localization():
     )
 
     # Count the number of absolute abnormal error vs max normal error in attack 3
-    check_L_T1_a1 = np.count_nonzero(
-        np.abs(test_L_T1_label[839:894] - test_L_T1_pred[839:894])
-        > max_error_L_T1
-    ) > APPEARANCE_TH
-    check_L_T2_a1 = np.count_nonzero(
-        np.abs(test_L_T2_label[839:894] - test_L_T2_pred[839:894])
-        > max_error_L_T2
-    ) > APPEARANCE_TH
-    check_L_T3_a1 = np.count_nonzero(
-        np.abs(test_L_T3_label[839:894] - test_L_T3_pred[839:894])
-        > max_error_L_T3
-    ) > APPEARANCE_TH
-    check_L_T4_a1 = np.count_nonzero(
-        np.abs(test_L_T4_label[839:894] - test_L_T4_pred[839:894])
-        > max_error_L_T4
-    ) > APPEARANCE_TH
-    check_L_T5_a1 = np.count_nonzero(
-        np.abs(test_L_T5_label[839:894] - test_L_T5_pred[839:894])
-        > max_error_L_T5
-    ) > APPEARANCE_TH
-    check_L_T6_a1 = np.count_nonzero(
-        np.abs(test_L_T6_label[839:894] - test_L_T6_pred[839:894])
-        > max_error_L_T6
-    ) > APPEARANCE_TH
-    check_L_T7_a1 = np.count_nonzero(
-        np.abs(test_L_T7_label[839:894] - test_L_T7_pred[839:894])
-        > max_error_L_T7
-    ) > APPEARANCE_TH
-    check_F_PU1_a1 = np.count_nonzero(
-        np.abs(test_F_PU1_label[839:894] - test_F_PU1_pred[839:894])
-        > max_error_F_PU1
-    ) > APPEARANCE_TH
-    check_F_PU2_a1 = np.count_nonzero(
-        np.abs(test_F_PU2_label[839:894] - test_F_PU2_pred[839:894])
-        > max_error_F_PU2
-    ) > APPEARANCE_TH
-    check_F_PU3_a1 = np.count_nonzero(
-        np.abs(test_F_PU3_label[839:894] - test_F_PU3_pred[839:894])
-        > max_error_F_PU3
-    ) > APPEARANCE_TH
-    check_F_PU4_a1 = np.count_nonzero(
-        np.abs(test_F_PU4_label[839:894] - test_F_PU4_pred[839:894])
-        > max_error_F_PU4
-    ) > APPEARANCE_TH
-    check_F_PU5_a1 = np.count_nonzero(
-        np.abs(test_F_PU5_label[839:894] - test_F_PU5_pred[839:894])
-        > max_error_F_PU5
-    ) > APPEARANCE_TH
-    check_F_PU6_a1 = np.count_nonzero(
-        np.abs(test_F_PU6_label[839:894] - test_F_PU6_pred[839:894])
-        > max_error_F_PU6
-    ) > APPEARANCE_TH
-    check_F_PU7_a1 = np.count_nonzero(
-        np.abs(test_F_PU7_label[839:894] - test_F_PU7_pred[839:894])
-        > max_error_F_PU7
-    ) > APPEARANCE_TH
-    check_F_PU8_a1 = np.count_nonzero(
-        np.abs(test_F_PU8_label[839:894] - test_F_PU8_pred[839:894])
-        > max_error_F_PU8
-    ) > APPEARANCE_TH
-    check_F_PU9_a1 = np.count_nonzero(
-        np.abs(test_F_PU9_label[839:894] - test_F_PU9_pred[839:894])
-        > max_error_F_PU9
-    ) > APPEARANCE_TH
-    check_F_PU10_a1 = np.count_nonzero(
-        np.abs(test_F_PU10_label[839:894] - test_F_PU10_pred[839:894])
-        > max_error_F_PU10
-    ) > APPEARANCE_TH
-    check_F_PU11_a1 = np.count_nonzero(
-        np.abs(test_F_PU11_label[839:894] - test_F_PU11_pred[839:894])
-        > max_error_F_PU11
-    ) > APPEARANCE_TH
-    check_F_V2_a1 = np.count_nonzero(
-        np.abs(test_F_V2_label[839:894] - test_F_V2_pred[839:894])
-        > max_error_F_V2
-    ) > APPEARANCE_TH
-    check_P_J280_a1 = np.count_nonzero(
-        np.abs(test_P_J280_label[839:894] - test_P_J280_pred[839:894])
-        > max_error_P_J280
-    ) > APPEARANCE_TH
-    check_P_J269_a1 = np.count_nonzero(
-        np.abs(test_P_J269_label[839:894] - test_P_J269_pred[839:894])
-        > max_error_P_J269
-    ) > APPEARANCE_TH
-    check_P_J300_a1 = np.count_nonzero(
-        np.abs(test_P_J300_label[839:894] - test_P_J300_pred[839:894])
-        > max_error_P_J300
-    ) > APPEARANCE_TH
-    check_P_J256_a1 = np.count_nonzero(
-        np.abs(test_P_J256_label[839:894] - test_P_J256_pred[839:894])
-        > max_error_P_J256
-    ) > APPEARANCE_TH
-    check_P_J289_a1 = np.count_nonzero(
-        np.abs(test_P_J289_label[839:894] - test_P_J289_pred[839:894])
-        > max_error_P_J289
-    ) > APPEARANCE_TH
-    check_P_J415_a1 = np.count_nonzero(
-        np.abs(test_P_J415_label[839:894] - test_P_J415_pred[839:894])
-        > max_error_P_J415
-    ) > APPEARANCE_TH
-    check_P_J302_a1 = np.count_nonzero(
-        np.abs(test_P_J302_label[839:894] - test_P_J302_pred[839:894])
-        > max_error_P_J302
-    ) > APPEARANCE_TH
-    check_P_J306_a1 = np.count_nonzero(
-        np.abs(test_P_J306_label[839:894] - test_P_J306_pred[839:894])
-        > max_error_P_J306
-    ) > APPEARANCE_TH
-    check_P_J307_a1 = np.count_nonzero(
-        np.abs(test_P_J307_label[839:894] - test_P_J307_pred[839:894])
-        > max_error_P_J307
-    ) > APPEARANCE_TH
-    check_P_J317_a1 = np.count_nonzero(
-        np.abs(test_P_J317_label[839:894] - test_P_J317_pred[839:894])
-        > max_error_P_J317
-    ) > APPEARANCE_TH
-    check_P_J14_a1 = np.count_nonzero(
-        np.abs(test_P_J14_label[839:894] - test_P_J14_pred[839:894])
-        > max_error_P_J14
-    ) > APPEARANCE_TH
-    check_P_J422_a1 = np.count_nonzero(
-        np.abs(test_P_J422_label[839:894] - test_P_J422_pred[839:894])
-        > max_error_P_J422
-    ) > APPEARANCE_TH
+    check_L_T1_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T1_label[839:894] - test_L_T1_pred[839:894]) > max_error_L_T1
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T2_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T2_label[839:894] - test_L_T2_pred[839:894]) > max_error_L_T2
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T3_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T3_label[839:894] - test_L_T3_pred[839:894]) > max_error_L_T3
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T4_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T4_label[839:894] - test_L_T4_pred[839:894]) > max_error_L_T4
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T5_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T5_label[839:894] - test_L_T5_pred[839:894]) > max_error_L_T5
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T6_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T6_label[839:894] - test_L_T6_pred[839:894]) > max_error_L_T6
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T7_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T7_label[839:894] - test_L_T7_pred[839:894]) > max_error_L_T7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU1_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU1_label[839:894] - test_F_PU1_pred[839:894])
+            > max_error_F_PU1
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU2_label[839:894] - test_F_PU2_pred[839:894])
+            > max_error_F_PU2
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU3_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU3_label[839:894] - test_F_PU3_pred[839:894])
+            > max_error_F_PU3
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU4_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU4_label[839:894] - test_F_PU4_pred[839:894])
+            > max_error_F_PU4
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU5_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU5_label[839:894] - test_F_PU5_pred[839:894])
+            > max_error_F_PU5
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU6_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU6_label[839:894] - test_F_PU6_pred[839:894])
+            > max_error_F_PU6
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU7_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU7_label[839:894] - test_F_PU7_pred[839:894])
+            > max_error_F_PU7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU8_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU8_label[839:894] - test_F_PU8_pred[839:894])
+            > max_error_F_PU8
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU9_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU9_label[839:894] - test_F_PU9_pred[839:894])
+            > max_error_F_PU9
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU10_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU10_label[839:894] - test_F_PU10_pred[839:894])
+            > max_error_F_PU10
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU11_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU11_label[839:894] - test_F_PU11_pred[839:894])
+            > max_error_F_PU11
+        )
+        > APPEARANCE_TH
+    )
+    check_F_V2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_V2_label[839:894] - test_F_V2_pred[839:894]) > max_error_F_V2
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J280_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J280_label[839:894] - test_P_J280_pred[839:894])
+            > max_error_P_J280
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J269_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J269_label[839:894] - test_P_J269_pred[839:894])
+            > max_error_P_J269
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J300_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J300_label[839:894] - test_P_J300_pred[839:894])
+            > max_error_P_J300
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J256_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J256_label[839:894] - test_P_J256_pred[839:894])
+            > max_error_P_J256
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J289_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J289_label[839:894] - test_P_J289_pred[839:894])
+            > max_error_P_J289
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J415_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J415_label[839:894] - test_P_J415_pred[839:894])
+            > max_error_P_J415
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J302_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J302_label[839:894] - test_P_J302_pred[839:894])
+            > max_error_P_J302
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J306_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J306_label[839:894] - test_P_J306_pred[839:894])
+            > max_error_P_J306
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J307_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J307_label[839:894] - test_P_J307_pred[839:894])
+            > max_error_P_J307
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J317_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J317_label[839:894] - test_P_J317_pred[839:894])
+            > max_error_P_J317
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J14_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J14_label[839:894] - test_P_J14_pred[839:894])
+            > max_error_P_J14
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J422_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J422_label[839:894] - test_P_J422_pred[839:894])
+            > max_error_P_J422
+        )
+        > APPEARANCE_TH
+    )
 
     print("\n----------------------------------------------")
     print("ATTACK 3 COMPROMISED SENSORS DETECTION REPORT:")
@@ -1029,130 +1284,215 @@ def localization():
     )
 
     # Count the number of absolute abnormal error vs max normal error in attack 4
-    check_L_T1_a1 = np.count_nonzero(
-        np.abs(test_L_T1_label[918:963] - test_L_T1_pred[918:963])
-        > max_error_L_T1
-    ) > APPEARANCE_TH
-    check_L_T2_a1 = np.count_nonzero(
-        np.abs(test_L_T2_label[918:963] - test_L_T2_pred[918:963])
-        > max_error_L_T2
-    ) > APPEARANCE_TH
-    check_L_T3_a1 = np.count_nonzero(
-        np.abs(test_L_T3_label[918:963] - test_L_T3_pred[918:963])
-        > max_error_L_T3
-    ) > APPEARANCE_TH
-    check_L_T4_a1 = np.count_nonzero(
-        np.abs(test_L_T4_label[918:963] - test_L_T4_pred[918:963])
-        > max_error_L_T4
-    ) > APPEARANCE_TH
-    check_L_T5_a1 = np.count_nonzero(
-        np.abs(test_L_T5_label[918:963] - test_L_T5_pred[918:963])
-        > max_error_L_T5
-    ) > APPEARANCE_TH
-    check_L_T6_a1 = np.count_nonzero(
-        np.abs(test_L_T6_label[918:963] - test_L_T6_pred[918:963])
-        > max_error_L_T6
-    ) > APPEARANCE_TH
-    check_L_T7_a1 = np.count_nonzero(
-        np.abs(test_L_T7_label[918:963] - test_L_T7_pred[918:963])
-        > max_error_L_T7
-    ) > APPEARANCE_TH
-    check_F_PU1_a1 = np.count_nonzero(
-        np.abs(test_F_PU1_label[918:963] - test_F_PU1_pred[918:963])
-        > max_error_F_PU1
-    ) > APPEARANCE_TH
-    check_F_PU2_a1 = np.count_nonzero(
-        np.abs(test_F_PU2_label[918:963] - test_F_PU2_pred[918:963])
-        > max_error_F_PU2
-    ) > APPEARANCE_TH
-    check_F_PU3_a1 = np.count_nonzero(
-        np.abs(test_F_PU3_label[918:963] - test_F_PU3_pred[918:963])
-        > max_error_F_PU3
-    ) > APPEARANCE_TH
-    check_F_PU4_a1 = np.count_nonzero(
-        np.abs(test_F_PU4_label[918:963] - test_F_PU4_pred[918:963])
-        > max_error_F_PU4
-    ) > APPEARANCE_TH
-    check_F_PU5_a1 = np.count_nonzero(
-        np.abs(test_F_PU5_label[918:963] - test_F_PU5_pred[918:963])
-        > max_error_F_PU5
-    ) > APPEARANCE_TH
-    check_F_PU6_a1 = np.count_nonzero(
-        np.abs(test_F_PU6_label[918:963] - test_F_PU6_pred[918:963])
-        > max_error_F_PU6
-    ) > APPEARANCE_TH
-    check_F_PU7_a1 = np.count_nonzero(
-        np.abs(test_F_PU7_label[918:963] - test_F_PU7_pred[918:963])
-        > max_error_F_PU7
-    ) > APPEARANCE_TH
-    check_F_PU8_a1 = np.count_nonzero(
-        np.abs(test_F_PU8_label[918:963] - test_F_PU8_pred[918:963])
-        > max_error_F_PU8
-    ) > APPEARANCE_TH
-    check_F_PU9_a1 = np.count_nonzero(
-        np.abs(test_F_PU9_label[918:963] - test_F_PU9_pred[918:963])
-        > max_error_F_PU9
-    ) > APPEARANCE_TH
-    check_F_PU10_a1 = np.count_nonzero(
-        np.abs(test_F_PU10_label[918:963] - test_F_PU10_pred[918:963])
-        > max_error_F_PU10
-    ) > APPEARANCE_TH
-    check_F_PU11_a1 = np.count_nonzero(
-        np.abs(test_F_PU11_label[918:963] - test_F_PU11_pred[918:963])
-        > max_error_F_PU11
-    ) > APPEARANCE_TH
-    check_F_V2_a1 = np.count_nonzero(
-        np.abs(test_F_V2_label[918:963] - test_F_V2_pred[918:963])
-        > max_error_F_V2
-    ) > APPEARANCE_TH
-    check_P_J280_a1 = np.count_nonzero(
-        np.abs(test_P_J280_label[918:963] - test_P_J280_pred[918:963])
-        > max_error_P_J280
-    ) > APPEARANCE_TH
-    check_P_J269_a1 = np.count_nonzero(
-        np.abs(test_P_J269_label[918:963] - test_P_J269_pred[918:963])
-        > max_error_P_J269
-    ) > APPEARANCE_TH
-    check_P_J300_a1 = np.count_nonzero(
-        np.abs(test_P_J300_label[918:963] - test_P_J300_pred[918:963])
-        > max_error_P_J300
-    ) > APPEARANCE_TH
-    check_P_J256_a1 = np.count_nonzero(
-        np.abs(test_P_J256_label[918:963] - test_P_J256_pred[918:963])
-        > max_error_P_J256
-    ) > APPEARANCE_TH
-    check_P_J289_a1 = np.count_nonzero(
-        np.abs(test_P_J289_label[918:963] - test_P_J289_pred[918:963])
-        > max_error_P_J289
-    ) > APPEARANCE_TH
-    check_P_J415_a1 = np.count_nonzero(
-        np.abs(test_P_J415_label[918:963] - test_P_J415_pred[918:963])
-        > max_error_P_J415
-    ) > APPEARANCE_TH
-    check_P_J302_a1 = np.count_nonzero(
-        np.abs(test_P_J302_label[918:963] - test_P_J302_pred[918:963])
-        > max_error_P_J302
-    ) > APPEARANCE_TH
-    check_P_J306_a1 = np.count_nonzero(
-        np.abs(test_P_J306_label[918:963] - test_P_J306_pred[918:963])
-        > max_error_P_J306
-    ) > APPEARANCE_TH
-    check_P_J307_a1 = np.count_nonzero(
-        np.abs(test_P_J307_label[918:963] - test_P_J307_pred[918:963])
-        > max_error_P_J307
-    ) > APPEARANCE_TH
-    check_P_J317_a1 = np.count_nonzero(
-        np.abs(test_P_J317_label[918:963] - test_P_J317_pred[918:963])
-        > max_error_P_J317
-    ) > APPEARANCE_TH
-    check_P_J14_a1 = np.count_nonzero(
-        np.abs(test_P_J14_label[918:963] - test_P_J14_pred[918:963])
-        > max_error_P_J14
-    ) > APPEARANCE_TH
-    check_P_J422_a1 = np.count_nonzero(
-        np.abs(test_P_J422_label[918:963] - test_P_J422_pred[918:963])
-        > max_error_P_J422
-    ) > APPEARANCE_TH
+    check_L_T1_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T1_label[918:963] - test_L_T1_pred[918:963]) > max_error_L_T1
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T2_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T2_label[918:963] - test_L_T2_pred[918:963]) > max_error_L_T2
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T3_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T3_label[918:963] - test_L_T3_pred[918:963]) > max_error_L_T3
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T4_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T4_label[918:963] - test_L_T4_pred[918:963]) > max_error_L_T4
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T5_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T5_label[918:963] - test_L_T5_pred[918:963]) > max_error_L_T5
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T6_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T6_label[918:963] - test_L_T6_pred[918:963]) > max_error_L_T6
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T7_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T7_label[918:963] - test_L_T7_pred[918:963]) > max_error_L_T7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU1_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU1_label[918:963] - test_F_PU1_pred[918:963])
+            > max_error_F_PU1
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU2_label[918:963] - test_F_PU2_pred[918:963])
+            > max_error_F_PU2
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU3_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU3_label[918:963] - test_F_PU3_pred[918:963])
+            > max_error_F_PU3
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU4_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU4_label[918:963] - test_F_PU4_pred[918:963])
+            > max_error_F_PU4
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU5_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU5_label[918:963] - test_F_PU5_pred[918:963])
+            > max_error_F_PU5
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU6_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU6_label[918:963] - test_F_PU6_pred[918:963])
+            > max_error_F_PU6
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU7_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU7_label[918:963] - test_F_PU7_pred[918:963])
+            > max_error_F_PU7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU8_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU8_label[918:963] - test_F_PU8_pred[918:963])
+            > max_error_F_PU8
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU9_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU9_label[918:963] - test_F_PU9_pred[918:963])
+            > max_error_F_PU9
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU10_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU10_label[918:963] - test_F_PU10_pred[918:963])
+            > max_error_F_PU10
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU11_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU11_label[918:963] - test_F_PU11_pred[918:963])
+            > max_error_F_PU11
+        )
+        > APPEARANCE_TH
+    )
+    check_F_V2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_V2_label[918:963] - test_F_V2_pred[918:963]) > max_error_F_V2
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J280_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J280_label[918:963] - test_P_J280_pred[918:963])
+            > max_error_P_J280
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J269_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J269_label[918:963] - test_P_J269_pred[918:963])
+            > max_error_P_J269
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J300_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J300_label[918:963] - test_P_J300_pred[918:963])
+            > max_error_P_J300
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J256_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J256_label[918:963] - test_P_J256_pred[918:963])
+            > max_error_P_J256
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J289_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J289_label[918:963] - test_P_J289_pred[918:963])
+            > max_error_P_J289
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J415_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J415_label[918:963] - test_P_J415_pred[918:963])
+            > max_error_P_J415
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J302_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J302_label[918:963] - test_P_J302_pred[918:963])
+            > max_error_P_J302
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J306_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J306_label[918:963] - test_P_J306_pred[918:963])
+            > max_error_P_J306
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J307_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J307_label[918:963] - test_P_J307_pred[918:963])
+            > max_error_P_J307
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J317_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J317_label[918:963] - test_P_J317_pred[918:963])
+            > max_error_P_J317
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J14_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J14_label[918:963] - test_P_J14_pred[918:963])
+            > max_error_P_J14
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J422_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J422_label[918:963] - test_P_J422_pred[918:963])
+            > max_error_P_J422
+        )
+        > APPEARANCE_TH
+    )
 
     print("\n----------------------------------------------")
     print("ATTACK 4 COMPROMISED SENSORS DETECTION REPORT:")
@@ -1168,130 +1508,223 @@ def localization():
     )
 
     # Count the number of absolute abnormal error vs max normal error in attack 5
-    check_L_T1_a1 = np.count_nonzero(
-        np.abs(test_L_T1_label[1218:1317] - test_L_T1_pred[1218:1317])
-        > max_error_L_T1
-    ) > APPEARANCE_TH
-    check_L_T2_a1 = np.count_nonzero(
-        np.abs(test_L_T2_label[1218:1317] - test_L_T2_pred[1218:1317])
-        > max_error_L_T2
-    ) > APPEARANCE_TH
-    check_L_T3_a1 = np.count_nonzero(
-        np.abs(test_L_T3_label[1218:1317] - test_L_T3_pred[1218:1317])
-        > max_error_L_T3
-    ) > APPEARANCE_TH
-    check_L_T4_a1 = np.count_nonzero(
-        np.abs(test_L_T4_label[1218:1317] - test_L_T4_pred[1218:1317])
-        > max_error_L_T4
-    ) > APPEARANCE_TH
-    check_L_T5_a1 = np.count_nonzero(
-        np.abs(test_L_T5_label[1218:1317] - test_L_T5_pred[1218:1317])
-        > max_error_L_T5
-    ) > APPEARANCE_TH
-    check_L_T6_a1 = np.count_nonzero(
-        np.abs(test_L_T6_label[1218:1317] - test_L_T6_pred[1218:1317])
-        > max_error_L_T6
-    ) > APPEARANCE_TH
-    check_L_T7_a1 = np.count_nonzero(
-        np.abs(test_L_T7_label[1218:1317] - test_L_T7_pred[1218:1317])
-        > max_error_L_T7
-    ) > APPEARANCE_TH
-    check_F_PU1_a1 = np.count_nonzero(
-        np.abs(test_F_PU1_label[1218:1317] - test_F_PU1_pred[1218:1317])
-        > max_error_F_PU1
-    ) > APPEARANCE_TH
-    check_F_PU2_a1 = np.count_nonzero(
-        np.abs(test_F_PU2_label[1218:1317] - test_F_PU2_pred[1218:1317])
-        > max_error_F_PU2
-    ) > APPEARANCE_TH
-    check_F_PU3_a1 = np.count_nonzero(
-        np.abs(test_F_PU3_label[1218:1317] - test_F_PU3_pred[1218:1317])
-        > max_error_F_PU3
-    ) > APPEARANCE_TH
-    check_F_PU4_a1 = np.count_nonzero(
-        np.abs(test_F_PU4_label[1218:1317] - test_F_PU4_pred[1218:1317])
-        > max_error_F_PU4
-    ) > APPEARANCE_TH
-    check_F_PU5_a1 = np.count_nonzero(
-        np.abs(test_F_PU5_label[1218:1317] - test_F_PU5_pred[1218:1317])
-        > max_error_F_PU5
-    ) > APPEARANCE_TH
-    check_F_PU6_a1 = np.count_nonzero(
-        np.abs(test_F_PU6_label[1218:1317] - test_F_PU6_pred[1218:1317])
-        > max_error_F_PU6
-    ) > APPEARANCE_TH
-    check_F_PU7_a1 = np.count_nonzero(
-        np.abs(test_F_PU7_label[1218:1317] - test_F_PU7_pred[1218:1317])
-        > max_error_F_PU7
-    ) > APPEARANCE_TH
-    check_F_PU8_a1 = np.count_nonzero(
-        np.abs(test_F_PU8_label[1218:1317] - test_F_PU8_pred[1218:1317])
-        > max_error_F_PU8
-    ) > APPEARANCE_TH
-    check_F_PU9_a1 = np.count_nonzero(
-        np.abs(test_F_PU9_label[1218:1317] - test_F_PU9_pred[1218:1317])
-        > max_error_F_PU9
-    ) > APPEARANCE_TH
-    check_F_PU10_a1 = np.count_nonzero(
-        np.abs(test_F_PU10_label[1218:1317] - test_F_PU10_pred[1218:1317])
-        > max_error_F_PU10
-    ) > APPEARANCE_TH
-    check_F_PU11_a1 = np.count_nonzero(
-        np.abs(test_F_PU11_label[1218:1317] - test_F_PU11_pred[1218:1317])
-        > max_error_F_PU11
-    ) > APPEARANCE_TH
-    check_F_V2_a1 = np.count_nonzero(
-        np.abs(test_F_V2_label[1218:1317] - test_F_V2_pred[1218:1317])
-        > max_error_F_V2
-    ) > APPEARANCE_TH
-    check_P_J280_a1 = np.count_nonzero(
-        np.abs(test_P_J280_label[1218:1317] - test_P_J280_pred[1218:1317])
-        > max_error_P_J280
-    ) > APPEARANCE_TH
-    check_P_J269_a1 = np.count_nonzero(
-        np.abs(test_P_J269_label[1218:1317] - test_P_J269_pred[1218:1317])
-        > max_error_P_J269
-    ) > APPEARANCE_TH
-    check_P_J300_a1 = np.count_nonzero(
-        np.abs(test_P_J300_label[1218:1317] - test_P_J300_pred[1218:1317])
-        > max_error_P_J300
-    ) > APPEARANCE_TH
-    check_P_J256_a1 = np.count_nonzero(
-        np.abs(test_P_J256_label[1218:1317] - test_P_J256_pred[1218:1317])
-        > max_error_P_J256
-    ) > APPEARANCE_TH
-    check_P_J289_a1 = np.count_nonzero(
-        np.abs(test_P_J289_label[1218:1317] - test_P_J289_pred[1218:1317])
-        > max_error_P_J289
-    ) > APPEARANCE_TH
-    check_P_J415_a1 = np.count_nonzero(
-        np.abs(test_P_J415_label[1218:1317] - test_P_J415_pred[1218:1317])
-        > max_error_P_J415
-    ) > APPEARANCE_TH
-    check_P_J302_a1 = np.count_nonzero(
-        np.abs(test_P_J302_label[1218:1317] - test_P_J302_pred[1218:1317])
-        > max_error_P_J302
-    ) > APPEARANCE_TH
-    check_P_J306_a1 = np.count_nonzero(
-        np.abs(test_P_J306_label[1218:1317] - test_P_J306_pred[1218:1317])
-        > max_error_P_J306
-    ) > APPEARANCE_TH
-    check_P_J307_a1 = np.count_nonzero(
-        np.abs(test_P_J307_label[1218:1317] - test_P_J307_pred[1218:1317])
-        > max_error_P_J307
-    ) > APPEARANCE_TH
-    check_P_J317_a1 = np.count_nonzero(
-        np.abs(test_P_J317_label[1218:1317] - test_P_J317_pred[1218:1317])
-        > max_error_P_J317
-    ) > APPEARANCE_TH
-    check_P_J14_a1 = np.count_nonzero(
-        np.abs(test_P_J14_label[1218:1317] - test_P_J14_pred[1218:1317])
-        > max_error_P_J14
-    ) > APPEARANCE_TH
-    check_P_J422_a1 = np.count_nonzero(
-        np.abs(test_P_J422_label[1218:1317] - test_P_J422_pred[1218:1317])
-        > max_error_P_J422
-    ) > APPEARANCE_TH
+    check_L_T1_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T1_label[1218:1317] - test_L_T1_pred[1218:1317])
+            > max_error_L_T1
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T2_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T2_label[1218:1317] - test_L_T2_pred[1218:1317])
+            > max_error_L_T2
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T3_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T3_label[1218:1317] - test_L_T3_pred[1218:1317])
+            > max_error_L_T3
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T4_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T4_label[1218:1317] - test_L_T4_pred[1218:1317])
+            > max_error_L_T4
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T5_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T5_label[1218:1317] - test_L_T5_pred[1218:1317])
+            > max_error_L_T5
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T6_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T6_label[1218:1317] - test_L_T6_pred[1218:1317])
+            > max_error_L_T6
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T7_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T7_label[1218:1317] - test_L_T7_pred[1218:1317])
+            > max_error_L_T7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU1_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU1_label[1218:1317] - test_F_PU1_pred[1218:1317])
+            > max_error_F_PU1
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU2_label[1218:1317] - test_F_PU2_pred[1218:1317])
+            > max_error_F_PU2
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU3_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU3_label[1218:1317] - test_F_PU3_pred[1218:1317])
+            > max_error_F_PU3
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU4_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU4_label[1218:1317] - test_F_PU4_pred[1218:1317])
+            > max_error_F_PU4
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU5_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU5_label[1218:1317] - test_F_PU5_pred[1218:1317])
+            > max_error_F_PU5
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU6_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU6_label[1218:1317] - test_F_PU6_pred[1218:1317])
+            > max_error_F_PU6
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU7_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU7_label[1218:1317] - test_F_PU7_pred[1218:1317])
+            > max_error_F_PU7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU8_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU8_label[1218:1317] - test_F_PU8_pred[1218:1317])
+            > max_error_F_PU8
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU9_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU9_label[1218:1317] - test_F_PU9_pred[1218:1317])
+            > max_error_F_PU9
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU10_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU10_label[1218:1317] - test_F_PU10_pred[1218:1317])
+            > max_error_F_PU10
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU11_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU11_label[1218:1317] - test_F_PU11_pred[1218:1317])
+            > max_error_F_PU11
+        )
+        > APPEARANCE_TH
+    )
+    check_F_V2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_V2_label[1218:1317] - test_F_V2_pred[1218:1317])
+            > max_error_F_V2
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J280_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J280_label[1218:1317] - test_P_J280_pred[1218:1317])
+            > max_error_P_J280
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J269_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J269_label[1218:1317] - test_P_J269_pred[1218:1317])
+            > max_error_P_J269
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J300_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J300_label[1218:1317] - test_P_J300_pred[1218:1317])
+            > max_error_P_J300
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J256_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J256_label[1218:1317] - test_P_J256_pred[1218:1317])
+            > max_error_P_J256
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J289_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J289_label[1218:1317] - test_P_J289_pred[1218:1317])
+            > max_error_P_J289
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J415_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J415_label[1218:1317] - test_P_J415_pred[1218:1317])
+            > max_error_P_J415
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J302_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J302_label[1218:1317] - test_P_J302_pred[1218:1317])
+            > max_error_P_J302
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J306_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J306_label[1218:1317] - test_P_J306_pred[1218:1317])
+            > max_error_P_J306
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J307_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J307_label[1218:1317] - test_P_J307_pred[1218:1317])
+            > max_error_P_J307
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J317_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J317_label[1218:1317] - test_P_J317_pred[1218:1317])
+            > max_error_P_J317
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J14_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J14_label[1218:1317] - test_P_J14_pred[1218:1317])
+            > max_error_P_J14
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J422_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J422_label[1218:1317] - test_P_J422_pred[1218:1317])
+            > max_error_P_J422
+        )
+        > APPEARANCE_TH
+    )
 
     print("\n----------------------------------------------")
     print("ATTACK 5 COMPROMISED SENSORS DETECTION REPORT:")
@@ -1307,130 +1740,223 @@ def localization():
     )
 
     # Count the number of absolute abnormal error vs max normal error in attack 6
-    check_L_T1_a1 = np.count_nonzero(
-        np.abs(test_L_T1_label[1572:1637] - test_L_T1_pred[1572:1637])
-        > max_error_L_T1
-    ) > APPEARANCE_TH
-    check_L_T2_a1 = np.count_nonzero(
-        np.abs(test_L_T2_label[1572:1637] - test_L_T2_pred[1572:1637])
-        > max_error_L_T2
-    ) > APPEARANCE_TH
-    check_L_T3_a1 = np.count_nonzero(
-        np.abs(test_L_T3_label[1572:1637] - test_L_T3_pred[1572:1637])
-        > max_error_L_T3
-    ) > APPEARANCE_TH
-    check_L_T4_a1 = np.count_nonzero(
-        np.abs(test_L_T4_label[1572:1637] - test_L_T4_pred[1572:1637])
-        > max_error_L_T4
-    ) > APPEARANCE_TH
-    check_L_T5_a1 = np.count_nonzero(
-        np.abs(test_L_T5_label[1572:1637] - test_L_T5_pred[1572:1637])
-        > max_error_L_T5
-    ) > APPEARANCE_TH
-    check_L_T6_a1 = np.count_nonzero(
-        np.abs(test_L_T6_label[1572:1637] - test_L_T6_pred[1572:1637])
-        > max_error_L_T6
-    ) > APPEARANCE_TH
-    check_L_T7_a1 = np.count_nonzero(
-        np.abs(test_L_T7_label[1572:1637] - test_L_T7_pred[1572:1637])
-        > max_error_L_T7
-    ) > APPEARANCE_TH
-    check_F_PU1_a1 = np.count_nonzero(
-        np.abs(test_F_PU1_label[1572:1637] - test_F_PU1_pred[1572:1637])
-        > max_error_F_PU1
-    ) > APPEARANCE_TH
-    check_F_PU2_a1 = np.count_nonzero(
-        np.abs(test_F_PU2_label[1572:1637] - test_F_PU2_pred[1572:1637])
-        > max_error_F_PU2
-    ) > APPEARANCE_TH
-    check_F_PU3_a1 = np.count_nonzero(
-        np.abs(test_F_PU3_label[1572:1637] - test_F_PU3_pred[1572:1637])
-        > max_error_F_PU3
-    ) > APPEARANCE_TH
-    check_F_PU4_a1 = np.count_nonzero(
-        np.abs(test_F_PU4_label[1572:1637] - test_F_PU4_pred[1572:1637])
-        > max_error_F_PU4
-    ) > APPEARANCE_TH
-    check_F_PU5_a1 = np.count_nonzero(
-        np.abs(test_F_PU5_label[1572:1637] - test_F_PU5_pred[1572:1637])
-        > max_error_F_PU5
-    ) > APPEARANCE_TH
-    check_F_PU6_a1 = np.count_nonzero(
-        np.abs(test_F_PU6_label[1572:1637] - test_F_PU6_pred[1572:1637])
-        > max_error_F_PU6
-    ) > APPEARANCE_TH
-    check_F_PU7_a1 = np.count_nonzero(
-        np.abs(test_F_PU7_label[1572:1637] - test_F_PU7_pred[1572:1637])
-        > max_error_F_PU7
-    ) > APPEARANCE_TH
-    check_F_PU8_a1 = np.count_nonzero(
-        np.abs(test_F_PU8_label[1572:1637] - test_F_PU8_pred[1572:1637])
-        > max_error_F_PU8
-    ) > APPEARANCE_TH
-    check_F_PU9_a1 = np.count_nonzero(
-        np.abs(test_F_PU9_label[1572:1637] - test_F_PU9_pred[1572:1637])
-        > max_error_F_PU9
-    ) > APPEARANCE_TH
-    check_F_PU10_a1 = np.count_nonzero(
-        np.abs(test_F_PU10_label[1572:1637] - test_F_PU10_pred[1572:1637])
-        > max_error_F_PU10
-    ) > APPEARANCE_TH
-    check_F_PU11_a1 = np.count_nonzero(
-        np.abs(test_F_PU11_label[1572:1637] - test_F_PU11_pred[1572:1637])
-        > max_error_F_PU11
-    ) > APPEARANCE_TH
-    check_F_V2_a1 = np.count_nonzero(
-        np.abs(test_F_V2_label[1572:1637] - test_F_V2_pred[1572:1637])
-        > max_error_F_V2
-    ) > APPEARANCE_TH
-    check_P_J280_a1 = np.count_nonzero(
-        np.abs(test_P_J280_label[1572:1637] - test_P_J280_pred[1572:1637])
-        > max_error_P_J280
-    ) > APPEARANCE_TH
-    check_P_J269_a1 = np.count_nonzero(
-        np.abs(test_P_J269_label[1572:1637] - test_P_J269_pred[1572:1637])
-        > max_error_P_J269
-    ) > APPEARANCE_TH
-    check_P_J300_a1 = np.count_nonzero(
-        np.abs(test_P_J300_label[1572:1637] - test_P_J300_pred[1572:1637])
-        > max_error_P_J300
-    ) > APPEARANCE_TH
-    check_P_J256_a1 = np.count_nonzero(
-        np.abs(test_P_J256_label[1572:1637] - test_P_J256_pred[1572:1637])
-        > max_error_P_J256
-    ) > APPEARANCE_TH
-    check_P_J289_a1 = np.count_nonzero(
-        np.abs(test_P_J289_label[1572:1637] - test_P_J289_pred[1572:1637])
-        > max_error_P_J289
-    ) > APPEARANCE_TH
-    check_P_J415_a1 = np.count_nonzero(
-        np.abs(test_P_J415_label[1572:1637] - test_P_J415_pred[1572:1637])
-        > max_error_P_J415
-    ) > APPEARANCE_TH
-    check_P_J302_a1 = np.count_nonzero(
-        np.abs(test_P_J302_label[1572:1637] - test_P_J302_pred[1572:1637])
-        > max_error_P_J302
-    ) > APPEARANCE_TH
-    check_P_J306_a1 = np.count_nonzero(
-        np.abs(test_P_J306_label[1572:1637] - test_P_J306_pred[1572:1637])
-        > max_error_P_J306
-    ) > APPEARANCE_TH
-    check_P_J307_a1 = np.count_nonzero(
-        np.abs(test_P_J307_label[1572:1637] - test_P_J307_pred[1572:1637])
-        > max_error_P_J307
-    ) > APPEARANCE_TH
-    check_P_J317_a1 = np.count_nonzero(
-        np.abs(test_P_J317_label[1572:1637] - test_P_J317_pred[1572:1637])
-        > max_error_P_J317
-    ) > APPEARANCE_TH
-    check_P_J14_a1 = np.count_nonzero(
-        np.abs(test_P_J14_label[1572:1637] - test_P_J14_pred[1572:1637])
-        > max_error_P_J14
-    ) > APPEARANCE_TH
-    check_P_J422_a1 = np.count_nonzero(
-        np.abs(test_P_J422_label[1572:1637] - test_P_J422_pred[1572:1637])
-        > max_error_P_J422
-    ) > APPEARANCE_TH
+    check_L_T1_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T1_label[1572:1637] - test_L_T1_pred[1572:1637])
+            > max_error_L_T1
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T2_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T2_label[1572:1637] - test_L_T2_pred[1572:1637])
+            > max_error_L_T2
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T3_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T3_label[1572:1637] - test_L_T3_pred[1572:1637])
+            > max_error_L_T3
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T4_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T4_label[1572:1637] - test_L_T4_pred[1572:1637])
+            > max_error_L_T4
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T5_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T5_label[1572:1637] - test_L_T5_pred[1572:1637])
+            > max_error_L_T5
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T6_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T6_label[1572:1637] - test_L_T6_pred[1572:1637])
+            > max_error_L_T6
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T7_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T7_label[1572:1637] - test_L_T7_pred[1572:1637])
+            > max_error_L_T7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU1_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU1_label[1572:1637] - test_F_PU1_pred[1572:1637])
+            > max_error_F_PU1
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU2_label[1572:1637] - test_F_PU2_pred[1572:1637])
+            > max_error_F_PU2
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU3_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU3_label[1572:1637] - test_F_PU3_pred[1572:1637])
+            > max_error_F_PU3
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU4_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU4_label[1572:1637] - test_F_PU4_pred[1572:1637])
+            > max_error_F_PU4
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU5_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU5_label[1572:1637] - test_F_PU5_pred[1572:1637])
+            > max_error_F_PU5
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU6_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU6_label[1572:1637] - test_F_PU6_pred[1572:1637])
+            > max_error_F_PU6
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU7_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU7_label[1572:1637] - test_F_PU7_pred[1572:1637])
+            > max_error_F_PU7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU8_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU8_label[1572:1637] - test_F_PU8_pred[1572:1637])
+            > max_error_F_PU8
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU9_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU9_label[1572:1637] - test_F_PU9_pred[1572:1637])
+            > max_error_F_PU9
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU10_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU10_label[1572:1637] - test_F_PU10_pred[1572:1637])
+            > max_error_F_PU10
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU11_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU11_label[1572:1637] - test_F_PU11_pred[1572:1637])
+            > max_error_F_PU11
+        )
+        > APPEARANCE_TH
+    )
+    check_F_V2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_V2_label[1572:1637] - test_F_V2_pred[1572:1637])
+            > max_error_F_V2
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J280_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J280_label[1572:1637] - test_P_J280_pred[1572:1637])
+            > max_error_P_J280
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J269_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J269_label[1572:1637] - test_P_J269_pred[1572:1637])
+            > max_error_P_J269
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J300_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J300_label[1572:1637] - test_P_J300_pred[1572:1637])
+            > max_error_P_J300
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J256_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J256_label[1572:1637] - test_P_J256_pred[1572:1637])
+            > max_error_P_J256
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J289_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J289_label[1572:1637] - test_P_J289_pred[1572:1637])
+            > max_error_P_J289
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J415_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J415_label[1572:1637] - test_P_J415_pred[1572:1637])
+            > max_error_P_J415
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J302_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J302_label[1572:1637] - test_P_J302_pred[1572:1637])
+            > max_error_P_J302
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J306_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J306_label[1572:1637] - test_P_J306_pred[1572:1637])
+            > max_error_P_J306
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J307_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J307_label[1572:1637] - test_P_J307_pred[1572:1637])
+            > max_error_P_J307
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J317_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J317_label[1572:1637] - test_P_J317_pred[1572:1637])
+            > max_error_P_J317
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J14_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J14_label[1572:1637] - test_P_J14_pred[1572:1637])
+            > max_error_P_J14
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J422_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J422_label[1572:1637] - test_P_J422_pred[1572:1637])
+            > max_error_P_J422
+        )
+        > APPEARANCE_TH
+    )
 
     print("\n----------------------------------------------")
     print("ATTACK 6 COMPROMISED SENSORS DETECTION REPORT:")
@@ -1446,130 +1972,223 @@ def localization():
     )
 
     # Count the number of absolute abnormal error vs max normal error in attack 7
-    check_L_T1_a1 = np.count_nonzero(
-        np.abs(test_L_T1_label[1929:1950] - test_L_T1_pred[1929:1950])
-        > max_error_L_T1
-    ) > APPEARANCE_TH
-    check_L_T2_a1 = np.count_nonzero(
-        np.abs(test_L_T2_label[1929:1950] - test_L_T2_pred[1929:1950])
-        > max_error_L_T2
-    ) > APPEARANCE_TH
-    check_L_T3_a1 = np.count_nonzero(
-        np.abs(test_L_T3_label[1929:1950] - test_L_T3_pred[1929:1950])
-        > max_error_L_T3
-    ) > APPEARANCE_TH
-    check_L_T4_a1 = np.count_nonzero(
-        np.abs(test_L_T4_label[1929:1950] - test_L_T4_pred[1929:1950])
-        > max_error_L_T4
-    ) > APPEARANCE_TH
-    check_L_T5_a1 = np.count_nonzero(
-        np.abs(test_L_T5_label[1929:1950] - test_L_T5_pred[1929:1950])
-        > max_error_L_T5
-    ) > APPEARANCE_TH
-    check_L_T6_a1 = np.count_nonzero(
-        np.abs(test_L_T6_label[1929:1950] - test_L_T6_pred[1929:1950])
-        > max_error_L_T6
-    ) > APPEARANCE_TH
-    check_L_T7_a1 = np.count_nonzero(
-        np.abs(test_L_T7_label[1929:1950] - test_L_T7_pred[1929:1950])
-        > max_error_L_T7
-    ) > APPEARANCE_TH
-    check_F_PU1_a1 = np.count_nonzero(
-        np.abs(test_F_PU1_label[1929:1950] - test_F_PU1_pred[1929:1950])
-        > max_error_F_PU1
-    ) > APPEARANCE_TH
-    check_F_PU2_a1 = np.count_nonzero(
-        np.abs(test_F_PU2_label[1929:1950] - test_F_PU2_pred[1929:1950])
-        > max_error_F_PU2
-    ) > APPEARANCE_TH
-    check_F_PU3_a1 = np.count_nonzero(
-        np.abs(test_F_PU3_label[1929:1950] - test_F_PU3_pred[1929:1950])
-        > max_error_F_PU3
-    ) > APPEARANCE_TH
-    check_F_PU4_a1 = np.count_nonzero(
-        np.abs(test_F_PU4_label[1929:1950] - test_F_PU4_pred[1929:1950])
-        > max_error_F_PU4
-    ) > APPEARANCE_TH
-    check_F_PU5_a1 = np.count_nonzero(
-        np.abs(test_F_PU5_label[1929:1950] - test_F_PU5_pred[1929:1950])
-        > max_error_F_PU5
-    ) > APPEARANCE_TH
-    check_F_PU6_a1 = np.count_nonzero(
-        np.abs(test_F_PU6_label[1929:1950] - test_F_PU6_pred[1929:1950])
-        > max_error_F_PU6
-    ) > APPEARANCE_TH
-    check_F_PU7_a1 = np.count_nonzero(
-        np.abs(test_F_PU7_label[1929:1950] - test_F_PU7_pred[1929:1950])
-        > max_error_F_PU7
-    ) > APPEARANCE_TH
-    check_F_PU8_a1 = np.count_nonzero(
-        np.abs(test_F_PU8_label[1929:1950] - test_F_PU8_pred[1929:1950])
-        > max_error_F_PU8
-    ) > APPEARANCE_TH
-    check_F_PU9_a1 = np.count_nonzero(
-        np.abs(test_F_PU9_label[1929:1950] - test_F_PU9_pred[1929:1950])
-        > max_error_F_PU9
-    ) > APPEARANCE_TH
-    check_F_PU10_a1 = np.count_nonzero(
-        np.abs(test_F_PU10_label[1929:1950] - test_F_PU10_pred[1929:1950])
-        > max_error_F_PU10
-    ) > APPEARANCE_TH
-    check_F_PU11_a1 = np.count_nonzero(
-        np.abs(test_F_PU11_label[1929:1950] - test_F_PU11_pred[1929:1950])
-        > max_error_F_PU11
-    ) > APPEARANCE_TH
-    check_F_V2_a1 = np.count_nonzero(
-        np.abs(test_F_V2_label[1929:1950] - test_F_V2_pred[1929:1950])
-        > max_error_F_V2
-    ) > APPEARANCE_TH
-    check_P_J280_a1 = np.count_nonzero(
-        np.abs(test_P_J280_label[1929:1950] - test_P_J280_pred[1929:1950])
-        > max_error_P_J280
-    ) > APPEARANCE_TH
-    check_P_J269_a1 = np.count_nonzero(
-        np.abs(test_P_J269_label[1929:1950] - test_P_J269_pred[1929:1950])
-        > max_error_P_J269
-    ) > APPEARANCE_TH
-    check_P_J300_a1 = np.count_nonzero(
-        np.abs(test_P_J300_label[1929:1950] - test_P_J300_pred[1929:1950])
-        > max_error_P_J300
-    ) > APPEARANCE_TH
-    check_P_J256_a1 = np.count_nonzero(
-        np.abs(test_P_J256_label[1929:1950] - test_P_J256_pred[1929:1950])
-        > max_error_P_J256
-    ) > APPEARANCE_TH
-    check_P_J289_a1 = np.count_nonzero(
-        np.abs(test_P_J289_label[1929:1950] - test_P_J289_pred[1929:1950])
-        > max_error_P_J289
-    ) > APPEARANCE_TH
-    check_P_J415_a1 = np.count_nonzero(
-        np.abs(test_P_J415_label[1929:1950] - test_P_J415_pred[1929:1950])
-        > max_error_P_J415
-    ) > APPEARANCE_TH
-    check_P_J302_a1 = np.count_nonzero(
-        np.abs(test_P_J302_label[1929:1950] - test_P_J302_pred[1929:1950])
-        > max_error_P_J302
-    ) > APPEARANCE_TH
-    check_P_J306_a1 = np.count_nonzero(
-        np.abs(test_P_J306_label[1929:1950] - test_P_J306_pred[1929:1950])
-        > max_error_P_J306
-    ) > APPEARANCE_TH
-    check_P_J307_a1 = np.count_nonzero(
-        np.abs(test_P_J307_label[1929:1950] - test_P_J307_pred[1929:1950])
-        > max_error_P_J307
-    ) > APPEARANCE_TH
-    check_P_J317_a1 = np.count_nonzero(
-        np.abs(test_P_J317_label[1929:1950] - test_P_J317_pred[1929:1950])
-        > max_error_P_J317
-    ) > APPEARANCE_TH
-    check_P_J14_a1 = np.count_nonzero(
-        np.abs(test_P_J14_label[1929:1950] - test_P_J14_pred[1929:1950])
-        > max_error_P_J14
-    ) > APPEARANCE_TH
-    check_P_J422_a1 = np.count_nonzero(
-        np.abs(test_P_J422_label[1929:1950] - test_P_J422_pred[1929:1950])
-        > max_error_P_J422
-    ) > APPEARANCE_TH
+    check_L_T1_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T1_label[1929:1950] - test_L_T1_pred[1929:1950])
+            > max_error_L_T1
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T2_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T2_label[1929:1950] - test_L_T2_pred[1929:1950])
+            > max_error_L_T2
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T3_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T3_label[1929:1950] - test_L_T3_pred[1929:1950])
+            > max_error_L_T3
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T4_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T4_label[1929:1950] - test_L_T4_pred[1929:1950])
+            > max_error_L_T4
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T5_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T5_label[1929:1950] - test_L_T5_pred[1929:1950])
+            > max_error_L_T5
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T6_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T6_label[1929:1950] - test_L_T6_pred[1929:1950])
+            > max_error_L_T6
+        )
+        > APPEARANCE_TH
+    )
+    check_L_T7_a1 = (
+        np.count_nonzero(
+            np.abs(test_L_T7_label[1929:1950] - test_L_T7_pred[1929:1950])
+            > max_error_L_T7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU1_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU1_label[1929:1950] - test_F_PU1_pred[1929:1950])
+            > max_error_F_PU1
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU2_label[1929:1950] - test_F_PU2_pred[1929:1950])
+            > max_error_F_PU2
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU3_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU3_label[1929:1950] - test_F_PU3_pred[1929:1950])
+            > max_error_F_PU3
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU4_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU4_label[1929:1950] - test_F_PU4_pred[1929:1950])
+            > max_error_F_PU4
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU5_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU5_label[1929:1950] - test_F_PU5_pred[1929:1950])
+            > max_error_F_PU5
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU6_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU6_label[1929:1950] - test_F_PU6_pred[1929:1950])
+            > max_error_F_PU6
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU7_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU7_label[1929:1950] - test_F_PU7_pred[1929:1950])
+            > max_error_F_PU7
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU8_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU8_label[1929:1950] - test_F_PU8_pred[1929:1950])
+            > max_error_F_PU8
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU9_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU9_label[1929:1950] - test_F_PU9_pred[1929:1950])
+            > max_error_F_PU9
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU10_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU10_label[1929:1950] - test_F_PU10_pred[1929:1950])
+            > max_error_F_PU10
+        )
+        > APPEARANCE_TH
+    )
+    check_F_PU11_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_PU11_label[1929:1950] - test_F_PU11_pred[1929:1950])
+            > max_error_F_PU11
+        )
+        > APPEARANCE_TH
+    )
+    check_F_V2_a1 = (
+        np.count_nonzero(
+            np.abs(test_F_V2_label[1929:1950] - test_F_V2_pred[1929:1950])
+            > max_error_F_V2
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J280_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J280_label[1929:1950] - test_P_J280_pred[1929:1950])
+            > max_error_P_J280
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J269_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J269_label[1929:1950] - test_P_J269_pred[1929:1950])
+            > max_error_P_J269
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J300_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J300_label[1929:1950] - test_P_J300_pred[1929:1950])
+            > max_error_P_J300
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J256_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J256_label[1929:1950] - test_P_J256_pred[1929:1950])
+            > max_error_P_J256
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J289_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J289_label[1929:1950] - test_P_J289_pred[1929:1950])
+            > max_error_P_J289
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J415_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J415_label[1929:1950] - test_P_J415_pred[1929:1950])
+            > max_error_P_J415
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J302_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J302_label[1929:1950] - test_P_J302_pred[1929:1950])
+            > max_error_P_J302
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J306_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J306_label[1929:1950] - test_P_J306_pred[1929:1950])
+            > max_error_P_J306
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J307_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J307_label[1929:1950] - test_P_J307_pred[1929:1950])
+            > max_error_P_J307
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J317_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J317_label[1929:1950] - test_P_J317_pred[1929:1950])
+            > max_error_P_J317
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J14_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J14_label[1929:1950] - test_P_J14_pred[1929:1950])
+            > max_error_P_J14
+        )
+        > APPEARANCE_TH
+    )
+    check_P_J422_a1 = (
+        np.count_nonzero(
+            np.abs(test_P_J422_label[1929:1950] - test_P_J422_pred[1929:1950])
+            > max_error_P_J422
+        )
+        > APPEARANCE_TH
+    )
 
     print("\n----------------------------------------------")
     print("ATTACK 7 COMPROMISED SENSORS DETECTION REPORT:")

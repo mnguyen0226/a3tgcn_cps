@@ -19,6 +19,8 @@ from utils import calculate_rmd_test
 from utils import calculate_md_clean
 from utils import calculate_md_poison
 from utils import calculate_md_test
+from utils import calculate_md_vanilla_gans
+from utils import calculate_rmd_vanilla_gans
 from utils import localization
 
 # Sets time for saving different trained time model
@@ -103,6 +105,22 @@ t_data_maxtrix = t_data_maxtrix / t_max_value
 _, _, test_X, test_Y = preprocess_data(
     data=t_data_maxtrix,
     time_len=t_time_len,
+    rate=EVAL_RATE,
+    seq_len=SEQ_LEN,
+    pre_len=PRE_LEN,
+)
+
+# Preprocess vanilla ganes dataset for testing process
+gans_data, _ = load_scada_data(dataset="vanilla_gans")
+g_time_len = gans_data.shape[0]
+g_data_maxtrix = np.mat(gans_data, dtype=np.float32)
+
+# Normalizes data
+g_max_value = np.max(g_data_maxtrix)
+g_data_maxtrix = g_data_maxtrix / g_max_value
+_, _, test_gans_X, test_gans_Y = preprocess_data(
+    data=g_data_maxtrix,
+    time_len=g_time_len,
     rate=EVAL_RATE,
     seq_len=SEQ_LEN,
     pre_len=PRE_LEN,
@@ -808,6 +826,92 @@ def load_and_eval_test_dataset():
     print(f"Training Time: {time_end - time_start} sec")
 
 
+def load_and_eval_vanilla_gans_dataset():
+    """Loads and evaluates trained model gans dataset"""
+
+    print("Start the loading and evaluating process")
+    time_start = time.time()
+
+    # Checks for GPU
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
+
+    # Setups traininng session
+    sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
+    sess.run(init)
+
+    # Chooses trained model path
+    saved_path = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/model_100/TGCN_pre_100-100"
+
+    # Loads model from trained path
+    load_path = saver.restore(sess, saved_path)
+
+    # Initializes the array for evaluating results
+    eval_loss, eval_rmse, eval_mae, eval_acc, eval_r2, eval_var, eval_pred = (
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+    )
+
+    # Evals completely at every epoch
+    loss2, rmse2, eval_output = sess.run(
+        [loss, error, y_pred], feed_dict={inputs: test_gans_X, labels: test_gans_Y}
+    )
+
+    # Provides evaluating results
+    eval_label = np.reshape(test_gans_Y, [-1, num_nodes])
+
+    rmse, mae, acc, r2_score, var_score = evaluation(eval_label, eval_output)
+    eval_label1 = eval_label * p_max_value
+    eval_output1 = eval_output * p_max_value
+    eval_loss.append(loss2)
+    eval_rmse.append(rmse * p_max_value)
+    eval_mae.append(mae * p_max_value)
+    eval_acc.append(acc)
+    eval_r2.append(r2_score)
+    eval_var.append(var_score)
+    eval_pred.append(eval_output1)
+
+    # Sets index and provides eval results
+    index = eval_rmse.index(np.min(eval_rmse))
+    eval_result = eval_pred[index]
+
+    # Create a evaluation path
+    eval_path = "out/tgcn/tgcn_scada_wds_lr0.005_batch128_unit64_seq8_pre1_epoch101/eval_vanilla_gans"
+
+    var_eval_output = pd.DataFrame(
+        eval_output * p_max_value
+    )  # eval_result, make this unnormalize
+    var_eval_output.to_csv(
+        eval_path + "/eval_vanilla_gans_output.csv", index=False, header=False
+    )
+
+    var_eval_label = pd.DataFrame(eval_label * p_max_value)
+    var_eval_label.to_csv(
+        eval_path + "/eval_vanilla_gans_labels.csv", index=False, header=False
+    )
+
+    # Plots results
+    plot_result_tank(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_pump(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_valve(eval_result, eval_label1, eval_path, hour=720)
+    plot_result_junction(eval_result, eval_label1, eval_path, hour=720)
+
+    # Prints out evaluates results
+    print("-----------------------------------------------\nEvaluation Metrics:")
+    print("min_rmse: %r" % (np.min(eval_rmse)))
+    print("min_mae: %r" % (eval_mae[index]))
+    print("max_acc: %r" % (eval_acc[index]))
+    print("r2: %r" % (eval_r2[index]))
+    print("var: %r" % eval_var[index])
+
+    time_end = time.time()
+    print(f"Training Time: {time_end - time_start} sec")
+
+
 def main():
     """User Interface"""
     # train_and_eval()
@@ -815,6 +919,7 @@ def main():
     # load_and_eval_clean_dataset()
     # load_and_eval_poisoned_dataset()
     # load_and_eval_test_dataset()
+    # load_and_eval_vanilla_gans_dataset()
 
     ### Traditional Mahalanobis Distance
     # calculate_md_clean()
@@ -824,7 +929,8 @@ def main():
     ### Robust Mahalanobis Distance
     # calculate_rmd_clean()
     # calculate_rmd_poison()
-    calculate_rmd_test()
+    # calculate_rmd_test()
+    calculate_rmd_vanilla_gans()
 
     ### Localization
     # localization()
