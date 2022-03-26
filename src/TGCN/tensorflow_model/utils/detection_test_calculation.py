@@ -86,11 +86,61 @@ def calculate_md_test():
 
     print(f"The Average Mahalanobis Distance {np.average(mean_batch_squared_md_arr)}")
 
-    # MD Plot
-    fig1 = plt.figure(figsize=(20, 8))
-    plt.title("Mahalanobis Distance Of Every Hour On Testing Dataset")
+    # # MD Plot
+    # fig1 = plt.figure(figsize=(20, 8))
+    # plt.title("Mahalanobis Distance Of Every Hour On Testing Dataset")
+    # df_plot_labels = pd.Series((i for i in convert_th_binary_arr))
+    # plt.plot(convert_th_binary_arr, label="Attacks Labels")
+    # plt.fill_between(
+    #     df_plot_labels.index,
+    #     df_plot_labels.values,
+    #     where=df_plot_labels.values <= UPPER_PLOT,
+    #     interpolate=True,
+    #     color=shade_of_blue,
+    # )
+    # plt.plot(mean_batch_squared_md_arr, color="black", lw=2, label="MD")
+    # plt.plot(thresholds, color="red", label="Threshold")
+
+    # plt.xlabel("t (h)")
+    # plt.ylabel("Mahalanobis Distance")
+    # plt.figtext(0.16, 0.195, "L = " + str(L))
+    # plt.figtext(0.16, 0.175, "TH = " + str(UPPER_TH))
+    # plt.legend(loc=2, fancybox=True, shadow=True)
+    # plt.show()
+
+    # # Binary Classification Plot
+    # fig1 = plt.figure(figsize=(20, 8))
+    # plt.title("Attacks Predictions vs. Ground-Truths On Testing Dataset")
+
+    # # Convert binary prediction to Series
+    # df_plot_prediction = pd.Series((i for i in testing_attack_preds))
+    # plt.fill_between(
+    #     df_plot_prediction.index,
+    #     df_plot_prediction.values,
+    #     where=df_plot_prediction.values <= 1.0,
+    #     interpolate=True,
+    #     color=shade_of_gray,
+    # )
+    # plt.plot(testing_attack_preds, color=shade_of_gray, label="Attacks Predictions")
+    # plt.plot(
+    #     testing_attack_labels,
+    #     color="royalblue",
+    #     alpha=0.85,
+    #     lw=2,
+    #     label="Attacks Labels",
+    # )
+    # plt.xlabel("t (h)")
+    # # plt.ylabel("Binary Classification")
+    # y_tick = ["UNDER ATTACK" if i == 1.0 else "SAFE" for i in testing_attack_preds]
+    # plt.yticks(testing_attack_preds, y_tick)
+    # plt.legend(loc=2, fancybox=True, shadow=True)
+    # plt.show()
+
+ # Robust MD Plot
+    fig1 = plt.figure(figsize=(12, 4))  # (20, 8))
+    plt.title("Mahalanobis Distance On Test Dataset 02", fontsize=12)
     df_plot_labels = pd.Series((i for i in convert_th_binary_arr))
-    plt.plot(convert_th_binary_arr, label="Attacks Labels")
+    plt.plot(convert_th_binary_arr, alpha=0.85, lw=1, label="Real State")
     plt.fill_between(
         df_plot_labels.index,
         df_plot_labels.values,
@@ -98,19 +148,26 @@ def calculate_md_test():
         interpolate=True,
         color=shade_of_blue,
     )
-    plt.plot(mean_batch_squared_md_arr, color="black", lw=2, label="MD")
+    plt.plot(mean_batch_squared_md_arr, color="black", lw=1, label="MD")
+    # plt.plot(first_column_dynamic_th, label="dynamic threshold")
     plt.plot(thresholds, color="red", label="Threshold")
 
-    plt.xlabel("t (h)")
-    plt.ylabel("Mahalanobis Distance")
-    plt.figtext(0.16, 0.195, "L = " + str(L))
-    plt.figtext(0.16, 0.175, "TH = " + str(UPPER_TH))
-    plt.legend(loc=2, fancybox=True, shadow=True)
+    # plt.xlabel("t (h)", fontsize = 9)
+    plt.ylabel("Mahalanobis Distance", fontsize=9)
+    plt.xticks([])  # Command for hiding x-axis
+    plt.figtext(0.16, 0.225, "L = " + str(L))
+    plt.figtext(0.16, 0.185, "TH = " + str(UPPER_TH))
+    plt.legend(loc=2, fontsize=9)
     plt.show()
+    fig1.savefig(
+        "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/figures/md_threshold.png",
+        dpi=300,
+    )
 
+    ###############################
     # Binary Classification Plot
-    fig1 = plt.figure(figsize=(20, 8))
-    plt.title("Attacks Predictions vs. Ground-Truths On Testing Dataset")
+    fig1 = plt.figure(figsize=(12, 4))  # (20, 8))
+    plt.title("Detection on Test Dastaset 02")
 
     # Convert binary prediction to Series
     df_plot_prediction = pd.Series((i for i in testing_attack_preds))
@@ -121,20 +178,25 @@ def calculate_md_test():
         interpolate=True,
         color=shade_of_gray,
     )
-    plt.plot(testing_attack_preds, color=shade_of_gray, label="Attacks Predictions")
+    plt.plot(testing_attack_preds, color=shade_of_gray, label="Predicted State")
     plt.plot(
         testing_attack_labels,
         color="royalblue",
         alpha=0.85,
-        lw=2,
-        label="Attacks Labels",
+        lw=1,
+        label="Real State",
     )
-    plt.xlabel("t (h)")
+    # plt.xlabel("t (h)")
+    plt.xticks([])  # Command for hiding x-axis
     # plt.ylabel("Binary Classification")
-    y_tick = ["UNDER ATTACK" if i == 1.0 else "SAFE" for i in testing_attack_preds]
-    plt.yticks(testing_attack_preds, y_tick)
-    plt.legend(loc=2, fancybox=True, shadow=True)
+    y_tick = ["ATTACK" if i == 1.0 else "NO ATTACK" for i in testing_attack_preds]
+    plt.yticks(testing_attack_preds, y_tick, fontsize=9)
+    plt.legend(loc=2, fontsize=9)
     plt.show()
+    fig1.savefig(
+        "out/tgcn/tgcn_scada_wds_lr0.01_batch16_unit64_seq8_pre1_epoch101/figures/md_detection.png",
+        dpi=300,
+    )
 
     # Get Results
     precision, recall, f1, accuracy, specificity = classification_metrics(
