@@ -110,14 +110,14 @@ _, _, test_X, test_Y = preprocess_data(
     pre_len=PRE_LEN,
 )
 
-# Preprocess vanilla ganes dataset for testing process
+# Preprocess vanilla gans dataset for testing process
 gans_data, _ = load_scada_data(dataset="vanilla_gans")
 g_time_len = gans_data.shape[0]
-g_data_maxtrix = np.mat(gans_data, dtype=np.float32)
+g_data_maxtrix = np.mat(gans_data, dtype=np.float32)  # already normalized
 
 # Normalizes data
-g_max_value = np.max(g_data_maxtrix)
-g_data_maxtrix = g_data_maxtrix / g_max_value
+# g_max_value = np.max(g_data_maxtrix)
+# g_data_maxtrix = g_data_maxtrix / g_max_value
 _, _, test_gans_X, test_gans_Y = preprocess_data(
     data=g_data_maxtrix,
     time_len=g_time_len,
@@ -867,6 +867,7 @@ def load_and_eval_vanilla_gans_dataset():
     rmse, mae, acc, r2_score, var_score = evaluation(eval_label, eval_output)
     eval_label1 = eval_label * p_max_value
     eval_output1 = eval_output * p_max_value
+
     eval_loss.append(loss2)
     eval_rmse.append(rmse * p_max_value)
     eval_mae.append(mae * p_max_value)
@@ -929,8 +930,8 @@ def main():
     ### Robust Mahalanobis Distance
     # calculate_rmd_clean()
     # calculate_rmd_poison()
-    # calculate_rmd_test()
-    calculate_rmd_vanilla_gans()
+    calculate_rmd_test()
+    # calculate_rmd_vanilla_gans()
 
     ### Localization
     # localization()
