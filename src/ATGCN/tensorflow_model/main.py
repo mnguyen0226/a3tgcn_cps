@@ -144,6 +144,7 @@ _, _, test_mixed_gans_X, test_mixed_gans_Y = preprocess_data(
     pre_len=PRE_LEN,
 )
 
+
 def self_attention(x, weight_att, bias_att):
     """Constructs self-attention mechanism for TGCN
     # Reference: https://github.com/lehaifeng/T-GCN/blob/master/A3T-GCN/A3T-GCN.py
@@ -929,6 +930,7 @@ def load_and_eval_vanilla_gans_dataset():
     time_end = time.time()
     print(f"Training Time: {time_end - time_start} sec")
 
+
 def load_and_eval_vanilla_gans_mix_dataset():
     """Loads and evaluates trained model gans dataset - balance dataset"""
 
@@ -961,7 +963,8 @@ def load_and_eval_vanilla_gans_mix_dataset():
 
     # Evals completely at every epoch
     loss2, rmse2, eval_output = sess.run(
-        [loss, error, y_pred], feed_dict={inputs: test_mixed_gans_X, labels: test_mixed_gans_Y}
+        [loss, error, y_pred],
+        feed_dict={inputs: test_mixed_gans_X, labels: test_mixed_gans_Y},
     )
 
     # Provides evaluating results
@@ -1024,7 +1027,7 @@ def main():
     # load_and_eval_poisoned_dataset()
     # load_and_eval_test_dataset()
     # load_and_eval_vanilla_gans_dataset()
-    # load_and_eval_vanilla_gans_mix_dataset()    
+    # load_and_eval_vanilla_gans_mix_dataset()
 
     ### Traditional Mahalanobis Distance
     # calculate_md_clean()
@@ -1034,9 +1037,9 @@ def main():
     ### Robust Mahalanobis Distance
     # calculate_rmd_clean()
     # calculate_rmd_poison()
-    # calculate_rmd_test()
-    # calculate_rmd_vanilla_gans()
-    calculate_rmd_vanilla_gans_mix()
+    # calculate_rmd_test() #<<<<
+    # calculate_rmd_vanilla_gans() 
+    calculate_rmd_vanilla_gans_mix() #<<<<
 
     ### Localization
     # localization()

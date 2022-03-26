@@ -272,10 +272,12 @@ def calculate_rmd_vanilla_gans_mix():
     # plt.yticks(testing_attack_preds, y_tick)
     # plt.legend(loc=2, fancybox=True, shadow=True)
     # plt.show()
-    
-# Robust MD Plot
+
+    # Robust MD Plot
     fig1 = plt.figure(figsize=(12, 4))  # (20, 8))
-    plt.title("Robust Mahalanobis Distance On Synthetic BATADAL Test Dataset 3 ", fontsize=12)
+    plt.title(
+        "Robust Mahalanobis Distance On Synthetic BATADAL Test Dataset 3 ", fontsize=12
+    )
     df_plot_labels = pd.Series((i for i in convert_th_binary_arr))
     plt.plot(convert_th_binary_arr, alpha=0.85, lw=1, label="Real State")
     plt.fill_between(

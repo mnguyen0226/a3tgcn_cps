@@ -136,9 +136,9 @@ def calculate_md_test():
     # plt.legend(loc=2, fancybox=True, shadow=True)
     # plt.show()
 
- # Robust MD Plot
+    # Robust MD Plot
     fig1 = plt.figure(figsize=(12, 4))  # (20, 8))
-    plt.title("Mahalanobis Distance On Test Dataset 02", fontsize=12)
+    plt.title("Mahalanobis Distance On BATADAL Test Dataset 3", fontsize=12)
     df_plot_labels = pd.Series((i for i in convert_th_binary_arr))
     plt.plot(convert_th_binary_arr, alpha=0.85, lw=1, label="Real State")
     plt.fill_between(
@@ -167,7 +167,7 @@ def calculate_md_test():
     ###############################
     # Binary Classification Plot
     fig1 = plt.figure(figsize=(12, 4))  # (20, 8))
-    plt.title("Detection on Test Dastaset 02")
+    plt.title("Detection on BATADAL Test Dataset 3")
 
     # Convert binary prediction to Series
     df_plot_prediction = pd.Series((i for i in testing_attack_preds))
