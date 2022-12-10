@@ -75,12 +75,6 @@
 | Attack 13   | Change the L_T7 thresholds | L_T6 = 2 |
 | Attacls 17   | Alteration of T4 signal | `L_T4 = 8`, L_T7 = 5, P_J415 = 4, L_T6 = 2 |
 
-### Robustness with GANs
-- How to generate dataset?
-    - There are 492 rows of purely attacks sample.
-    - Take 984 rows of normal dataset.
-    - Replace randomly row.
-
 ## 5. References
 - [TGCN: A Temporal Graph Convolutional Network for Traffic Prediction](https://github.com/lehaifeng/T-GCN)
 - [A3T_GCN: Attention Temporal Graph Convolutional Network for Traffic Forecasting](https://github.com/lehaifeng/T-GCN)
