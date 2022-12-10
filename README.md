@@ -7,7 +7,7 @@
 ![alt-text](https://github.com/mnguyen0226/xtgcn_wds_cps/blob/main/docs/imgs/framework/attack_detection_scheme.png)
 
 ## 2. Reproducibility
-
+```python
 - tensorflow == 1.14 (conda install -c conda-forge tensorflow=1.14)
 - python == 3.7 
 - scipy (conda install -c anaconda scipy)
@@ -16,7 +16,7 @@
 - pandas (conda install -c anaconda pandas)
 - math
 - sklearn (conda install -c anaconda scikit-learn)
-
+```
 ## 3. A3T-GCN Architecture
 
 ![alt-text](https://github.com/mnguyen0226/atgcn_cps/blob/main/docs/imgs/a3t_gcn/a3t_gcn.png)
