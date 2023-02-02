@@ -1,5 +1,4 @@
 # Attention Temporal Graph Convolutional Network for Cyber Physical Attacks Detection
-- Code Implementation for "Cyber-Physical Attack Detection in Water Distribution Systems with Robust Supervised and Unsupervised DeepLearning Models: A Comparison".
 - Supervised Model: Attention Temporal Graph Convolutional Networks.
 
 ## 1. Attacks Detection Scheme
