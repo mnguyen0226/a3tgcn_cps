@@ -1,5 +1,5 @@
 # Attention Temporal Graph Convolutional Network for Cyber Physical Attacks Detection
-- Supervised Model: Attention Temporal Graph Convolutional Networks.
+Supervised Model: Attention Temporal Graph Convolutional Networks.
 
 ## 1. Attacks Detection Scheme
 
